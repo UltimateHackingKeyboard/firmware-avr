@@ -52,21 +52,20 @@ static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
  *  within a device can be differentiated from one another.
  */
 USB_ClassInfo_HID_Device_t Keyboard_HID_Interface =
- 	{
-		.Config =
-			{
-				.InterfaceNumber              = 0,
-				.ReportINEndpoint             =
-					{
-						.Address              = KEYBOARD_EPADDR,
-						.Size                 = KEYBOARD_EPSIZE,
-						.Banks                = 1,
-					},
-				.PrevReportINBuffer           = PrevKeyboardHIDReportBuffer,
-				.PrevReportINBufferSize       = sizeof(PrevKeyboardHIDReportBuffer),
-			},
+{
+    .Config =
+        {
+            .InterfaceNumber              = 0,
+            .ReportINEndpoint             =
+                {
+                    .Address              = KEYBOARD_EPADDR,
+                    .Size                 = KEYBOARD_EPSIZE,
+                    .Banks                = 1,
+                },
+            .PrevReportINBuffer           = PrevKeyboardHIDReportBuffer,
+            .PrevReportINBufferSize       = sizeof(PrevKeyboardHIDReportBuffer),
+        },
     };
-
 
 #define ROW_NUM 5
 #define COL_NUM 7
