@@ -86,21 +86,21 @@ int main(void)
     rightMatrix = keyMatrices + 1;
 
     Pin_t row_pins[ROW_NUM] = {
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND7 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB7 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB6 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
         { .Direction=&DDRD, .Name=&PIND, .Number=PIND5 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND4 },
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 },
     };
 
     Port_t column_ports[COL_NUM] = {
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB5 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB6 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB7 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC6 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC5 },
+        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD1 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD0 },
+        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 },
     };
 
     SetupHardware();
