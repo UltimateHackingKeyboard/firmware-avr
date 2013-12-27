@@ -276,28 +276,28 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
 
 
     if (IS_KEY_PRESSED_LEFT_SHIFT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_LEFTSHIFT;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTSHIFT;
     }
     if (IS_KEY_PRESSED_RIGHT_SHIFT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_RIGHTSHIFT;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTSHIFT;
     }
     if (IS_KEY_PRESSED_LEFT_SUPER(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_LEFTCTRL;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
     }
     if (IS_KEY_PRESSED_LEFT_CONTROL(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_LEFTCTRL;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
     }
     if (IS_KEY_PRESSED_LEFT_ALT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_LEFTALT;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTALT;
     }
     if (IS_KEY_PRESSED_RIGHT_ALT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_RIGHTALT;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTALT;
     }
     if (IS_KEY_PRESSED_RIGHT_CONTROL(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_RIGHTCTRL;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTCTRL;
     }
     if (IS_KEY_PRESSED_RIGHT_SUPER(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFER_RIGHTGUI;
+        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTGUI;
     }
 
     *ReportSize = sizeof(USB_KeyboardReport_Data_t);
