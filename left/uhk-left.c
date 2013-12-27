@@ -4,7 +4,7 @@
 #include "../keycode.h"
 
 #define ROW_NUM 5
-#define COL_NUM 6
+#define COL_NUM 7
 
 KeyMatrix_t keyMatrix;
 
@@ -25,20 +25,22 @@ int main(void)
     UBRR0L = BAUD_PRESCALE;
 
     Port_t column_ports[COL_NUM] = {
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB1 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB0 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
+        // Column 3 is controlled by DRAIN7 of the TPIC6C595 power shift register.
+        { .Direction=0,     .Name=0,      .Number=0 },
+        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC0 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD5 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
     };
 
     Pin_t row_pins[ROW_NUM] = {
-        { .Direction=&DDRC, .Name=&PINC, .Number=PINC0 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB1 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB2 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC1 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC2 },
-        { .Direction=&DDRC, .Name=&PINC, .Number=PINC3 },
-        { .Direction=&DDRC, .Name=&PINC, .Number=PINC4 },
     };
 
     KeyMatrix_Init(&keyMatrix, ROW_NUM, COL_NUM);
