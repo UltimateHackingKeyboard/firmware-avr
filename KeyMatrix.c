@@ -39,12 +39,15 @@ void KeyMatrix_SetColPortsAndRowPins(KeyMatrix_t *KeyMatrix, Port_t *ColPorts, P
     }
 }
 
-void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix)
+void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t EnableColumn(uint8_t))
 {
     for (uint8_t col=0; col<KeyMatrix->ColNum; col++) {
         // Enable the output port of the column
+        uint8_t ColumnAlreadyEnabled = EnableColumn == NULL ? 0 : EnableColumn(col);
         TinyPort_t *ColPort = KeyMatrix->ColPorts + col;
-        *(ColPort->Name) |= 1<<ColPort->Number;
+        if (!ColumnAlreadyEnabled) {
+            *(ColPort->Name) |= 1<<ColPort->Number;
+        }
         for (uint8_t row=0; row<KeyMatrix->RowNum; row++) {
             TinyPin_t *RowPin = KeyMatrix->RowPins + row;
             // Read the input pin of the row
@@ -53,6 +56,8 @@ void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix)
             uint8_t keyState = CONSTRUCT_KEY_STATE(wasKeyPressed, isKeyPressed);
             KeyMatrix_SetElement(KeyMatrix, row, col, keyState);
         }
-        *(ColPort->Name) &= ~(1<<ColPort->Number);
+        if (!ColumnAlreadyEnabled) {
+            *(ColPort->Name) &= ~(1<<ColPort->Number);
+        }
     }
 }

@@ -17,6 +17,11 @@ void send_event(uint8_t event)
     UDR0 = event;
 }
 
+uint8_t EnableColumn(uint8_t col)
+{
+    return col == 2;
+}
+
 int main(void)
 {
     /* Initialize USART */
@@ -47,7 +52,7 @@ int main(void)
     KeyMatrix_SetColPortsAndRowPins(&keyMatrix, column_ports, row_pins);
 
     while (1) {
-        KeyMatrix_Scan(&keyMatrix);
+        KeyMatrix_Scan(&keyMatrix, EnableColumn);
         for (uint8_t row=0; row<ROW_NUM; row++) {
             for (uint8_t col=0; col<COL_NUM; col++) {
                 uint8_t state = KeyMatrix_GetElement(&keyMatrix, row, col);

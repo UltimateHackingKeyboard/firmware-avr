@@ -254,7 +254,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
         KeyMatrix_SetElement(leftMatrix, row, col, isKeyPressed ? 0 : 1);
     }
 
-    KeyMatrix_Scan(rightMatrix);
+    KeyMatrix_Scan(rightMatrix, NULL);
 
     for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
         KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
