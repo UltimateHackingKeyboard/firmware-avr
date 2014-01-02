@@ -257,9 +257,6 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
                     if (scanCode != NO_KEY) {
                         KeyboardReport->KeyCode[UsedKeyCodes++] = scanCode;
                         KeyboardReport->Modifier |= KeyModifierByScanCode(keyMatrix, row, col);
-//                        if (IS_KEY_PRESSED_HYPER(keyMatrices)) {
-//                            KeyboardReport->Modifier |= hyperModifierMap[row][col];
-//                        }
                     }
                 }
             }
