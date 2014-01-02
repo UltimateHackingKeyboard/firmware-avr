@@ -34,8 +34,6 @@
  *  the demo and is responsible for the initial application hardware configuration.
  */
 
-#define NO_KEY 0
-
 #include <avr/io.h>
 #include "../KeyMatrix.c"
 #include "UltimateHackingKeyboard.h"

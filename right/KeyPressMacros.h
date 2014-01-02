@@ -1,6 +1,8 @@
 #ifndef KEYPRESS_MACROS_H
 #define KEYPRESS_MACROS_H
 
+#define NO_KEY 0
+
 #define IS_KEY_PRESSED_GRAVE_ACCENT_AND_TILDE(keyMatrix)            IsKeyPressed(keyMatrix, 0, 0)
 #define IS_KEY_PRESSED_1_AND_EXCLAMATION(keyMatrix)                 IsKeyPressed(keyMatrix, 0, 1)
 #define IS_KEY_PRESSED_2_AND_AT(keyMatrix)                          IsKeyPressed(keyMatrix, 0, 2)
