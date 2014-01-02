@@ -17,9 +17,30 @@ void send_event(uint8_t event)
     UDR0 = event;
 }
 
+char SpiTransmit(char data)
+{
+    SPDR = data;
+
+    // TODO: Investigate on why the following loop blocks and uncomment it eventually.
+    // while (!(SPSR & (1<<SPIF))) {
+    // }
+
+    // Copy data to the storage register by toggling the latch.
+    PORTC |= (1<<PC3);
+    PORTC &= ~(1<<PC3);
+
+    return SPDR;
+}
+
 uint8_t EnableColumn(uint8_t col)
 {
-    return col == 2;
+    if (col == 2) {
+        SpiTransmit(0xff);
+        return 1;
+    } else {
+        SpiTransmit(0x00);
+        return 0;
+    }
 }
 
 int main(void)
@@ -28,6 +49,16 @@ int main(void)
     UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
     UBRR0H = BAUD_PRESCALE >> 8;
     UBRR0L = BAUD_PRESCALE;
+
+    /* Initialize SPI */
+
+    DDRB |= 1<<DDB3;  // MOSI is output.
+    DDRD |= 1<<DDD2;  // OE is output.
+    DDRB |= 1<<DDB5;  // SCK is output.
+    DDRC |= 1<<DDC3;  // RCK is output.
+    SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0) | (1<<CPOL) | (1<<CPHA);  // SPI enable, Master, f/16
+    SpiTransmit(0);
+    PORTD &= ~(1<<PD2);  // Enable OE by pulling it low.
 
     Port_t column_ports[COL_NUM] = {
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
