@@ -81,7 +81,6 @@ KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
  */
 int main(void)
 {
-//    keyMatrices = (KeyMatrix_t*)malloc(2*sizeof(KeyMatrix_t));
     leftMatrix = keyMatrices + 0;
     rightMatrix = keyMatrices + 1;
 
@@ -134,9 +133,6 @@ void SetupHardware()
     clock_prescale_set(clock_div_1);
 
     /* Hardware Initialization */
-//    Joystick_Init();
-//    LEDs_Init();
-//    Buttons_Init();
     USB_Init();
 
     // Initialize USART
@@ -148,13 +144,11 @@ void SetupHardware()
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void)
 {
-//    LEDs_SetAllLEDs(LEDMASK_USB_ENUMERATING);
 }
 
 /** Event handler for the library USB Disconnection event. */
 void EVENT_USB_Device_Disconnect(void)
 {
-//    LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
 }
 
 /** Event handler for the library USB Configuration Changed event. */
@@ -165,8 +159,6 @@ void EVENT_USB_Device_ConfigurationChanged(void)
     ConfigSuccess &= HID_Device_ConfigureEndpoints(&Keyboard_HID_Interface);
 
     USB_Device_EnableSOFEvents();
-
-//    LEDs_SetAllLEDs(ConfigSuccess ? LEDMASK_USB_READY : LEDMASK_USB_ERROR);
 }
 
 /** Event handler for the library USB Control Request reception event. */
@@ -319,19 +311,4 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
                                           const void* ReportData,
                                           const uint16_t ReportSize)
 {
-/*
-    uint8_t  LEDMask   = LEDS_NO_LEDS;
-    uint8_t* LEDReport = (uint8_t*)ReportData;
-
-    if (*LEDReport & HID_KEYBOARD_LED_NUMLOCK)
-      LEDMask |= LEDS_LED1;
-
-    if (*LEDReport & HID_KEYBOARD_LED_CAPSLOCK)
-      LEDMask |= LEDS_LED3;
-
-    if (*LEDReport & HID_KEYBOARD_LED_SCROLLLOCK)
-      LEDMask |= LEDS_LED4;
-
-    LEDs_SetAllLEDs(LEDMask);
-*/
 }
