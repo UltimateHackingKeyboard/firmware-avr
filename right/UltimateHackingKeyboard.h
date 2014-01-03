@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2013.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2013  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,13 +28,8 @@
   this software.
 */
 
-/** \file
- *
- *  Header file for Keyboard.c.
- */
-
-#ifndef _KEYBOARD_H_
-#define _KEYBOARD_H_
+#ifndef _UHK_RIGHT_H_
+#define _UHK_RIGHT_H_
 
 	/* Includes: */
 		#include <avr/io.h>
@@ -46,24 +41,8 @@
 
 		#include "Descriptors.h"
 
-		#include <LUFA/Version.h>
-//		#include <LUFA/Drivers/Board/Joystick.h>
-//		#include <LUFA/Drivers/Board/LEDs.h>
-//		#include <LUFA/Drivers/Board/Buttons.h>
 		#include <LUFA/Drivers/USB/USB.h>
-
-	/* Macros: */
-		/** LED mask for the library LED driver, to indicate that the USB interface is not ready. */
-		#define LEDMASK_USB_NOTREADY      LEDS_LED1
-
-		/** LED mask for the library LED driver, to indicate that the USB interface is enumerating. */
-		#define LEDMASK_USB_ENUMERATING  (LEDS_LED2 | LEDS_LED3)
-
-		/** LED mask for the library LED driver, to indicate that the USB interface is ready. */
-		#define LEDMASK_USB_READY        (LEDS_LED2 | LEDS_LED4)
-
-		/** LED mask for the library LED driver, to indicate that an error has occurred in the USB interface. */
-		#define LEDMASK_USB_ERROR        (LEDS_LED1 | LEDS_LED3)
+		#include <LUFA/Platform/Platform.h>
 
 	/* Function Prototypes: */
 		void SetupHardware(void);

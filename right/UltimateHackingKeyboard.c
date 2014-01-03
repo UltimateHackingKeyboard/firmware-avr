@@ -45,25 +45,50 @@
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
 
+/** Buffer to hold the previously generated Mouse HID report, for comparison purposes inside the HID class driver. */
+static uint8_t PrevMouseHIDReportBuffer[sizeof(USB_MouseReport_Data_t)];
+
 /** LUFA HID Class driver interface configuration and state information. This structure is
  *  passed to all HID Class driver functions, so that multiple instances of the same class
- *  within a device can be differentiated from one another.
+ *  within a device can be differentiated from one another. This is for the keyboard HID
+ *  interface within the device.
  */
 USB_ClassInfo_HID_Device_t Keyboard_HID_Interface =
-{
-    .Config =
-        {
-            .InterfaceNumber              = 0,
-            .ReportINEndpoint             =
-                {
-                    .Address              = KEYBOARD_EPADDR,
-                    .Size                 = KEYBOARD_EPSIZE,
-                    .Banks                = 1,
-                },
-            .PrevReportINBuffer           = PrevKeyboardHIDReportBuffer,
-            .PrevReportINBufferSize       = sizeof(PrevKeyboardHIDReportBuffer),
-        },
-    };
+	{
+		.Config =
+			{
+				.InterfaceNumber              = INTERFACE_ID_Keyboard,
+				.ReportINEndpoint             =
+					{
+						.Address              = KEYBOARD_IN_EPADDR,
+						.Size                 = HID_EPSIZE,
+						.Banks                = 1,
+					},
+				.PrevReportINBuffer           = PrevKeyboardHIDReportBuffer,
+				.PrevReportINBufferSize       = sizeof(PrevKeyboardHIDReportBuffer),
+			},
+	};
+
+/** LUFA HID Class driver interface configuration and state information. This structure is
+ *  passed to all HID Class driver functions, so that multiple instances of the same class
+ *  within a device can be differentiated from one another. This is for the mouse HID
+ *  interface within the device.
+ */
+USB_ClassInfo_HID_Device_t Mouse_HID_Interface =
+	{
+		.Config =
+			{
+				.InterfaceNumber              = INTERFACE_ID_Mouse,
+				.ReportINEndpoint             =
+					{
+						.Address              = MOUSE_IN_EPADDR,
+						.Size                 = HID_EPSIZE,
+						.Banks                = 1,
+					},
+				.PrevReportINBuffer           = PrevMouseHIDReportBuffer,
+				.PrevReportINBufferSize       = sizeof(PrevMouseHIDReportBuffer),
+			},
+	};
 
 #define ROW_NUM 5
 #define COL_NUM 7
@@ -102,7 +127,7 @@ int main(void)
 
     SetupHardware();
 
-    sei();
+    GlobalInterruptEnable();
 
     KeyMatrix_Init(rightMatrix, ROW_NUM, COL_NUM);
     KeyMatrix_SetColPortsAndRowPins(rightMatrix, column_ports, row_pins);
@@ -112,6 +137,7 @@ int main(void)
     for (;;)
     {
         HID_Device_USBTask(&Keyboard_HID_Interface);
+		HID_Device_USBTask(&Mouse_HID_Interface);
         USB_USBTask();
     }
 }
@@ -155,6 +181,7 @@ void EVENT_USB_Device_ConfigurationChanged(void)
     bool ConfigSuccess = true;
 
     ConfigSuccess &= HID_Device_ConfigureEndpoints(&Keyboard_HID_Interface);
+	ConfigSuccess &= HID_Device_ConfigureEndpoints(&Mouse_HID_Interface);
 
     USB_Device_EnableSOFEvents();
 }
@@ -163,12 +190,14 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 void EVENT_USB_Device_ControlRequest(void)
 {
     HID_Device_ProcessControlRequest(&Keyboard_HID_Interface);
+	HID_Device_ProcessControlRequest(&Mouse_HID_Interface);
 }
 
 /** Event handler for the USB device Start Of Frame event. */
 void EVENT_USB_Device_StartOfFrame(void)
 {
     HID_Device_MillisecondElapsed(&Keyboard_HID_Interface);
+	HID_Device_MillisecondElapsed(&Mouse_HID_Interface);
 }
 
 uint8_t GetGlobalMatrixColByPartMatrixCol(KeyMatrix_t *keyMatrix, uint8_t col)
@@ -230,66 +259,73 @@ uint8_t ReadEvent()
 bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo, uint8_t* const ReportID,
                                          const uint8_t ReportType, void* ReportData, uint16_t* const ReportSize)
 {
-    _delay_ms(10);  // Work around key bouncing.
+	/* Determine which interface must have its report generated */
+	if (HIDInterfaceInfo == &Keyboard_HID_Interface) {
+        _delay_ms(10);  // Work around key bouncing.
 
-    USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
-    uint8_t UsedKeyCodes = 0;
+        USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
+        uint8_t UsedKeyCodes = 0;
 
-    if (HasEvent()) {
-        uint8_t event = ReadEvent();
-        uint8_t isKeyPressed = GET_EVENT_STATE(event);
-        event = GET_EVENT_PAYLOAD(event);
-        uint8_t row = event / leftMatrix->ColNum;
-        uint8_t col = event % leftMatrix->ColNum;
-        KeyMatrix_SetElement(leftMatrix, row, col, isKeyPressed ? 0 : 1);
-    }
+        if (HasEvent()) {
+            uint8_t event = ReadEvent();
+            uint8_t isKeyPressed = GET_EVENT_STATE(event);
+            event = GET_EVENT_PAYLOAD(event);
+            uint8_t row = event / leftMatrix->ColNum;
+            uint8_t col = event % leftMatrix->ColNum;
+            KeyMatrix_SetElement(leftMatrix, row, col, isKeyPressed ? 0 : 1);
+        }
 
-    KeyMatrix_Scan(rightMatrix, NULL);
+        KeyMatrix_Scan(rightMatrix, NULL);
 
-    for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
-        KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
-        for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
-            for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                    uint8_t scanCode = KeyCodeToScanCode(keyMatrix, row, col);
-                    if (scanCode != NO_KEY) {
-                        KeyboardReport->KeyCode[UsedKeyCodes++] = scanCode;
-                        KeyboardReport->Modifier |= KeyModifierByScanCode(keyMatrix, row, col);
+        for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
+            KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
+            for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
+                for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
+                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
+                        uint8_t scanCode = KeyCodeToScanCode(keyMatrix, row, col);
+                        if (scanCode != NO_KEY) {
+                            KeyboardReport->KeyCode[UsedKeyCodes++] = scanCode;
+                            KeyboardReport->Modifier |= KeyModifierByScanCode(keyMatrix, row, col);
+                        }
                     }
                 }
             }
         }
-    }
 
 
-    if (IS_KEY_PRESSED_LEFT_SHIFT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTSHIFT;
-    }
-    if (IS_KEY_PRESSED_RIGHT_SHIFT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTSHIFT;
-    }
-    if (IS_KEY_PRESSED_LEFT_SUPER(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
-    }
-    if (IS_KEY_PRESSED_LEFT_CONTROL(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
-    }
-    if (IS_KEY_PRESSED_LEFT_ALT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTALT;
-    }
-    if (IS_KEY_PRESSED_RIGHT_ALT(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTALT;
-    }
-    if (IS_KEY_PRESSED_RIGHT_CONTROL(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTCTRL;
-    }
-    if (IS_KEY_PRESSED_RIGHT_SUPER(keyMatrices)) {
-        KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTGUI;
-    }
+        if (IS_KEY_PRESSED_LEFT_SHIFT(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTSHIFT;
+        }
+        if (IS_KEY_PRESSED_RIGHT_SHIFT(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTSHIFT;
+        }
+        if (IS_KEY_PRESSED_LEFT_SUPER(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
+        }
+        if (IS_KEY_PRESSED_LEFT_CONTROL(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
+        }
+        if (IS_KEY_PRESSED_LEFT_ALT(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTALT;
+        }
+        if (IS_KEY_PRESSED_RIGHT_ALT(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTALT;
+        }
+        if (IS_KEY_PRESSED_RIGHT_CONTROL(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTCTRL;
+        }
+        if (IS_KEY_PRESSED_RIGHT_SUPER(keyMatrices)) {
+            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTGUI;
+        }
 
-    *ReportSize = sizeof(USB_KeyboardReport_Data_t);
+        *ReportSize = sizeof(USB_KeyboardReport_Data_t);
 
-    return false;
+        return false;
+    } else {
+		USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+		*ReportSize = sizeof(USB_MouseReport_Data_t);
+		return true;
+    }
 }
 
 /** HID class driver callback function for the processing of HID reports from the host.
@@ -307,3 +343,4 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
                                           const uint16_t ReportSize)
 {
 }
+
