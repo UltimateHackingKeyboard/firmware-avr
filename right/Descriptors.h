@@ -43,31 +43,8 @@
 
         #include "Config/AppConfig.h"
         #include "UltimateHackingKeyboard.h"
-
-    /* Type Defines: */
-        /** Type define for the device configuration descriptor structure. This must be defined in the
-         *  application code, as the configuration descriptor contains several sub-descriptors which
-         *  vary between devices, and which describe the device's usage to the host.
-         */
-        typedef struct
-        {
-            USB_Descriptor_Configuration_Header_t Config;
-
-            // Keyboard HID Interface
-            USB_Descriptor_Interface_t            HID1_KeyboardInterface;
-            USB_HID_Descriptor_HID_t              HID1_KeyboardHID;
-            USB_Descriptor_Endpoint_t             HID1_ReportINEndpoint;
-
-            // Mouse HID Interface
-            USB_Descriptor_Interface_t            HID2_MouseInterface;
-            USB_HID_Descriptor_HID_t              HID2_MouseHID;
-            USB_Descriptor_Endpoint_t             HID2_ReportINEndpoint;
-
-            // Generic HID Interface
-            USB_Descriptor_Interface_t            HID3_GenericHIDInterface;
-            USB_HID_Descriptor_HID_t              HID3_GenericHID;
-            USB_Descriptor_Endpoint_t             HID3_ReportINEndpoint;
-        } USB_Descriptor_Configuration_t;
+        #include "KeyboardDescriptors.h"
+        #include "USBtoSerialDescriptors.h"
 
         /** Enum for the device interface descriptor IDs within the device. Each interface descriptor
          *  should have a unique ID index associated with it, which can be used to refer to the
@@ -83,94 +60,11 @@
             INTERFACE_ID_CDC_DCI = 1, /**< CDC DCI interface descriptor ID */
         };
 
-        /** Enum for the device string descriptor IDs within the device. Each string descriptor should
-         *  have a unique ID index associated with it, which can be used to refer to the string from
-         *  other descriptors.
-         */
-        enum StringDescriptors_t
-        {
-            STRING_ID_Language     = 0, /**< Supported Languages string descriptor ID (must be zero) */
-            STRING_ID_Manufacturer = 1, /**< Manufacturer string ID */
-            STRING_ID_Product      = 2, /**< Product string ID */
-        };
-
-    /* Macros: */
-        /** Endpoint address of the Keyboard HID reporting IN endpoint. */
-        #define KEYBOARD_IN_EPADDR        (ENDPOINT_DIR_IN | 1)
-
-        /** Endpoint address of the Mouse HID reporting IN endpoint. */
-        #define MOUSE_IN_EPADDR           (ENDPOINT_DIR_IN | 3)
-
-        /** Size in bytes of each of the HID reporting IN endpoints. */
-        #define HID_EPSIZE                8
-
-        /** Endpoint address of the Generic HID reporting IN endpoint. */
-        #define GENERIC_IN_EPADDR         (ENDPOINT_DIR_IN | 1)
-
-        /** Size in bytes of the Generic HID reporting endpoint. */
-        #define GENERIC_EPSIZE            8
-
     /* Function Prototypes: */
         uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                             const uint8_t wIndex,
                                             const void** const DescriptorAddress)
                                             ATTR_WARN_UNUSED_RESULT ATTR_NON_NULL_PTR_ARG(3);
-
-
-
-
-
-    /* Macros: */
-        /** Endpoint address of the CDC device-to-host notification IN endpoint. */
-        #define CDC_NOTIFICATION_EPADDR        (ENDPOINT_DIR_IN  | 2)
-
-        /** Endpoint address of the CDC device-to-host data IN endpoint. */
-        #define CDC_TX_EPADDR                  (ENDPOINT_DIR_IN  | 3)
-
-        /** Endpoint address of the CDC host-to-device data OUT endpoint. */
-        #define CDC_RX_EPADDR                  (ENDPOINT_DIR_OUT | 4)
-
-        /** Size in bytes of the CDC device-to-host notification IN endpoint. */
-        #define CDC_NOTIFICATION_EPSIZE        8
-
-        /** Size in bytes of the CDC data IN and OUT endpoints. */
-        #define CDC_TXRX_EPSIZE                16
-
-    /* Type Defines: */
-        /** Type define for the device configuration descriptor structure. This must be defined in the
-         *  application code, as the configuration descriptor contains several sub-descriptors which
-         *  vary between devices, and which describe the device's usage to the host.
-         */
-        typedef struct
-        {
-            USB_Descriptor_Configuration_Header_t    Config;
-
-            // CDC Command Interface
-            USB_Descriptor_Interface_t               CDC_CCI_Interface;
-            USB_CDC_Descriptor_FunctionalHeader_t    CDC_Functional_Header;
-            USB_CDC_Descriptor_FunctionalACM_t       CDC_Functional_ACM;
-            USB_CDC_Descriptor_FunctionalUnion_t     CDC_Functional_Union;
-            USB_Descriptor_Endpoint_t                CDC_NotificationEndpoint;
-
-            // CDC Data Interface
-            USB_Descriptor_Interface_t               CDC_DCI_Interface;
-            USB_Descriptor_Endpoint_t                CDC_DataOutEndpoint;
-            USB_Descriptor_Endpoint_t                CDC_DataInEndpoint;
-        } USBtoSerial_USB_Descriptor_Configuration_t;
-
-        /** Enum for the device string descriptor IDs within the device. Each string descriptor should
-         *  have a unique ID index associated with it, which can be used to refer to the string from
-         *  other descriptors.
-         */
-        enum USBtoSerial_StringDescriptors_t
-        {
-            STRING_ID_USBtoSerial_Language     = 0, /**< Supported Languages string descriptor ID (must be zero) */
-            STRING_ID_USBtoSerial_Manufacturer = 1, /**< Manufacturer string ID */
-            STRING_ID_USBtoSerial_Product      = 2, /**< Product string ID */
-        };
-
-
-
 
 #endif
 
