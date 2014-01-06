@@ -10,9 +10,8 @@
         #include <string.h>
 
         #include "Descriptors.h"
+        #include "USBtoSerial.h"
 
-        #include <LUFA/Drivers/Peripheral/Serial.h>
-        #include <LUFA/Drivers/Misc/RingBuffer.h>
         #include <LUFA/Drivers/USB/USB.h>
         #include <LUFA/Platform/Platform.h>
 
@@ -29,6 +28,9 @@
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
+        uint8_t HasEvent(void);
+        uint8_t ReadEvent(void);
+
         void SetupHardware(void);
 
         void EVENT_USB_Device_Connect(void);
@@ -48,7 +50,5 @@
                                                   const uint8_t ReportType,
                                                   const void* ReportData,
                                                   const uint16_t ReportSize);
-
-        void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo);
 
 #endif

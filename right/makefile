@@ -135,7 +135,8 @@ include $(LUFA_PATH)/LUFA/makefile
 SRC = $(TARGET).c                                                 \
 	  Descriptors.c                                               \
 	  KeyboardDescriptors.c                                       \
-	  USBtoSerialDescriptors.c                                       \
+	  USBtoSerial.c                                               \
+	  USBtoSerialDescriptors.c                                    \
 	  $(LUFA_SRC_USB)                                             \
 	  $(LUFA_SRC_USBCLASS)
 
