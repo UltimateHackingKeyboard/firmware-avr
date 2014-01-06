@@ -1,5 +1,5 @@
-#ifndef _UHK_RIGHT_H_
-#define _UHK_RIGHT_H_
+#ifndef _KEYBOARD_H_
+#define _KEYBOARD_H_
 
     /* Includes: */
         #include <avr/io.h>
@@ -9,22 +9,12 @@
         #include <stdbool.h>
         #include <string.h>
 
-        #include "USBtoSerial.h"
-        #include "Keyboard.h"
-
         #include <LUFA/Drivers/USB/USB.h>
         #include <LUFA/Platform/Platform.h>
 
-    /* Type Defines: */
-        /** Enum for the USB enumeration mode. */
-        enum EnumerationMode_t
-        {
-            ENUMERATION_MODE_Keyboard     = 0, /**< Normal enumeration mode featuring a keyboard, a mouse and a generic HID interface */
-            ENUMERATION_MODE_USBtoSerial  = 1, /**< USBtoSerial enumeration mode for upgrading the firmware of the left half */
-        };
-
-    /* Global Variables: */
-        extern uint8_t EnumerationMode;  /** The current enumeration mode according to \ref EnumerationMode_t */
+        #include "Config/AppConfig.h"
+        #include "KeyboardDescriptors.h"
+        #include "KeyPressMacros.h"
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
@@ -33,10 +23,8 @@
 
         void SetupHardware(void);
 
-        void EVENT_USB_Device_Connect(void);
-        void EVENT_USB_Device_Disconnect(void);
-        void EVENT_USB_Device_ConfigurationChanged(void);
-        void EVENT_USB_Device_ControlRequest(void);
+        bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void);
+        void EVENT_USB_Keyboard_Device_ControlRequest(void);
         void EVENT_USB_Device_StartOfFrame(void);
 
         bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo,

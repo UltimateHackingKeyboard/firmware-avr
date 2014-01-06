@@ -132,13 +132,14 @@ include $(LUFA_PATH)/LUFA/makefile
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c                                                 \
-	  Descriptors.c                                               \
-	  KeyboardDescriptors.c                                       \
-	  USBtoSerial.c                                               \
-	  USBtoSerialDescriptors.c                                    \
-	  $(LUFA_SRC_USB)                                             \
-	  $(LUFA_SRC_USBCLASS)
+SRC = $(TARGET).c                                                   \
+	Descriptors.c                                               \
+	Keyboard.c                                                  \
+	KeyboardDescriptors.c                                       \
+	USBtoSerial.c                                               \
+	USBtoSerialDescriptors.c                                    \
+	$(LUFA_SRC_USB)                                             \
+	$(LUFA_SRC_USBCLASS)
 
 
 # List C++ source files here. (C dependencies are automatically generated.)

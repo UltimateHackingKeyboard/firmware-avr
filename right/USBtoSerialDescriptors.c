@@ -3,7 +3,7 @@
  *  USB Device Descriptors taken from the USB to Serial Converter project of LUFA.
  */
 
-#include "Descriptors.h"
+#include "USBtoSerialDescriptors.h"
 
 const USB_Descriptor_Device_t PROGMEM USBtoSerial_DeviceDescriptor =
 {

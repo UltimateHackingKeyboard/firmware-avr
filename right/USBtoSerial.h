@@ -14,7 +14,7 @@
         #include <stdbool.h>
         #include <string.h>
 
-        #include "Descriptors.h"
+        #include "USBtoSerialDescriptors.h"
 
         #include <LUFA/Drivers/Peripheral/Serial.h>
         #include <LUFA/Drivers/Misc/RingBuffer.h>
