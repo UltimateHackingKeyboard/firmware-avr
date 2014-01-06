@@ -117,13 +117,13 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
  *  and endpoints. The descriptor is read out by the USB host during the enumeration process when selecting
  *  a configuration so that the host may correctly communicate with the USB device.
  */
-const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
+const Keyboard_USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
 {
     .Config =
         {
             .Header                 = {.Size = sizeof(USB_Descriptor_Configuration_Header_t), .Type = DTYPE_Configuration},
 
-            .TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
+            .TotalConfigurationSize = sizeof(Keyboard_USB_Descriptor_Configuration_t),
             .TotalInterfaces        = 3,
 
             .ConfigurationNumber    = 1,
@@ -302,7 +302,7 @@ uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
             break;
         case DTYPE_Configuration:
             Address = &ConfigurationDescriptor;
-            Size    = sizeof(USB_Descriptor_Configuration_t);
+            Size    = sizeof(Keyboard_USB_Descriptor_Configuration_t);
             break;
         case DTYPE_String:
             switch (DescriptorNumber)
