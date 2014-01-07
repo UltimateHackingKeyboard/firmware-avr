@@ -6,6 +6,8 @@
 #ifndef _DEFAULT_LAYOUT_H_
 #define _DEFAULT_LAYOUT_H_
 
-extern uint8_t KeyboardLayout[65][4][2];
+#include "Keyboard.h"
+
+extern uint8_t KeyboardLayout[KEYS_NUM][LAYOUTS_NUM][2];
 
 #endif

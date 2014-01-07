@@ -18,227 +18,7 @@ KeyMatrix_t *leftMatrix;
 KeyMatrix_t *rightMatrix;
 KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
-uint8_t normalKeyMap[5][13] = {
-    {  // Row 1
-        HID_KEYBOARD_SC_GRAVE_ACCENT_AND_TILDE,
-        HID_KEYBOARD_SC_1_AND_EXCLAMATION,
-        HID_KEYBOARD_SC_2_AND_AT,
-        HID_KEYBOARD_SC_3_AND_HASHMARK,
-        HID_KEYBOARD_SC_4_AND_DOLLAR,
-        HID_KEYBOARD_SC_6_AND_CARET,
-        HID_KEYBOARD_SC_7_AND_AND_AMPERSAND,
-        HID_KEYBOARD_SC_8_AND_ASTERISK,
-        HID_KEYBOARD_SC_9_AND_OPENING_PARENTHESIS,
-        HID_KEYBOARD_SC_0_AND_CLOSING_PARENTHESIS,
-        HID_KEYBOARD_SC_MINUS_AND_UNDERSCORE,
-        HID_KEYBOARD_SC_EQUAL_AND_PLUS,
-        HID_KEYBOARD_SC_BACKSPACE,
-    }, {  // Row 2
-        HID_KEYBOARD_SC_TAB,
-        HID_KEYBOARD_SC_Q,
-        HID_KEYBOARD_SC_W,
-        HID_KEYBOARD_SC_E,
-        HID_KEYBOARD_SC_R,
-        HID_KEYBOARD_SC_5_AND_PERCENTAGE,
-        HID_KEYBOARD_SC_U,
-        HID_KEYBOARD_SC_I,
-        HID_KEYBOARD_SC_O,
-        HID_KEYBOARD_SC_P,
-        HID_KEYBOARD_SC_OPENING_BRACKET_AND_OPENING_BRACE,
-        HID_KEYBOARD_SC_CLOSING_BRACKET_AND_CLOSING_BRACE,
-        HID_KEYBOARD_SC_BACKSLASH_AND_PIPE,
-    }, {  // Row 3
-        HID_KEYBOARD_SC_CAPS_LOCK,
-        HID_KEYBOARD_SC_A,
-        HID_KEYBOARD_SC_S,
-        HID_KEYBOARD_SC_D,
-        HID_KEYBOARD_SC_F,
-        HID_KEYBOARD_SC_T,
-        HID_KEYBOARD_SC_Y,
-        HID_KEYBOARD_SC_J,
-        HID_KEYBOARD_SC_K,
-        HID_KEYBOARD_SC_L,
-        HID_KEYBOARD_SC_SEMICOLON_AND_COLON,
-        HID_KEYBOARD_SC_APOSTROPHE_AND_QUOTE,
-        HID_KEYBOARD_SC_ENTER,
-    }, {  // Row 4
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_SHIFT,
-        HID_KEYBOARD_SC_Z,
-        HID_KEYBOARD_SC_X,
-        HID_KEYBOARD_SC_C,
-        HID_KEYBOARD_SC_V,
-        HID_KEYBOARD_SC_G,
-        HID_KEYBOARD_SC_H,
-        HID_KEYBOARD_SC_N,
-        HID_KEYBOARD_SC_M,
-        HID_KEYBOARD_SC_COMMA_AND_LESS_THAN_SIGN,
-        HID_KEYBOARD_SC_DOT_AND_GREATER_THAN_SIGN,
-        HID_KEYBOARD_SC_SLASH_AND_QUESTION_MARK,
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_SHIFT,
-    }, {  // Row 5
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_GUI,  // Left Super
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_CONTROL,
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_ALT,
-        NO_KEY,
-        NO_KEY,  // Hyper
-        HID_KEYBOARD_SC_B,
-        NO_KEY,
-        NO_KEY,
-        HID_KEYBOARD_SC_SPACE,
-        NO_KEY,
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_ALT,
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_CONTROL,
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_GUI,  // Right Super
-    }
-};
-
-uint8_t hyperKeyMap[5][13] = {
-    {  // Row 1
-        HID_KEYBOARD_SC_ESCAPE,  // HID_KEYBOARD_SC_GRAVE_ACCENT_AND_TILDE
-        HID_KEYBOARD_SC_F1,  // HID_KEYBOARD_SC_1_AND_EXCLAMATION
-        HID_KEYBOARD_SC_F2,  // HID_KEYBOARD_SC_2_AND_AT
-        HID_KEYBOARD_SC_F3,  // HID_KEYBOARD_SC_3_AND_HASHMARK
-        HID_KEYBOARD_SC_F4,  // HID_KEYBOARD_SC_4_AND_DOLLAR
-        HID_KEYBOARD_SC_F6,  // HID_KEYBOARD_SC_6_AND_CARET
-        HID_KEYBOARD_SC_F7,  // HID_KEYBOARD_SC_7_AND_AND_AMPERSAND
-        HID_KEYBOARD_SC_F8,  // HID_KEYBOARD_SC_8_AND_ASTERISK
-        HID_KEYBOARD_SC_F9,  // HID_KEYBOARD_SC_9_AND_OPENING_PARENTHESIS
-        HID_KEYBOARD_SC_F10,  // HID_KEYBOARD_SC_0_AND_CLOSING_PARENTHESIS
-        HID_KEYBOARD_SC_F11,  // HID_KEYBOARD_SC_MINUS_AND_UNDERSCORE
-        HID_KEYBOARD_SC_F12,  // HID_KEYBOARD_SC_EQUAL_AND_PLUS
-        NO_KEY,  // HID_KEYBOARD_SC_BACKSPACE
-    }, {  // Row 2
-        NO_KEY,  // HID_KEYBOARD_SC_TAB
-        NO_KEY,  // HID_KEYBOARD_SC_Q
-        NO_KEY,  // HID_KEYBOARD_SC_W
-        HID_KEYBOARD_SC_TAB,  // HID_KEYBOARD_SC_E
-        HID_KEYBOARD_SC_TAB,  // HID_KEYBOARD_SC_R
-        HID_KEYBOARD_SC_F5,  // HID_KEYBOARD_SC_5_AND_PERCENTAGE
-        HID_KEYBOARD_SC_HOME,  // HID_KEYBOARD_SC_U
-        HID_KEYBOARD_SC_UP_ARROW,  // HID_KEYBOARD_SC_I
-        HID_KEYBOARD_SC_END,  // HID_KEYBOARD_SC_O
-        HID_KEYBOARD_SC_DELETE,  // HID_KEYBOARD_SC_P
-        NO_KEY,  // HID_KEYBOARD_SC_OPENING_BRACKET_AND_OPENING_BRACE
-        NO_KEY,  // HID_KEYBOARD_SC_CLOSING_BRACKET_AND_CLOSING_BRACE
-        NO_KEY,  // HID_KEYBOARD_SC_BACKSLASH_AND_PIPE
-    }, {  // Row 3
-        NO_KEY,  // HID_KEYBOARD_SC_CAPS_LOCK
-        HID_KEYBOARD_SC_TAB,  // HID_KEYBOARD_SC_A
-        HID_KEYBOARD_SC_A,  // HID_KEYBOARD_SC_S
-        NO_KEY,  // HID_KEYBOARD_SC_D
-        HID_KEYBOARD_SC_S,  // HID_KEYBOARD_SC_F
-        NO_KEY,  // HID_KEYBOARD_SC_T
-        HID_KEYBOARD_SC_PAGE_UP,  // HID_KEYBOARD_SC_Y
-        HID_KEYBOARD_SC_LEFT_ARROW,  // HID_KEYBOARD_SC_J
-        HID_KEYBOARD_SC_DOWN_ARROW,  // HID_KEYBOARD_SC_K
-        HID_KEYBOARD_SC_RIGHT_ARROW,  // HID_KEYBOARD_SC_L
-        HID_KEYBOARD_SC_ENTER,  // HID_KEYBOARD_SC_SEMICOLON_AND_COLON
-        NO_KEY,  // HID_KEYBOARD_SC_APOSTROPHE_AND_QUOTE
-        NO_KEY,  // HID_KEYBOARD_SC_ENTER
-    }, {  // Row 4
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_SHIFT
-        NO_KEY,  // HID_KEYBOARD_SC_Z
-        NO_KEY,  // HID_KEYBOARD_SC_X
-        NO_KEY,  // HID_KEYBOARD_SC_C
-        NO_KEY,  // HID_KEYBOARD_SC_V
-        NO_KEY,  // HID_KEYBOARD_SC_G
-        HID_KEYBOARD_SC_PAGE_DOWN,  // HID_KEYBOARD_SC_H
-        HID_KEYBOARD_SC_ESCAPE,  // HID_KEYBOARD_SC_N
-        NO_KEY,  // HID_KEYBOARD_SC_M
-        NO_KEY,  // HID_KEYBOARD_SC_COMMA_AND_LESS_THAN_SIGN
-        NO_KEY,  // HID_KEYBOARD_SC_DOT_AND_GREATER_THAN_SIGN
-        NO_KEY,  // HID_KEYBOARD_SC_SLASH_AND_QUESTION_MARK
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_SHIFT
-    }, {  // Row 5
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_GUI
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_CONTROL
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_ALT
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // NO_KEY  // Hyper
-        NO_KEY,  // HID_KEYBOARD_SC_B,
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // HID_KEYBOARD_SC_SPACE
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_ALT
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_CONTROL
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_GUI
-    }
-};
-
-uint8_t hyperModifierMap[5][13] = {
-    {  // Row 1
-        NO_KEY,  // HID_KEYBOARD_SC_GRAVE_ACCENT_AND_TILDE
-        NO_KEY,  // HID_KEYBOARD_SC_1_AND_EXCLAMATION
-        NO_KEY,  // HID_KEYBOARD_SC_2_AND_AT
-        NO_KEY,  // HID_KEYBOARD_SC_3_AND_HASHMARK
-        NO_KEY,  // HID_KEYBOARD_SC_4_AND_DOLLAR
-        NO_KEY,  // HID_KEYBOARD_SC_6_AND_CARET
-        NO_KEY,  // HID_KEYBOARD_SC_7_AND_AND_AMPERSAND
-        NO_KEY,  // HID_KEYBOARD_SC_8_AND_ASTERISK
-        NO_KEY,  // HID_KEYBOARD_SC_9_AND_OPENING_PARENTHESIS
-        NO_KEY,  // HID_KEYBOARD_SC_0_AND_CLOSING_PARENTHESIS
-        NO_KEY,  // HID_KEYBOARD_SC_MINUS_AND_UNDERSCORE
-        NO_KEY,  // HID_KEYBOARD_SC_EQUAL_AND_PLUS
-        NO_KEY,  // HID_KEYBOARD_SC_BACKSPACE
-    }, {  // Row 2
-        NO_KEY,  // HID_KEYBOARD_SC_TAB
-        NO_KEY,  // HID_KEYBOARD_SC_Q
-        HID_KEYBOARD_MODIFIER_LEFTCTRL,  // HID_KEYBOARD_SC_W
-        HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTSHIFT,  // HID_KEYBOARD_SC_E
-        HID_KEYBOARD_MODIFIER_LEFTCTRL,  // HID_KEYBOARD_SC_R
-        NO_KEY,  // HID_KEYBOARD_SC_5_AND_PERCENTAGE
-        NO_KEY,  // HID_KEYBOARD_SC_U
-        NO_KEY,  // HID_KEYBOARD_SC_I
-        NO_KEY,  // HID_KEYBOARD_SC_O
-        NO_KEY,  // HID_KEYBOARD_SC_P
-        NO_KEY,  // HID_KEYBOARD_SC_OPENING_BRACKET_AND_OPENING_BRACE
-        NO_KEY,  // HID_KEYBOARD_SC_CLOSING_BRACKET_AND_CLOSING_BRACE
-        NO_KEY,  // HID_KEYBOARD_SC_BACKSLASH_AND_PIPE
-    }, {  // Row 3
-        NO_KEY,  // HID_KEYBOARD_SC_CAPS_LOCK
-        HID_KEYBOARD_MODIFIER_LEFTALT,  // HID_KEYBOARD_SC_A
-        HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT,  // HID_KEYBOARD_SC_S
-        NO_KEY,  // HID_KEYBOARD_SC_D
-        HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT,  // HID_KEYBOARD_SC_F
-        NO_KEY,  // HID_KEYBOARD_SC_T
-        NO_KEY,  // HID_KEYBOARD_SC_Y
-        NO_KEY,  // HID_KEYBOARD_SC_J
-        NO_KEY,  // HID_KEYBOARD_SC_K
-        NO_KEY,  // HID_KEYBOARD_SC_L
-        NO_KEY,  // HID_KEYBOARD_SC_SEMICOLON_AND_COLON
-        NO_KEY,  // HID_KEYBOARD_SC_APOSTROPHE_AND_QUOTE
-        NO_KEY,  // HID_KEYBOARD_SC_ENTER
-    }, {  // Row 4
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_SHIFT
-        NO_KEY,  // HID_KEYBOARD_SC_Z
-        NO_KEY,  // HID_KEYBOARD_SC_X
-        NO_KEY,  // HID_KEYBOARD_SC_C
-        NO_KEY,  // HID_KEYBOARD_SC_V
-        NO_KEY,  // HID_KEYBOARD_SC_G
-        NO_KEY,  // HID_KEYBOARD_SC_H
-        NO_KEY,  // HID_KEYBOARD_SC_N
-        NO_KEY,  // HID_KEYBOARD_SC_M
-        NO_KEY,  // HID_KEYBOARD_SC_COMMA_AND_LESS_THAN_SIGN
-        NO_KEY,  // HID_KEYBOARD_SC_DOT_AND_GREATER_THAN_SIGN
-        NO_KEY,  // HID_KEYBOARD_SC_SLASH_AND_QUESTION_MARK
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_SHIFT
-    }, {  // Row 5
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_GUI
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_CONTROL
-        NO_KEY,  // HID_KEYBOARD_SC_LEFT_ALT
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // NO_KEY  // Hyper
-        NO_KEY,  // HID_KEYBOARD_SC_B,
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // HID_KEYBOARD_SC_SPACE
-        NO_KEY,  // NO_KEY
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_ALT
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_CONTROL
-        NO_KEY,  // HID_KEYBOARD_SC_RIGHT_GUI
-    }
-};
+uint8_t VirtualModifierKeyCache[VIRUTAL_MODIFIER_TYPES_NUM][MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE];
 
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
@@ -325,11 +105,10 @@ int KeyboardMainLoop(void)
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 },
     };
 
-
     KeyMatrix_Init(rightMatrix, ROW_NUM, COL_NUM);
     KeyMatrix_SetColPortsAndRowPins(rightMatrix, column_ports, row_pins);
 
-    KeyMatrix_Init(leftMatrix, 5, 6);
+    KeyMatrix_Init(leftMatrix, 5, 7);
 
     for (;;)
     {
@@ -411,16 +190,34 @@ uint8_t ReadEvent()
     return UDR1;
 }
 
-/** HID class driver callback function for the creation of HID reports to the host.
- *
- *  \param[in]     HIDInterfaceInfo  Pointer to the HID class interface configuration structure being referenced
- *  \param[in,out] ReportID    Report ID requested by the host if non-zero, otherwise callback should set to the generated report ID
- *  \param[in]     ReportType  Type of the report to create, either HID_REPORT_ITEM_In or HID_REPORT_ITEM_Feature
- *  \param[out]    ReportData  Pointer to a buffer where the created report should be stored
- *  \param[out]    ReportSize  Number of bytes written in the report (or zero if no report is to be sent
- *
- *  \return Boolean true to force the sending of the report, false to let the library determine if it needs to be sent
- */
+void InitVirtualModifierKeyCache()
+{
+    uint8_t ModArrayPosition = 0;
+    uint8_t FnArrayPosition = 0;
+    uint8_t MouseArrayPosition = 0;
+
+    for (uint8_t KeyNumber=0; KeyNumber<KEYS_NUM; KeyNumber++) {
+        uint8_t Action = KeyboardLayout[KeyNumber][KEYMAP_ID_NORMAL][KEY_ACTION];
+        if (Action == VIRTUAL_MODIFIER_KEY_MOD && ModArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOD][ModArrayPosition++] = KeyNumber;
+        } else if (Action == VIRTUAL_MODIFIER_KEY_FN && FnArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_FN][FnArrayPosition++] = KeyNumber;
+        } else if (Action == VIRTUAL_MODIFIER_KEY_MOUSE && MouseArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOUSE][MouseArrayPosition++] = KeyNumber;
+        }
+    }
+
+    while (ModArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOD][ModArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
+    }
+    while (FnArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_FN][FnArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
+    }
+    while (MouseArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
+        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOUSE][MouseArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
+    }
+}
+
 bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo, uint8_t* const ReportID,
                                          const uint8_t ReportType, void* ReportData, uint16_t* const ReportSize)
 {
@@ -431,16 +228,22 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
         USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
         uint8_t UsedKeyCodes = 0;
 
-        if (HasEvent()) {
+        // Update the left keyboard matrix.
+        while (HasEvent()) {
             uint8_t event = ReadEvent();
-            uint8_t isKeyPressed = GET_EVENT_STATE(event);
-            event = GET_EVENT_PAYLOAD(event);
-            uint8_t row = event / leftMatrix->ColNum;
-            uint8_t col = event % leftMatrix->ColNum;
-            KeyMatrix_SetElement(leftMatrix, row, col, isKeyPressed ? 0 : 1);
+            uint8_t keyState = GET_EVENT_STATE(event);
+            uint8_t keyId = GET_EVENT_PAYLOAD(event);
+            uint8_t row = keyId / leftMatrix->ColNum;
+            uint8_t col = keyId % leftMatrix->ColNum;
+            KeyMatrix_SetElement(leftMatrix, row, col, keyState ? 0 : 1);
         }
 
+        // Update the right keyboard matrix.
         KeyMatrix_Scan(rightMatrix, NULL);
+
+        // Figure out which keymap is supposed to be the active one.
+        // check mouse keymap, fn keymap, mod keymap
+
 
         for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
             KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
@@ -456,7 +259,6 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
                 }
             }
         }
-
 
         if (IS_KEY_PRESSED_LEFT_SHIFT(keyMatrices)) {
             KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTSHIFT;
@@ -531,14 +333,6 @@ void Jump_To_Bootloader(void)
     for (;;);
 }
 
-/** HID class driver callback function for the processing of HID reports from the host.
- *
- *  \param[in] HIDInterfaceInfo  Pointer to the HID class interface configuration structure being referenced
- *  \param[in] ReportID    Report ID of the received report from the host
- *  \param[in] ReportType  The type of report that the host has sent, either HID_REPORT_ITEM_Out or HID_REPORT_ITEM_Feature
- *  \param[in] ReportData  Pointer to a buffer where the received report has been stored
- *  \param[in] ReportSize  Size in bytes of the received HID report
- */
 void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo,
                                           const uint8_t ReportID,
                                           const uint8_t ReportType,

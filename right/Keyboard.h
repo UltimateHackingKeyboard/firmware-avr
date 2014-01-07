@@ -15,11 +15,42 @@
         #include "Config/AppConfig.h"
         #include "KeyboardDescriptors.h"
         #include "KeyPressMacros.h"
+        #include "DefaultLayout.h"
+
+    /* Macros: */
+        #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
+        #define MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE 4
+
+        #define KEYMAP_ID_NORMAL 0
+        #define KEYMAP_ID_MOD    1
+        #define KEYMAP_ID_FN     2
+        #define KEYMAP_ID_MOUSE  3
+
+        #define KEY_ACTION 0
+        #define KEY_ID     1
+
+        #define NO_ACTION   0
+        #define NO_ARGUMENT 0
+
+        #define KEYS_NUM 65
+        #define LAYOUTS_NUM (VIRUTAL_MODIFIER_TYPES_NUM + 1)
+        #define ITEM_NUM_PER_KEY 2  // bytes
+
+        // The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA!
+        #define VIRTUAL_MODIFIER_KEY_NONE  0
+        #define VIRTUAL_MODIFIER_KEY_MOD   0xE8
+        #define VIRTUAL_MODIFIER_KEY_FN    0xE9
+        #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
+
+        #define CACHED_VIRTUAL_MODIFIER_KEY_MOD   1
+        #define CACHED_VIRTUAL_MODIFIER_KEY_FN    2
+        #define CACHED_VIRTUAL_MODIFIER_KEY_MOUSE 3
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
         uint8_t HasEvent(void);
         uint8_t ReadEvent(void);
+        void InitLayout();
 
         void SetupHardware(void);
 

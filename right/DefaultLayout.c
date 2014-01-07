@@ -1,4 +1,4 @@
-KeyboardLayout[65][4][2] =
+uint8_t KeyboardLayout[KEYS_NUM][LAYOUTS_NUM][2] =
 {
     /* A1 key */ {
         /* normal keymap */ { HID_KEYBOARD_SC_GRAVE_ACCENT_AND_TILDE,            NO_ARGUMENT },
@@ -281,22 +281,22 @@ KeyboardLayout[65][4][2] =
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* E4 key */ {
-        /* normal keymap */ { NO_ACTION,                                         NO_ARGUMENT },
+        /* normal keymap */ { VIRTUAL_MODIFIER_KEY_FN,                           NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* E5 key */ {
-        /* normal keymap */ { NO_ACTION,                                         NO_ARGUMENT },
+        /* normal keymap */ { VIRTUAL_MODIFIER_KEY_MOD,                          NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* E6 key */ {
-        /* normal keymap */ { NO_ACTION,                                         NO_ARGUMENT },
+        /* normal keymap */ { HID_KEYBOARD_SC_SPACE,                             NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* E7 key */ {
-        /* normal keymap */ { NO_ACTION,                                         NO_ARGUMENT },
+        /* normal keymap */ { VIRTUAL_MODIFIER_KEY_FN,                           NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -316,12 +316,12 @@ KeyboardLayout[65][4][2] =
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* F1 key */ {
-        /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_CONTROL },
+        /* normal keymap */ { HID_KEYBOARD_SC_SPACE,                             NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
     }, /* F2 key */ {
-        /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_GUI },
+        /* normal keymap */ { VIRTUAL_MODIFIER_KEY_MOD,                          NO_ARGUMENT },
         /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
         /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
         /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
