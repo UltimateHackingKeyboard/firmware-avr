@@ -190,34 +190,6 @@ uint8_t ReadEvent()
     return UDR1;
 }
 
-void InitVirtualModifierKeyCache()
-{
-    uint8_t ModArrayPosition = 0;
-    uint8_t FnArrayPosition = 0;
-    uint8_t MouseArrayPosition = 0;
-
-    for (uint8_t KeyNumber=0; KeyNumber<KEYS_NUM; KeyNumber++) {
-        uint8_t Action = KeyboardLayout[KeyNumber][KEYMAP_ID_NORMAL][KEY_ACTION];
-        if (Action == VIRTUAL_MODIFIER_KEY_MOD && ModArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOD][ModArrayPosition++] = KeyNumber;
-        } else if (Action == VIRTUAL_MODIFIER_KEY_FN && FnArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_FN][FnArrayPosition++] = KeyNumber;
-        } else if (Action == VIRTUAL_MODIFIER_KEY_MOUSE && MouseArrayPosition < MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-            VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOUSE][MouseArrayPosition++] = KeyNumber;
-        }
-    }
-
-    while (ModArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOD][ModArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
-    }
-    while (FnArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_FN][FnArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
-    }
-    while (MouseArrayPosition<MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE) {
-        VirtualModifierKeyCache[CACHED_VIRTUAL_MODIFIER_KEY_MOUSE][MouseArrayPosition++] = VIRTUAL_MODIFIER_KEY_NONE;
-    }
-}
-
 bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo, uint8_t* const ReportID,
                                          const uint8_t ReportType, void* ReportData, uint16_t* const ReportSize)
 {
@@ -242,9 +214,19 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
         KeyMatrix_Scan(rightMatrix, NULL);
 
         // Figure out which keymap is supposed to be the active one.
-        // check mouse keymap, fn keymap, mod keymap
+        uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
+        for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
+            KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
+            for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
+                for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
+                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
+                        uint8_t KeyMappings[LAYOUTS_NUM][ITEM_NUM_PER_KEY] = GetKeyMappings(keyMatrix, row, col);
+                    }
+                }
+            }
+        }
 
-
+        // Construct the keyboard report according to pressed keys.
         for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
             KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
             for (uint8_t row=0; row<keyMatrix->RowNum; row++) {

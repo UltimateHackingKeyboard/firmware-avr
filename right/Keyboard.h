@@ -15,7 +15,6 @@
         #include "Config/AppConfig.h"
         #include "KeyboardDescriptors.h"
         #include "KeyPressMacros.h"
-        #include "DefaultLayout.h"
 
     /* Macros: */
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
@@ -37,14 +36,10 @@
         #define ITEM_NUM_PER_KEY 2  // bytes
 
         // The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA!
-        #define VIRTUAL_MODIFIER_KEY_NONE  0
+        #define VIRTUAL_MODIFIER_KEY_NONE  0x00
         #define VIRTUAL_MODIFIER_KEY_MOD   0xE8
         #define VIRTUAL_MODIFIER_KEY_FN    0xE9
         #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
-
-        #define CACHED_VIRTUAL_MODIFIER_KEY_MOD   1
-        #define CACHED_VIRTUAL_MODIFIER_KEY_FN    2
-        #define CACHED_VIRTUAL_MODIFIER_KEY_MOUSE 3
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
