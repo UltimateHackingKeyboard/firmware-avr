@@ -15,6 +15,7 @@
         #include "Config/AppConfig.h"
         #include "KeyboardDescriptors.h"
         #include "KeyPressMacros.h"
+        #include "DefaultLayout.h"
 
     /* Macros: */
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
@@ -25,8 +26,8 @@
         #define KEYMAP_ID_FN     2
         #define KEYMAP_ID_MOUSE  3
 
-        #define KEY_ACTION 0
-        #define KEY_ID     1
+        #define KEY_ACTION   0
+        #define KEY_ARGUMENT 1
 
         #define NO_ACTION   0
         #define NO_ARGUMENT 0
@@ -45,7 +46,6 @@
         int KeyboardMainLoop(void);
         uint8_t HasEvent(void);
         uint8_t ReadEvent(void);
-        void InitLayout();
 
         void SetupHardware(void);
 

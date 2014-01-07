@@ -143,43 +143,6 @@ void EVENT_USB_Device_StartOfFrame(void)
     HID_Device_MillisecondElapsed(&Generic_HID_Interface);
 }
 
-
-uint8_t GetGlobalMatrixColByPartMatrixCol(KeyMatrix_t *keyMatrix, uint8_t col)
-{
-    if (keyMatrix == rightMatrix) {
-        col = rightMatrix->ColNum - col + leftMatrix->ColNum-1;
-    }
-    return col;
-}
-
-uint8_t IsKeyPressed(KeyMatrix_t *keyMatrices, uint8_t row, uint8_t col)
-{
-    return GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrices+(col < 6 ? 0 : 1),
-                                                      row,
-                                                      (col < 6 ? col : 6-(col-6))) );
-}
-
-uint8_t KeyCodeToScanCode(KeyMatrix_t *keyMatrix, uint8_t row, uint8_t col)
-{
-    if (keyMatrix == rightMatrix) {
-        col = rightMatrix->ColNum - col + leftMatrix->ColNum-1;
-    }
-    return IS_KEY_PRESSED_HYPER(keyMatrices) ? hyperKeyMap[row][col] : normalKeyMap[row][col];
-}
-
-uint8_t KeyModifierByScanCode(KeyMatrix_t *keyMatrix, uint8_t row, uint8_t col)
-{
-    if (keyMatrix == rightMatrix) {
-        col = rightMatrix->ColNum - col + leftMatrix->ColNum-1;
-    }
-    return IS_KEY_PRESSED_HYPER(keyMatrices) ? hyperModifierMap[row][col] : 0;
-}
-
-uint8_t GetScanCodeByMatrixIdRowCol(KeyMatrix_t *keyMatrices, uint8_t matrixId, uint8_t row, uint8_t col)
-{
-    return KeyCodeToScanCode(keyMatrices+matrixId, row, col);
-}
-
 uint8_t HasEvent()
 {
     return UCSR1A & (1 << RXC1);
@@ -215,56 +178,46 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
 
         // Figure out which keymap is supposed to be the active one.
         uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
+        uint8_t colTotal = 0;
         for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
             KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
             for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
                 for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                     if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                        uint8_t KeyMappings[LAYOUTS_NUM][ITEM_NUM_PER_KEY] = GetKeyMappings(keyMatrix, row, col);
-                    }
-                }
-            }
-        }
-
-        // Construct the keyboard report according to pressed keys.
-        for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
-            KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
-            for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
-                for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                        uint8_t scanCode = KeyCodeToScanCode(keyMatrix, row, col);
-                        if (scanCode != NO_KEY) {
-                            KeyboardReport->KeyCode[UsedKeyCodes++] = scanCode;
-                            KeyboardReport->Modifier |= KeyModifierByScanCode(keyMatrix, row, col);
+                        uint8_t Action = KeyboardLayout[row][col][KEYMAP_ID_NORMAL][KEY_ACTION];
+                        if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
+                            ActiveKeymap = KEYMAP_ID_MOUSE;
+                        } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
+                            ActiveKeymap = KEYMAP_ID_FN;
+                        } else if (Action == VIRTUAL_MODIFIER_KEY_MOD && ActiveKeymap != KEYMAP_ID_MOUSE && ActiveKeymap != KEYMAP_ID_FN) {
+                            ActiveKeymap = KEYMAP_ID_MOD;
                         }
                     }
                 }
             }
+            colTotal += keyMatrix->ColNum;
         }
 
-        if (IS_KEY_PRESSED_LEFT_SHIFT(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTSHIFT;
-        }
-        if (IS_KEY_PRESSED_RIGHT_SHIFT(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTSHIFT;
-        }
-        if (IS_KEY_PRESSED_LEFT_SUPER(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
-        }
-        if (IS_KEY_PRESSED_LEFT_CONTROL(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTCTRL;
-        }
-        if (IS_KEY_PRESSED_LEFT_ALT(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_LEFTALT;
-        }
-        if (IS_KEY_PRESSED_RIGHT_ALT(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTALT;
-        }
-        if (IS_KEY_PRESSED_RIGHT_CONTROL(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTCTRL;
-        }
-        if (IS_KEY_PRESSED_RIGHT_SUPER(keyMatrices)) {
-            KeyboardReport->Modifier |= HID_KEYBOARD_MODIFIER_RIGHTGUI;
+        // Construct the keyboard report according to pressed keys.
+        colTotal = 0;
+        for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
+            KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
+            for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
+                for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
+                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
+                        uint8_t *Key = KeyboardLayout[row][col][ActiveKeymap];
+                        uint8_t Action = Key[KEY_ACTION];
+                        uint8_t Argument = Key[KEY_ARGUMENT];
+                        if (Action != NO_ACTION && Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
+                            Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
+                        {
+                            KeyboardReport->KeyCode[UsedKeyCodes++] = Action;
+                            KeyboardReport->Modifier |= Argument;
+                        }
+                    }
+                }
+            }
+            colTotal += keyMatrix->ColNum;
         }
 
         *ReportSize = sizeof(USB_KeyboardReport_Data_t);
