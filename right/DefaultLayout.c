@@ -1,6 +1,6 @@
 #include "DefaultLayout.h"
 
-uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] =
+const uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] PROGMEM =
 {
     { /* key matrix row 1 */
         { /* A1 key */
@@ -164,7 +164,7 @@ uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] =
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C4 key */ {
             /* normal keymap */ { HID_KEYBOARD_SC_D,                                 NO_ARGUMENT },
-            /* mod keymap    */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_SC_LEFT_ALT },
+            /* mod keymap    */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_MODIFIER_LEFTALT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C5 key */ {
@@ -220,7 +220,7 @@ uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] =
         }
     }, /* key matrix row 4 */ {
         { /* D1 key */
-            /* normal keymap */ { HID_KEYBOARD_SC_LEFT_SHIFT,                        HID_KEYBOARD_SC_LEFT_SHIFT },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTSHIFT },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -285,24 +285,24 @@ uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] =
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* D12 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_SHIFT },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTSHIFT },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }
     }, /* key matrix row 5 */ {
         { /* E1 key */
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_LEFT_GUI },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTGUI },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E2 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_LEFT_CONTROL },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E3 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_LEFT_ALT },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTALT },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -347,17 +347,17 @@ uint8_t KeyboardLayout[5][14][3][ITEM_NUM_PER_KEY] =
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E8 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_ALT },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTALT },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E9 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_CONTROL },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTCTRL },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E10 key */ {
-            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_SC_RIGHT_GUI },
+            /* normal keymap */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTGUI },
             /* mod keymap    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
 //            /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }

@@ -185,7 +185,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
             for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
                 for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                     if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                        uint8_t Action = KeyboardLayout[row][col+colTotal][KEYMAP_ID_NORMAL][KEY_ACTION];
+                        uint8_t Action = pgm_read_byte(&KeyboardLayout[row][col+colTotal][KEYMAP_ID_NORMAL][KEY_ACTION]);
                         if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                             ActiveKeymap = KEYMAP_ID_MOUSE;
                         } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
@@ -207,8 +207,8 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
                 for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                     if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<6) {
                         uint8_t *Key = KeyboardLayout[row][col+colTotal][ActiveKeymap];
-                        uint8_t Action = Key[KEY_ACTION];
-                        uint8_t Argument = Key[KEY_ARGUMENT];
+                        uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
+                        uint8_t Argument = pgm_read_byte(&Key[KEY_ARGUMENT]);
                         if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
                             Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
                         {
