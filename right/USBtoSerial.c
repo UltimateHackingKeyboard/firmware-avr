@@ -9,13 +9,13 @@
 static RingBuffer_t USBtoUSART_Buffer;
 
 /** Underlying data buffer for \ref USBtoUSART_Buffer, where the stored bytes are located. */
-static uint8_t      USBtoUSART_Buffer_Data[0];  // TODO: allocate 128 bytes
+static uint8_t      USBtoUSART_Buffer_Data[128];
 
 /** Circular buffer to hold data from the serial port before it is sent to the host. */
 static RingBuffer_t USARTtoUSB_Buffer;
 
 /** Underlying data buffer for \ref USARTtoUSB_Buffer, where the stored bytes are located. */
-static uint8_t      USARTtoUSB_Buffer_Data[0];  // TODO: allocate 128 bytes
+static uint8_t      USARTtoUSB_Buffer_Data[128];
 
 /** LUFA CDC Class driver interface configuration and state information. This structure is
  *  passed to all CDC Class driver functions, so that multiple instances of the same class
