@@ -8,6 +8,6 @@
 
 #include "Keyboard.h"
 
-extern uint8_t KeyboardLayout[5][14][4][2];
+extern uint8_t KeyboardLayout[5][14][3][2];
 
 #endif
