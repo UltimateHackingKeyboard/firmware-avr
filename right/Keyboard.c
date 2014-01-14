@@ -18,7 +18,7 @@ KeyMatrix_t *leftMatrix;
 KeyMatrix_t *rightMatrix;
 KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
-uint8_t VirtualModifierKeyCache[VIRUTAL_MODIFIER_TYPES_NUM][MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE];
+//uint8_t VirtualModifierKeyCache[VIRUTAL_MODIFIER_TYPES_NUM][MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE];
 
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
@@ -163,6 +163,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
         USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
         uint8_t UsedKeyCodes = 0;
 
+/*
         // Update the left keyboard matrix.
         while (HasEvent()) {
             uint8_t event = ReadEvent();
@@ -172,7 +173,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
             uint8_t col = keyId % leftMatrix->ColNum;
             KeyMatrix_SetElement(leftMatrix, row, col, keyState ? 0 : 1);
         }
-
+*/
         // Update the right keyboard matrix.
         KeyMatrix_Scan(rightMatrix, NULL);
 
@@ -184,7 +185,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
             for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
                 for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                     if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                        uint8_t Action = KeyboardLayout[row][col][KEYMAP_ID_NORMAL][KEY_ACTION];
+                        uint8_t Action = KeyboardLayout[row][col+colTotal][KEYMAP_ID_NORMAL][KEY_ACTION];
                         if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                             ActiveKeymap = KEYMAP_ID_MOUSE;
                         } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
@@ -204,11 +205,11 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
             KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
             for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
                 for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                        uint8_t *Key = KeyboardLayout[row][col][ActiveKeymap];
+                    if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<6) {
+                        uint8_t *Key = KeyboardLayout[row][col+colTotal][ActiveKeymap];
                         uint8_t Action = Key[KEY_ACTION];
                         uint8_t Argument = Key[KEY_ARGUMENT];
-                        if (Action != NO_ACTION && Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
+                        if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
                             Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
                         {
                             KeyboardReport->KeyCode[UsedKeyCodes++] = Action;

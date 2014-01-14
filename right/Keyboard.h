@@ -18,7 +18,7 @@
 
     /* Macros: */
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
-        #define MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE 4
+        #define MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE 3  // TODO: Should be set to 4 eventually
 
         #define KEYMAP_ID_NORMAL 0
         #define KEYMAP_ID_MOD    1
