@@ -139,6 +139,7 @@ SRC = $(TARGET).c                                                   \
 	DefaultLayout.c                                             \
 	Descriptors.c                                               \
 	Keyboard.c                                                  \
+	KeyboardReports.c                                           \
 	KeyboardDescriptors.c                                       \
 	USBtoSerial.c                                               \
 	USBtoSerialDescriptors.c                                    \

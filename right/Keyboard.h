@@ -21,6 +21,7 @@
         #define ROW_NUM 5
         #define COL_NUM 7
         #define TOTAL_COL_NUM 14
+        #define KEYMATRICES_NUM 2
 
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
 
@@ -47,6 +48,10 @@
 
     /* External Variables: */
         const extern uint8_t KeyboardLayout[ROW_NUM][TOTAL_COL_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
+
+        extern KeyMatrix_t *leftMatrix;
+        extern KeyMatrix_t *rightMatrix;
+        extern KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
