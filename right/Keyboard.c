@@ -5,8 +5,6 @@
 
 #include "Keyboard.h"
 
-KeyMatrix_t *leftMatrix;
-KeyMatrix_t *rightMatrix;
 KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
@@ -70,9 +68,6 @@ int KeyboardMainLoop(void)
 {
     USART_Init();
 
-    leftMatrix  = keyMatrices + 0;
-    rightMatrix = keyMatrices + 1;
-
     Pin_t row_pins[ROWS_NUM] = {
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB7 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB6 },
@@ -81,7 +76,7 @@ int KeyboardMainLoop(void)
         { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 },
     };
 
-    Port_t column_ports[RIGHT_COLS_NUM] = {
+    Port_t col_ports[RIGHT_COLS_NUM] = {
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC6 },
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
@@ -91,10 +86,10 @@ int KeyboardMainLoop(void)
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 },
     };
 
-    KeyMatrix_Init(rightMatrix, ROWS_NUM, RIGHT_COLS_NUM);
-    KeyMatrix_SetColPortsAndRowPins(rightMatrix, column_ports, row_pins);
+    KeyMatrix_Init(KEYMATRIX_RIGHT, ROWS_NUM, RIGHT_COLS_NUM);
+    KeyMatrix_SetColPortsAndRowPins(KEYMATRIX_RIGHT, col_ports, row_pins);
 
-    KeyMatrix_Init(leftMatrix, ROWS_NUM, LEFT_COLS_NUM);
+    KeyMatrix_Init(KEYMATRIX_LEFT, ROWS_NUM, LEFT_COLS_NUM);
 
     for (;;)
     {

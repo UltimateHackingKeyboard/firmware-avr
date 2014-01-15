@@ -18,13 +18,13 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         uint8_t event = USART_ReceiveByte();
         uint8_t keyState = GET_EVENT_STATE(event);
         uint8_t keyId = GET_EVENT_PAYLOAD(event);
-        uint8_t row = keyId / leftMatrix->ColNum;
-        uint8_t col = keyId % leftMatrix->ColNum;
-        KeyMatrix_SetElement(leftMatrix, row, col, keyState ? 0 : 1);
+        uint8_t row = keyId / KEYMATRIX_LEFT->ColNum;
+        uint8_t col = keyId % KEYMATRIX_LEFT->ColNum;
+        KeyMatrix_SetElement(KEYMATRIX_LEFT, row, col, keyState ? 0 : 1);
     }
 */
     // Update the right keyboard matrix.
-    KeyMatrix_Scan(rightMatrix, NULL);
+    KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 
     // Figure out which keymap is supposed to be the active one.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;

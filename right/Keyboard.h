@@ -36,11 +36,11 @@
         #define VIRTUAL_MODIFIER_KEY_FN    0xE9
         #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
 
+        #define KEYMATRIX_LEFT  (keyMatrices + 0)
+        #define KEYMATRIX_RIGHT (keyMatrices + 1)
+
     /* External Variables: */
         const extern uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
-
-        extern KeyMatrix_t *leftMatrix;
-        extern KeyMatrix_t *rightMatrix;
         extern KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
     /* Function Prototypes: */
