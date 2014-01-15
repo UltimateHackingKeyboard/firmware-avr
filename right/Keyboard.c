@@ -6,9 +6,6 @@
 #include "Keyboard.h"
 #include "../KeyMatrix.c"
 
-#define USART_BAUDRATE 38400
-#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
-
 #define KEYMATRICES_NUM 2
 
 KeyMatrix_t *leftMatrix;

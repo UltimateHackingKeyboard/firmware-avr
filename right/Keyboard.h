@@ -13,6 +13,7 @@
         #include <LUFA/Platform/Platform.h>
 
         #include "Config/AppConfig.h"
+        #include "../USART.h"
         #include "KeyboardDescriptors.h"
 
     /* Macros: */
