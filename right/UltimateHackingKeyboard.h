@@ -21,9 +21,6 @@
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
-        uint8_t HasEvent(void);
-        uint8_t ReadEvent(void);
-
         void SetupHardware(void);
 
         void EVENT_USB_Device_Connect(void);
