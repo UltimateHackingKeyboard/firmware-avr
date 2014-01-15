@@ -3,8 +3,8 @@
  *  Header file for USBtoSerialDescriptors.c.
  */
 
-#ifndef _USBTOSERIAL_DESCRIPTORS_H_
-#define _USBTOSERIAL_DESCRIPTORS_H_
+#ifndef _USB_TO_SERIAL_DESCRIPTORS_H_
+#define _USB_TO_SERIAL_DESCRIPTORS_H_
 
     /* Includes: */
         #include <avr/pgmspace.h>

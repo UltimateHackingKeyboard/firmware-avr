@@ -1,5 +1,5 @@
-#ifndef _BOOTLOADERJUMP_H_
-#define _BOOTLOADERJUMP_H_
+#ifndef _BOOTLOADER_JUMP_H_
+#define _BOOTLOADER_JUMP_H_
 
     /* Includes: */
         #include <avr/io.h>
