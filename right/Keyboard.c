@@ -12,8 +12,6 @@ KeyMatrix_t *leftMatrix;
 KeyMatrix_t *rightMatrix;
 KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
-//uint8_t VirtualModifierKeyCache[VIRUTAL_MODIFIER_TYPES_NUM][MAX_KEYS_PER_VIRTUAL_MODIFIER_TYPE];
-
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
 
