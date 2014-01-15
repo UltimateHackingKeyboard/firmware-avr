@@ -96,6 +96,7 @@ int KeyboardMainLoop(void)
         HID_Device_USBTask(&Keyboard_HID_Interface);
         HID_Device_USBTask(&Mouse_HID_Interface);
         HID_Device_USBTask(&Generic_HID_Interface);
+
         USB_USBTask();
     }
 }
@@ -103,10 +104,13 @@ int KeyboardMainLoop(void)
 bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void)
 {
     bool ConfigSuccess = true;
+
     ConfigSuccess &= HID_Device_ConfigureEndpoints(&Keyboard_HID_Interface);
     ConfigSuccess &= HID_Device_ConfigureEndpoints(&Mouse_HID_Interface);
     ConfigSuccess &= HID_Device_ConfigureEndpoints(&Generic_HID_Interface);
+
     USB_Device_EnableSOFEvents();
+
     return ConfigSuccess;
 }
 

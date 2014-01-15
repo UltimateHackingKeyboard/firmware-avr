@@ -7,6 +7,7 @@
 
 bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
+    // TODO: Implement proper debouncing algorithm that does not block.
     _delay_ms(10);  // Work around key bouncing.
 
     USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
@@ -26,7 +27,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 
-    // Figure out which keymap is supposed to be the active one.
+    // Figure out which keymap is active.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
     uint8_t ColumnIndex = 0;
     for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
@@ -48,7 +49,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         ColumnIndex += keyMatrix->ColNum;
     }
 
-    // Construct the keyboard report according to pressed keys.
+    // Construct the keyboard report according to the pressed keys.
     ColumnIndex = 0;
     for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
         KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
