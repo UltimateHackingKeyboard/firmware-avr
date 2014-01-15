@@ -1,3 +1,8 @@
+/** \file
+ *
+ *  The default keyboard layout.
+ */
+
 #include "DefaultLayout.h"
 
 const uint8_t KeyboardLayout[ROW_NUM][TOTAL_COL_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM =

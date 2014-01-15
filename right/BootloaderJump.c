@@ -1,6 +1,6 @@
 /** \file
  *
- *  Bootloader jump functions.
+ *  Bootloader jump functions.  (Taken from the LUFA documentation.)
  */
 
 #include "BootloaderJump.h"

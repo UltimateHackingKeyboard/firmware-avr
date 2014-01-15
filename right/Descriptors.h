@@ -1,8 +1,3 @@
-/** \file
- *
- *  Header file for Descriptors.c.
- */
-
 #ifndef _DESCRIPTORS_H_
 #define _DESCRIPTORS_H_
 

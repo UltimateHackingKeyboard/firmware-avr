@@ -1,6 +1,6 @@
 /** \file
  *
- *  USB Device Descriptors taken from the USB to Serial Converter project of LUFA.
+ *  USB Device Descriptors, taken from the USB to Serial LUFA project.
  */
 
 #include "USBtoSerialDescriptors.h"

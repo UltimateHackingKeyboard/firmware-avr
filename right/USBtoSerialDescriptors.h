@@ -1,8 +1,3 @@
-/** \file
- *
- *  Header file for USBtoSerialDescriptors.c.
- */
-
 #ifndef _USB_TO_SERIAL_DESCRIPTORS_H_
 #define _USB_TO_SERIAL_DESCRIPTORS_H_
 

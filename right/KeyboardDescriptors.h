@@ -1,8 +1,3 @@
-/** \file
- *
- *  Header file for KeyboardDescriptors.c.
- */
-
 #ifndef _KEYBOARD_DESCRIPTORS_H_
 #define _KEYBOARD_DESCRIPTORS_H_
 
