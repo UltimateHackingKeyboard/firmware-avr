@@ -70,10 +70,10 @@ int KeyboardMainLoop(void)
 {
     USART_Init();
 
-    leftMatrix = keyMatrices + 0;
+    leftMatrix  = keyMatrices + 0;
     rightMatrix = keyMatrices + 1;
 
-    Pin_t row_pins[ROW_NUM] = {
+    Pin_t row_pins[ROWS_NUM] = {
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB7 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB6 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
@@ -81,7 +81,7 @@ int KeyboardMainLoop(void)
         { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 },
     };
 
-    Port_t column_ports[COL_NUM] = {
+    Port_t column_ports[RIGHT_COLS_NUM] = {
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC6 },
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
@@ -91,10 +91,10 @@ int KeyboardMainLoop(void)
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 },
     };
 
-    KeyMatrix_Init(rightMatrix, ROW_NUM, COL_NUM);
+    KeyMatrix_Init(rightMatrix, ROWS_NUM, RIGHT_COLS_NUM);
     KeyMatrix_SetColPortsAndRowPins(rightMatrix, column_ports, row_pins);
 
-    KeyMatrix_Init(leftMatrix, 5, 7);
+    KeyMatrix_Init(leftMatrix, ROWS_NUM, LEFT_COLS_NUM);
 
     for (;;)
     {

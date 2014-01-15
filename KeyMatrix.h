@@ -9,6 +9,11 @@
 #include "Event.h"
 #include "KeyState.h"
 
+#define LEFT_COLS_NUM 7
+#define RIGHT_COLS_NUM 7
+#define TOTAL_COLS_NUM (LEFT_COLS_NUM + RIGHT_COLS_NUM)
+#define ROWS_NUM 5
+
 typedef struct {
     uint8_t ColNum;
     uint8_t RowNum;

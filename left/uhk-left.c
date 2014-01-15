@@ -1,11 +1,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "../USART.c"
+#include "../KeyMatrix.h"
 #include "../KeyMatrix.c"
 #include "../keycode.h"
-
-#define ROW_NUM 5
-#define COL_NUM 7
 
 KeyMatrix_t keyMatrix;
 
@@ -49,7 +47,7 @@ int main(void)
     SpiTransmit(0);
     PORTD &= ~(1<<PD2);  // Enable OE by pulling it low.
 
-    Port_t column_ports[COL_NUM] = {
+    Port_t column_ports[LEFT_COLS_NUM] = {
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
         // Column 3 is controlled by DRAIN7 of the TPIC6C595 power shift register.
@@ -60,7 +58,7 @@ int main(void)
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD5 },
     };
 
-    Pin_t row_pins[ROW_NUM] = {
+    Pin_t row_pins[ROWS_NUM] = {
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB1 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB2 },
@@ -68,19 +66,19 @@ int main(void)
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC2 },
     };
 
-    KeyMatrix_Init(&keyMatrix, ROW_NUM, COL_NUM);
+    KeyMatrix_Init(&keyMatrix, ROWS_NUM, LEFT_COLS_NUM);
     KeyMatrix_SetColPortsAndRowPins(&keyMatrix, column_ports, row_pins);
 
     while (1) {
         KeyMatrix_Scan(&keyMatrix, EnableColumn);
-        for (uint8_t row=0; row<ROW_NUM; row++) {
-            for (uint8_t col=0; col<COL_NUM; col++) {
+        for (uint8_t row=0; row<ROWS_NUM; row++) {
+            for (uint8_t col=0; col<LEFT_COLS_NUM; col++) {
                 uint8_t state = KeyMatrix_GetElement(&keyMatrix, row, col);
                 if (IS_KEY_STATE_CHANGED(state)) {
                     uint8_t is_key_pressed = GET_KEY_STATE_CURRENT(state);
                     uint8_t event = EVENT_TYPE_KEY |
                                     CONSTRUCT_EVENT_STATE(is_key_pressed) |
-                                    CONSTRUCT_KEYCODE(row, col, COL_NUM);
+                                    CONSTRUCT_KEYCODE(row, col, LEFT_COLS_NUM);
                     USART_SendByte(event);
                 }
             }

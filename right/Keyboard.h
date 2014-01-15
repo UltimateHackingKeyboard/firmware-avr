@@ -11,9 +11,6 @@
         #include "KeyboardReports.h"
 
     /* Macros: */
-        #define ROW_NUM 5
-        #define COL_NUM 7
-        #define TOTAL_COL_NUM 14
         #define KEYMATRICES_NUM 2
 
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
@@ -40,7 +37,7 @@
         #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
 
     /* External Variables: */
-        const extern uint8_t KeyboardLayout[ROW_NUM][TOTAL_COL_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
+        const extern uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
 
         extern KeyMatrix_t *leftMatrix;
         extern KeyMatrix_t *rightMatrix;
