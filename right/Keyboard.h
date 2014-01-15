@@ -11,10 +11,6 @@
         #include "KeyboardReports.h"
 
     /* Macros: */
-        #define KEYMATRICES_NUM 2
-
-        #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
-
         #define KEYMAP_ID_NORMAL 0
         #define KEYMAP_ID_MOD    1
         #define KEYMAP_ID_FN     2
@@ -26,8 +22,9 @@
         #define NO_ACTION   0
         #define NO_ARGUMENT 0
 
-        #define KEYS_NUM 65
-        #define LAYOUTS_NUM (VIRUTAL_MODIFIER_TYPES_NUM + 1)
+        #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
+        #define KEYMAPS_NUM (VIRUTAL_MODIFIER_TYPES_NUM + 1)
+
         #define ITEM_NUM_PER_KEY 2  // bytes
 
         // The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA!
@@ -36,11 +33,12 @@
         #define VIRTUAL_MODIFIER_KEY_FN    0xE9
         #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
 
+        #define KEYMATRICES_NUM 2
         #define KEYMATRIX_LEFT  (keyMatrices + 0)
         #define KEYMATRIX_RIGHT (keyMatrices + 1)
 
     /* External Variables: */
-        const extern uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
+        const extern uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][KEYMAPS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
         extern KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
 
     /* Function Prototypes: */
