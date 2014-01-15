@@ -7,12 +7,8 @@
 #define _DESCRIPTORS_H_
 
     /* Includes: */
-        #include <avr/pgmspace.h>
         #include <LUFA/Drivers/USB/USB.h>
-
         #include "UltimateHackingKeyboard.h"
-        #include "KeyboardDescriptors.h"
-        #include "USBtoSerialDescriptors.h"
 
     /* Function Prototypes: */
         uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,

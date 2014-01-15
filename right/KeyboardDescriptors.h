@@ -7,7 +7,6 @@
 #define _KEYBOARD_DESCRIPTORS_H_
 
     /* Includes: */
-        #include <avr/pgmspace.h>
         #include <LUFA/Drivers/USB/USB.h>
 
     /* Type Defines: */

@@ -3,18 +3,9 @@
 
     /* Includes: */
         #include <avr/io.h>
-        #include <avr/wdt.h>
-        #include <avr/power.h>
-        #include <avr/interrupt.h>
-        #include <stdbool.h>
-        #include <string.h>
-
         #include <LUFA/Drivers/USB/USB.h>
-        #include <LUFA/Platform/Platform.h>
-
         #include "Config/AppConfig.h"
         #include "../KeyMatrix.h"
-        #include "../USART.h"
         #include "KeyboardDescriptors.h"
 
     /* Macros: */

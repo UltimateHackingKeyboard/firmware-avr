@@ -5,8 +5,6 @@
 
 #include "Keyboard.h"
 
-#define KEYMATRICES_NUM 2
-
 KeyMatrix_t *leftMatrix;
 KeyMatrix_t *rightMatrix;
 KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
