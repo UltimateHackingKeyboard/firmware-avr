@@ -11,7 +11,7 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 {
     if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
             return CALLBACK_USB_GetKeyboardDescriptor(wValue, wIndex, DescriptorAddress);
-    } else {  // EnumerationMode == ENUMERATION_MODE_USBtoSerial
+    } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
             return CALLBACK_USB_GetUSBtoSerialDescriptor(wValue, wIndex, DescriptorAddress);
     }
 }
