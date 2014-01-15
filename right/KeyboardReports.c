@@ -75,6 +75,21 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     return false;
 }
 
+bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
+{
+    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+    *ReportSize = sizeof(USB_MouseReport_Data_t);
+    return true;
+
+}
+
+bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
+{
+    uint8_t* Data = (uint8_t*)ReportData;
+    *ReportSize = GENERIC_REPORT_SIZE;
+    return false;
+}
+
 void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;

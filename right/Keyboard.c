@@ -137,13 +137,9 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
     if (HIDInterfaceInfo == &Keyboard_HID_Interface) {
         return CreateKeyboardHIDReport(ReportData, ReportSize);
     } else if (HIDInterfaceInfo == &Mouse_HID_Interface) {
- //       USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
- //       *ReportSize = sizeof(USB_MouseReport_Data_t);
-        return true;
+        return CreateMouseHIDReport(ReportData, ReportSize);
     } else if (HIDInterfaceInfo == &Generic_HID_Interface) {
-//        uint8_t* Data = (uint8_t*)ReportData;
-//        *ReportSize = GENERIC_REPORT_SIZE;
-        return false;
+        return CreateGenericHIDReport(ReportData, ReportSize);
     }
 }
 
