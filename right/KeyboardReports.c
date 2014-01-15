@@ -28,13 +28,13 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 
     // Figure out which keymap is supposed to be the active one.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
-    uint8_t colTotal = 0;
+    uint8_t ColumnIndex = 0;
     for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
         KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
         for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
             for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                    uint8_t Action = pgm_read_byte(&KeyboardLayout[row][col+colTotal][KEYMAP_ID_NORMAL][KEY_ACTION]);
+                    uint8_t Action = pgm_read_byte(&KeyboardLayout[row][col+ColumnIndex][KEYMAP_ID_NORMAL][KEY_ACTION]);
                     if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                         ActiveKeymap = KEYMAP_ID_MOUSE;
                     } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
@@ -45,17 +45,17 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        colTotal += keyMatrix->ColNum;
+        ColumnIndex += keyMatrix->ColNum;
     }
 
     // Construct the keyboard report according to pressed keys.
-    colTotal = 0;
+    ColumnIndex = 0;
     for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
         KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
         for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
             for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<6) {
-                    uint8_t *Key = KeyboardLayout[row][col+colTotal][ActiveKeymap];
+                    uint8_t *Key = KeyboardLayout[row][col+ColumnIndex][ActiveKeymap];
                     uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
                     uint8_t Argument = pgm_read_byte(&Key[KEY_ARGUMENT]);
                     if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
@@ -67,7 +67,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        colTotal += keyMatrix->ColNum;
+        ColumnIndex += keyMatrix->ColNum;
     }
 
     *ReportSize = sizeof(USB_KeyboardReport_Data_t);
