@@ -4,6 +4,7 @@
     /* Includes: */
         #include <avr/io.h>
         #include <LUFA/Drivers/USB/USB.h>
+        #include "BootloaderJump.h"
         #include "Keyboard.h"
 
     /* Function Prototypes: */

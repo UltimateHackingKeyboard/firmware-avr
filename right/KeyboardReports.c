@@ -55,7 +55,8 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
             for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<6) {
-                    uint8_t *Key = KeyboardLayout[row][col+ColumnIndex][ActiveKeymap];
+                    // TODO: Remove const after putting the layout into the SRAM.
+                    const uint8_t *Key = KeyboardLayout[row][col+ColumnIndex][ActiveKeymap];
                     uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
                     uint8_t Argument = pgm_read_byte(&Key[KEY_ARGUMENT]);
                     if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
@@ -77,15 +78,14 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
-    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+//    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
     *ReportSize = sizeof(USB_MouseReport_Data_t);
     return true;
-
 }
 
 bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
-    uint8_t* Data = (uint8_t*)ReportData;
+//    uint8_t* Data = (uint8_t*)ReportData;
     *ReportSize = GENERIC_REPORT_SIZE;
     return false;
 }
