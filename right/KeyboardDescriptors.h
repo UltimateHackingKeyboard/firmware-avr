@@ -43,6 +43,8 @@
         /** Endpoint address of the Keyboard HID reporting IN endpoint. */
         #define KEYBOARD_IN_EPADDR        (ENDPOINT_DIR_IN | 1)
 
+        #define KEYBOARD_ROLLOVER         6  // key
+
         /** Endpoint address of the Mouse HID reporting IN endpoint. */
         #define MOUSE_IN_EPADDR           (ENDPOINT_DIR_IN | 3)
 

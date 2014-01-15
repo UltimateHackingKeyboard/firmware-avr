@@ -8,9 +8,9 @@
 const USB_Descriptor_HIDReport_Datatype_t PROGMEM KeyboardReport[] =
 {
     /* Use the HID class driver's standard Keyboard report.
-     *   Max simultaneous keys: 6
+     *   Max simultaneous keys: KEYBOARD_ROLLOVER
      */
-    HID_DESCRIPTOR_KEYBOARD(6)
+    HID_DESCRIPTOR_KEYBOARD(KEYBOARD_ROLLOVER)
 };
 
 const USB_Descriptor_HIDReport_Datatype_t PROGMEM MouseReport[] =

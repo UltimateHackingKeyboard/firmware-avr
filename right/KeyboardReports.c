@@ -54,7 +54,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
         for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
             for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<6) {
+                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
                     // TODO: Remove const after putting the layout into the SRAM.
                     const uint8_t *Key = KeyboardLayout[row][col+ColumnIndex][ActiveKeymap];
                     uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
