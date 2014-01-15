@@ -6,7 +6,9 @@
         #include <LUFA/Drivers/USB/USB.h>
         #include "Config/AppConfig.h"
         #include "../KeyMatrix.h"
+        #include "../USART.h"
         #include "KeyboardDescriptors.h"
+        #include "KeyboardReports.h"
 
     /* Macros: */
         #define ROW_NUM 5

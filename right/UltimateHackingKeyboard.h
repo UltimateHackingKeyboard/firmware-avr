@@ -7,6 +7,7 @@
         #include <avr/power.h>
         #include <LUFA/Drivers/USB/USB.h>
         #include "Keyboard.h"
+        #include "USBtoSerial.h"
 
     /* Type Defines: */
         /** Enum for the USB enumeration mode. */

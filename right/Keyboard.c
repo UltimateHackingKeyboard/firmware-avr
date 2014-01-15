@@ -139,6 +139,7 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
     } else if (HIDInterfaceInfo == &Generic_HID_Interface) {
         return CreateGenericHIDReport(ReportData, ReportSize);
     }
+    return false;
 }
 
 void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo,
