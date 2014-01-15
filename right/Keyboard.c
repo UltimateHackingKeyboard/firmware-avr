@@ -4,7 +4,6 @@
  */
 
 #include "Keyboard.h"
-#include "../KeyMatrix.c"
 
 #define KEYMATRICES_NUM 2
 

@@ -1,6 +1,7 @@
 #ifndef __KEYMATRIX_H__
 #define __KEYMATRIX_H__
 
+#include <avr/io.h>
 #include "TinyPin.h"
 #include "TinyPort.h"
 #include "Pin.h"
