@@ -71,10 +71,7 @@ USB_ClassInfo_HID_Device_t Generic_HID_Interface =
 
 int KeyboardMainLoop(void)
 {
-    // Initialize USART
-    UCSR1B |= (1 << RXEN1) | (1 << TXEN1);
-    UBRR1H = BAUD_PRESCALE >> 8;
-    UBRR1L = BAUD_PRESCALE;
+    USART_Init();
 
     leftMatrix = keyMatrices + 0;
     rightMatrix = keyMatrices + 1;
@@ -135,16 +132,6 @@ void EVENT_USB_Device_StartOfFrame(void)
     HID_Device_MillisecondElapsed(&Generic_HID_Interface);
 }
 
-uint8_t HasEvent()
-{
-    return UCSR1A & (1 << RXC1);
-}
-
-uint8_t ReadEvent()
-{
-    return UDR1;
-}
-
 bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDInterfaceInfo, uint8_t* const ReportID,
                                          const uint8_t ReportType, void* ReportData, uint16_t* const ReportSize)
 {
@@ -157,8 +144,8 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
 
 /*
         // Update the left keyboard matrix.
-        while (HasEvent()) {
-            uint8_t event = ReadEvent();
+        while (USART_HasByte()) {
+            uint8_t event = USART_ReceiveByte();
             uint8_t keyState = GET_EVENT_STATE(event);
             uint8_t keyId = GET_EVENT_PAYLOAD(event);
             uint8_t row = keyId / leftMatrix->ColNum;

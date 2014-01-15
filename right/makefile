@@ -133,7 +133,8 @@ include $(LUFA_PATH)/LUFA/makefile
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c                                                   \
-	BootloaderJump.c                                             \
+	../USART.c                                                  \
+	BootloaderJump.c                                            \
 	DefaultLayout.c                                             \
 	Descriptors.c                                               \
 	Keyboard.c                                                  \

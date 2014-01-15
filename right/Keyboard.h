@@ -49,9 +49,6 @@
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
-        uint8_t HasEvent(void);
-        uint8_t ReadEvent(void);
-
         void SetupHardware(void);
 
         bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void);

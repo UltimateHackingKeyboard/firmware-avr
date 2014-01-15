@@ -1,19 +1,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
+#include "../USART.c"
 #include "../KeyMatrix.c"
 #include "../keycode.h"
-#include "../USART.h"
 
 #define ROW_NUM 5
 #define COL_NUM 7
 
 KeyMatrix_t keyMatrix;
-
-void send_event(uint8_t event)
-{
-    while (UCSR0A & (1 << UDRE0) == 0) {};
-    UDR0 = event;
-}
 
 char SpiTransmit(char data)
 {
@@ -43,10 +37,7 @@ uint8_t EnableColumn(uint8_t col)
 
 int main(void)
 {
-    /* Initialize USART */
-    UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
-    UBRR0H = BAUD_PRESCALE >> 8;
-    UBRR0L = BAUD_PRESCALE;
+    USART_Init();
 
     /* Initialize SPI */
 
@@ -90,7 +81,7 @@ int main(void)
                     uint8_t event = EVENT_TYPE_KEY |
                                     CONSTRUCT_EVENT_STATE(is_key_pressed) |
                                     CONSTRUCT_KEYCODE(row, col, COL_NUM);
-                    send_event(event);
+                    USART_SendByte(event);
                 }
             }
         }
