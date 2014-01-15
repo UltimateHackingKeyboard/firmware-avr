@@ -14,9 +14,12 @@
 
         #include "Config/AppConfig.h"
         #include "KeyboardDescriptors.h"
-        #include "DefaultLayout.h"
 
     /* Macros: */
+        #define ROW_NUM 5
+        #define COL_NUM 7
+        #define TOTAL_COL_NUM 14
+
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
 
         #define KEYMAP_ID_NORMAL 0
@@ -39,6 +42,9 @@
         #define VIRTUAL_MODIFIER_KEY_MOD   0xE8
         #define VIRTUAL_MODIFIER_KEY_FN    0xE9
         #define VIRTUAL_MODIFIER_KEY_MOUSE 0xEA
+
+    /* External Variables: */
+        const extern uint8_t KeyboardLayout[ROW_NUM][TOTAL_COL_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM;
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);

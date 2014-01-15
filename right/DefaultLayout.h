@@ -8,6 +8,4 @@
 
 #include "Keyboard.h"
 
-const extern uint8_t KeyboardLayout[5][14][4][2] PROGMEM;
-
 #endif

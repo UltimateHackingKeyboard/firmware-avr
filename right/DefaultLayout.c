@@ -1,6 +1,6 @@
 #include "DefaultLayout.h"
 
-const uint8_t KeyboardLayout[5][14][4][ITEM_NUM_PER_KEY] PROGMEM =
+const uint8_t KeyboardLayout[ROW_NUM][TOTAL_COL_NUM][LAYOUTS_NUM][ITEM_NUM_PER_KEY] PROGMEM =
 {
     { /* key matrix row 1 */
         { /* A1 key */
