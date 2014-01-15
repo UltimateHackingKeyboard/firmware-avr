@@ -106,7 +106,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = UltimateHackingKeyboard
+TARGET = uhk-right
 
 
 # Object files directory
@@ -475,7 +475,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 all: begin gccversion sizebefore build sizeafter end
 
 upload:
-	rootify avrdude -p m32u2 -c usbtiny -U flash:w:UltimateHackingKeyboard.hex
+	rootify avrdude -p m32u2 -c usbtiny -U flash:w:uhk-right.hex
 
 # Change the build target to build a HEX file or a library.
 build: elf hex eep lss sym

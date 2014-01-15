@@ -3,7 +3,7 @@
 
     /* Includes: */
         #include <LUFA/Drivers/USB/USB.h>
-        #include "UltimateHackingKeyboard.h"
+        #include "uhk-right.h"
 
     /* Function Prototypes: */
         uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,

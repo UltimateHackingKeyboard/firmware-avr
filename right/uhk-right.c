@@ -3,7 +3,7 @@
  *  Main file for the right keyboard half.
  */
 
-#include "UltimateHackingKeyboard.h"
+#include "uhk-right.h"
 
 uint8_t EnumerationMode = ENUMERATION_MODE_Keyboard;
 
