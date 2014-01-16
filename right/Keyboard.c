@@ -5,7 +5,7 @@
 
 #include "Keyboard.h"
 
-KeyMatrix_t keyMatrices[KEYMATRICES_NUM];
+KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
 
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];

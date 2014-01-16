@@ -16,26 +16,28 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 /*
     // Update the left keyboard matrix.
     while (USART_HasByte()) {
-        uint8_t event = USART_ReceiveByte();
-        uint8_t keyState = GET_EVENT_STATE(event);
-        uint8_t keyId = GET_EVENT_PAYLOAD(event);
-        uint8_t row = keyId / KEYMATRIX_LEFT->ColNum;
-        uint8_t col = keyId % KEYMATRIX_LEFT->ColNum;
-        KeyMatrix_SetElement(KEYMATRIX_LEFT, row, col, keyState ? 0 : 1);
+        uint8_t Event = USART_ReceiveByte();
+        uint8_t KeyState = GET_EVENT_STATE(Event);
+        uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
+        uint8_t Row = KeyId / KEYMATRIX_LEFT->ColNum;
+        uint8_t Col = KeyId % KEYMATRIX_LEFT->ColNum;
+        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState ? 0 : 1);
     }
 */
+
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 
     // Figure out which keymap is active.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
-    uint8_t ColumnIndex = 0;
-    for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
-        KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
-        for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
-            for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col))) {
-                    uint8_t Action = pgm_read_byte(&KeyboardLayout[row][col+ColumnIndex][KEYMAP_ID_NORMAL][KEY_ACTION]);
+    uint8_t ColIndex = 0;
+    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
+        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
+        for (uint8_t Row=0; Row<KeyMatrix->RowNum; Row++) {
+            for (uint8_t Col=0; Col<KeyMatrix->ColNum; Col++) {
+                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
+                    // TODO: Don't use pgm_read_byte after putting the layout into the SRAM.
+                    uint8_t Action = pgm_read_byte(&KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL][KEY_ACTION]);
                     if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                         ActiveKeymap = KEYMAP_ID_MOUSE;
                     } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
@@ -46,18 +48,18 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        ColumnIndex += keyMatrix->ColNum;
+        ColIndex += KeyMatrix->ColNum;
     }
 
     // Construct the keyboard report according to the pressed keys.
-    ColumnIndex = 0;
-    for (uint8_t matrixId=0; matrixId<KEYMATRICES_NUM; matrixId++) {
-        KeyMatrix_t *keyMatrix = keyMatrices + matrixId;
-        for (uint8_t row=0; row<keyMatrix->RowNum; row++) {
-            for (uint8_t col=0; col<keyMatrix->ColNum; col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(keyMatrix, row, col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
+    ColIndex = 0;
+    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
+        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
+        for (uint8_t Row=0; Row<KeyMatrix->RowNum; Row++) {
+            for (uint8_t Col=0; Col<KeyMatrix->ColNum; Col++) {
+                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
                     // TODO: Remove const after putting the layout into the SRAM.
-                    const uint8_t *Key = KeyboardLayout[row][col+ColumnIndex][ActiveKeymap];
+                    const uint8_t *Key = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
                     uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
                     uint8_t Argument = pgm_read_byte(&Key[KEY_ARGUMENT]);
                     if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
@@ -69,7 +71,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        ColumnIndex += keyMatrix->ColNum;
+        ColIndex += KeyMatrix->ColNum;
     }
 
     *ReportSize = sizeof(USB_KeyboardReport_Data_t);
