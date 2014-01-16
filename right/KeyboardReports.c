@@ -36,7 +36,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         for (uint8_t Row=0; Row<KeyMatrix->RowNum; Row++) {
             for (uint8_t Col=0; Col<KeyMatrix->ColNum; Col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    // TODO: Don't use pgm_read_byte after putting the layout into the SRAM.
+                    // TODO: Don't use pgm_read_byte() after putting the layout into the SRAM.
                     uint8_t Action = pgm_read_byte(&KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL][KEY_ACTION]);
                     if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                         ActiveKeymap = KEYMAP_ID_MOUSE;

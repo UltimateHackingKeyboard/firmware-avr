@@ -1,7 +1,7 @@
 /** \file
  *
  *  Main file for the USB to Serial function of the keyboard, taken from LUFA.
- *  It's used for USART-programming the left keyboard half by the right keyboard half.
+ *  It's used for USART-programming the left keyboard half via the right keyboard half.
  */
 
 #include "USBtoSerial.h"
