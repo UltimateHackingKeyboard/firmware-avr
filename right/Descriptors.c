@@ -1,6 +1,6 @@
 /** \file
  *
- *  Main file for USB Device Descriptors.
+ *  Main file for USB device descriptors.
  */
 
 #include "Descriptors.h"
