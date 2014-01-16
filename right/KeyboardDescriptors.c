@@ -13,6 +13,7 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM KeyboardReport[] =
     HID_DESCRIPTOR_KEYBOARD(KEYBOARD_ROLLOVER)
 };
 
+// TODO: Enlarge axis values as much as possible both here and in LUFA.
 const USB_Descriptor_HIDReport_Datatype_t PROGMEM MouseReport[] =
 {
     /* Use the HID class driver's standard Mouse report.
