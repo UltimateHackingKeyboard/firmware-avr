@@ -8,3 +8,4 @@ lufa
 *.map
 *.sym
 *.eep
+*.d
