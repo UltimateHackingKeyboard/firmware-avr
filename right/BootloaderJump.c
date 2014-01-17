@@ -16,7 +16,7 @@ void Bootloader_Jump_Check(void)
     }
 }
 
-void Jump_To_Bootloader(void)
+void Jump_To_Bootloader(uint32_t BootKey)
 {
     // If USB is used, detach from the bus and reset it
     USB_Disable();
@@ -28,7 +28,7 @@ void Jump_To_Bootloader(void)
     Delay_MS(2000);
 
     // Set the bootloader key to the magic value and force a reset
-    Boot_Key = MAGIC_BOOT_KEY;
+    Boot_Key = BootKey;
     wdt_enable(WDTO_250MS);
     for (;;);
 }

@@ -5,12 +5,16 @@
 
 #include "uhk-right.h"
 
-uint8_t EnumerationMode = ENUMERATION_MODE_Keyboard;
+uint8_t EnumerationMode;
 
 int main(void)
 {
     SetupHardware();
     GlobalInterruptEnable();
+
+    EnumerationMode = Boot_Key == MAGIC_USB_TO_SERIAL_KEY
+                        ? ENUMERATION_MODE_USBtoSerial
+                        : ENUMERATION_MODE_Keyboard;
 
     if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
         KeyboardMainLoop();

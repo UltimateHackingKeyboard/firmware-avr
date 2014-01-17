@@ -102,7 +102,15 @@ bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;
-    if (Data[0] == 66) {
-        Jump_To_Bootloader();
+    uint8_t  Command = Data[0];
+
+    if (Command == AGENT_COMMAND_REENUMERATE) {
+        uint8_t ReenumerateAs = Data[1];
+
+        if (ReenumerateAs == REENUMERATE_AS_BOOTLOADER) {
+            Jump_To_Bootloader(MAGIC_BOOT_KEY);
+        } else if (ReenumerateAs == REENUMERATE_AS_USB_TO_SERIAL) {
+            Jump_To_Bootloader(MAGIC_USB_TO_SERIAL_KEY);
+        }
     }
 }

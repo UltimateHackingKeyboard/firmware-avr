@@ -3,7 +3,7 @@
 var usb = require('usb');
 
 agentCommand = {
-    REENUMERATE: 66
+    REENUMERATE: 0
 };
 
 reenumerateAs = {
