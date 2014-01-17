@@ -26,10 +26,10 @@ uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
         SpiTransmit(0xff);
-        return 1;
+        return true;
     } else {
         SpiTransmit(0x00);
-        return 0;
+        return false;
     }
 }
 

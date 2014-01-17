@@ -40,8 +40,8 @@
         /* The optional SetColCallback is meant to enable/disable columns when scanning the keyboard matrix.
          * It is needed when some columns are not directly wired to GPIO pins but to other parts like shift registers.
          * If the callback is unused then simply pass NULL.
-         * If the callback is used then return 1 for callback-handled non-GPIO pins and
-         * 0 for unhandled GPIO pins that will be enabled/disabled by KeyMatrix_Scan()
+         * If the callback is used then return true for callback-handled non-GPIO pins and
+         * false for unhandled GPIO pins that will be enabled/disabled by KeyMatrix_Scan()
          */
         void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t SetColCallback(uint8_t));
 
