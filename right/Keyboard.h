@@ -5,8 +5,8 @@
         #include <avr/io.h>
         #include <LUFA/Drivers/USB/USB.h>
         #include "Config/AppConfig.h"
-        #include "../KeyMatrix.h"
-        #include "../USART.h"
+        #include "KeyMatrix.h"
+        #include "USART.h"
         #include "KeyboardDescriptors.h"
         #include "KeyboardReports.h"
 

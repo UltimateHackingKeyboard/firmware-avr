@@ -2,8 +2,8 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 #include <stdbool.h>
-#include "../USART.h"
-#include "../KeyMatrix.h"
+#include "USART.h"
+#include "KeyMatrix.h"
 
 KeyMatrix_t KeyMatrixLeft;
 
