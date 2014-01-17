@@ -27,7 +27,7 @@
 
         #define ITEM_NUM_PER_KEY 2  // bytes
 
-        // The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA!
+        /* The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA! */
         #define VIRTUAL_MODIFIER_KEY_NONE  0x00
         #define VIRTUAL_MODIFIER_KEY_MOD   0xE8
         #define VIRTUAL_MODIFIER_KEY_FN    0xE9
