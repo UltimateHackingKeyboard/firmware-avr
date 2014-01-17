@@ -11,7 +11,7 @@
 
 # Run "make help" for target help.
 
-MCU          = atmega48
+MCU          = atmega88
 ARCH         = AVR8
 F_CPU        = 16000000
 F_USB        = 16000000

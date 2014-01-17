@@ -6,7 +6,7 @@
 #define USART_BAUDRATE 38400
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
-#if defined(__AVR_ATmega48__)
+#if defined(__AVR_ATmega88__)
     #define UCSRA UCSR0A
     #define UCSRB UCSR0A
     #define RXEN RXEN0
