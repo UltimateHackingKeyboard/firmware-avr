@@ -87,6 +87,7 @@ int main(void)
                 }
             }
         }
+        // TODO: Implement proper debouncing algorithm that does not block.
         _delay_ms(10);
     }
 }
