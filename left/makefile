@@ -24,8 +24,14 @@ AVRDUDE_PROGRAMMER = avr109
 AVRDUDE_PORT = /dev/ttyACM0
 
 SRC = $(TARGET).c                                                   \
-	../KeyMatrix.c                                              \
-	../USART.c                                                  \
+	KeyMatrix.c                                                 \
+	USART.c                                                     \
+
+build: copy-shared-files all
+	
+
+copy-shared-files:
+	cp ../*.[ch] .
 
 # Default target
 all:

@@ -25,8 +25,8 @@ AVRDUDE_PROGRAMMER = avr109
 AVRDUDE_PORT = /dev/ttyACM0
 
 SRC = $(TARGET).c                                                   \
-	../KeyMatrix.c                                              \
-	../USART.c                                                  \
+	KeyMatrix.c                                                 \
+	USART.c                                                     \
 	BootloaderJump.c                                            \
 	DefaultLayout.c                                             \
 	Descriptors.c                                               \
@@ -37,6 +37,11 @@ SRC = $(TARGET).c                                                   \
 	USBtoSerialDescriptors.c                                    \
 	$(LUFA_SRC_USB)                                             \
 	$(LUFA_SRC_USBCLASS)
+
+build: copy-shared-files all
+
+copy-shared-files:
+	cp ../*.[ch] .
 
 # Default target
 all:
