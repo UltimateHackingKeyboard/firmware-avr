@@ -22,7 +22,7 @@ char SpiTransmit(char data)
     return SPDR;
 }
 
-uint8_t EnableColumn(uint8_t col)
+uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
         SpiTransmit(0xff);
@@ -74,7 +74,7 @@ int main(void)
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft);
 
     while (1) {
-        KeyMatrix_Scan(&KeyMatrixLeft, EnableColumn);
+        KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
         for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
             for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
                 uint8_t state = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);

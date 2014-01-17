@@ -33,14 +33,14 @@ void KeyMatrix_SetElement(KeyMatrix_t *KeyMatrix, uint8_t Row, uint8_t Col, uint
     KeyMatrix->Matrix[Col*KeyMatrix->Info->RowNum + Row] = Element;
 }
 
-void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t EnableColumn(uint8_t))
+void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t SetColCallback(uint8_t))
 {
     for (uint8_t Col=0; Col<KeyMatrix->Info->ColNum; Col++) {
-        // Enable the output port of the column.
-        uint8_t ColumnAlreadyEnabled = EnableColumn == NULL ? 0 : EnableColumn(Col);
+        uint8_t ColumnAlreadyEnabled = SetColCallback == NULL ? 0 : SetColCallback(Col);
         const Pin_t *ColPort = KeyMatrix->Info->ColPorts + Col;
 
         if (!ColumnAlreadyEnabled) {
+            // Enable the output port of the column.
             *ColPort->Name |= 1<<ColPort->Number;
         }
 
@@ -54,6 +54,7 @@ void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t EnableColumn(uint8_t))
         }
 
         if (!ColumnAlreadyEnabled) {
+            // Disable the output port of the column.
             *(ColPort->Name) &= ~(1<<ColPort->Number);
         }
     }
