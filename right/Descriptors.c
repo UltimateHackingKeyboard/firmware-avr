@@ -14,4 +14,5 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
     } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
             return CALLBACK_USB_GetUSBtoSerialDescriptor(wValue, wIndex, DescriptorAddress);
     }
+    return 0;
 }
