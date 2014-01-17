@@ -28,16 +28,19 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 
+
     // Figure out which keymap is active.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
     uint8_t ColIndex = 0;
+
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
-        for (uint8_t Row=0; Row<KeyMatrix->RowNum; Row++) {
-            for (uint8_t Col=0; Col<KeyMatrix->ColNum; Col++) {
+        uint8_t RowNum = KeyMatrix->Info->RowNum;
+        uint8_t ColNum = KeyMatrix->Info->ColNum;
+        for (uint8_t Row=0; Row<RowNum; Row++) {
+            for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    // TODO: Don't use pgm_read_byte() after putting the layout into the SRAM.
-                    uint8_t Action = pgm_read_byte(&KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL][KEY_ACTION]);
+                    uint8_t Action = KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL][KEY_ACTION];
                     if (Action == VIRTUAL_MODIFIER_KEY_MOUSE) {
                         ActiveKeymap = KEYMAP_ID_MOUSE;
                     } else if (Action == VIRTUAL_MODIFIER_KEY_FN && ActiveKeymap != KEYMAP_ID_MOUSE) {
@@ -48,20 +51,23 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        ColIndex += KeyMatrix->ColNum;
+        ColIndex += ColNum;
     }
 
     // Construct the keyboard report according to the pressed keys.
     ColIndex = 0;
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
-        for (uint8_t Row=0; Row<KeyMatrix->RowNum; Row++) {
-            for (uint8_t Col=0; Col<KeyMatrix->ColNum; Col++) {
+        uint8_t RowNum = KeyMatrix->Info->RowNum;
+        uint8_t ColNum = KeyMatrix->Info->ColNum;
+        for (uint8_t Row=0; Row<RowNum; Row++) {
+            for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
-                    // TODO: Remove const after putting the layout into the SRAM.
-                    const uint8_t *Key = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
-                    uint8_t Action = pgm_read_byte(&Key[KEY_ACTION]);
-                    uint8_t Argument = pgm_read_byte(&Key[KEY_ARGUMENT]);
+
+                    // TODO: Remove "const __flash" after putting the layout into the SRAM.
+                    const __flash uint8_t *Key = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
+                    uint8_t Action = Key[KEY_ACTION];
+                    uint8_t Argument = Key[KEY_ARGUMENT];
                     if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
                         Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
                     {
@@ -71,7 +77,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 }
             }
         }
-        ColIndex += KeyMatrix->ColNum;
+        ColIndex += ColNum;
     }
 
     *ReportSize = sizeof(USB_KeyboardReport_Data_t);

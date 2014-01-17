@@ -6,7 +6,7 @@
 #include "DefaultLayout.h"
 
 // TODO: Should be put into the SRAM eventually.
-const uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][KEYMAPS_NUM][ITEM_NUM_PER_KEY] PROGMEM =
+const __flash uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][KEYMAPS_NUM][ITEM_NUM_PER_KEY] =
 {
     { /* key matrix row 1 */
         { /* A1 key */

@@ -64,32 +64,40 @@ USB_ClassInfo_HID_Device_t Generic_HID_Interface =
             },
     };
 
-int KeyboardMainLoop(void)
-{
-    USART_Init();
+const __flash KeyMatrixInfo_t KeyMatrixInfoLeft = {
+    .ColNum = LEFT_COLS_NUM,
+    .RowNum = ROWS_NUM,
+    .ShouldSetDDR = false
+};
 
-    Pin_t row_pins[ROWS_NUM] = {
+const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
+    .ColNum = RIGHT_COLS_NUM,
+    .RowNum = ROWS_NUM,
+    .RowPins = (Pin_t[]) {
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB7 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB6 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
         { .Direction=&DDRD, .Name=&PIND, .Number=PIND5 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 },
-    };
-
-    Port_t col_ports[RIGHT_COLS_NUM] = {
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 }
+    },
+    .ColPorts = (Pin_t[]) {
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC6 },
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD1 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD0 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 },
-    };
+        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 }
+    },
+    .ShouldSetDDR = true
+};
 
-    KeyMatrix_Init(KEYMATRIX_RIGHT, ROWS_NUM, RIGHT_COLS_NUM);
-    KeyMatrix_SetColPortsAndRowPins(KEYMATRIX_RIGHT, col_ports, row_pins);
+int KeyboardMainLoop(void)
+{
+    USART_Init();
 
-    KeyMatrix_Init(KEYMATRIX_LEFT, ROWS_NUM, LEFT_COLS_NUM);
+    KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight);
+    KeyMatrix_Init(KEYMATRIX_LEFT, &KeyMatrixInfoLeft);
 
     for (;;)
     {

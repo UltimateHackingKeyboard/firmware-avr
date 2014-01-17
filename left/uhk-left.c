@@ -1,11 +1,12 @@
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "../USART.c"
 #include "../KeyMatrix.h"
 #include "../KeyMatrix.c"
 #include "../keycode.h"
 
-KeyMatrix_t keyMatrix;
+KeyMatrix_t KeyMatrixLeft;
 
 char SpiTransmit(char data)
 {
@@ -33,6 +34,29 @@ uint8_t EnableColumn(uint8_t col)
     }
 }
 
+const __flash KeyMatrixInfo_t KeyMatrixInfoLeft = {
+    .ColNum = LEFT_COLS_NUM,
+    .RowNum = ROWS_NUM,
+    .RowPins = (Pin_t[]) {
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB1 },
+        { .Direction=&DDRB, .Name=&PINB, .Number=PINB2 },
+        { .Direction=&DDRC, .Name=&PINC, .Number=PINC1 },
+        { .Direction=&DDRC, .Name=&PINC, .Number=PINC2 },
+    },
+    .ColPorts = (Pin_t[]) {
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
+        // Column 3 is controlled by DRAIN7 of the TPIC6C595 power shift register.
+        { .Direction=0,     .Name=0,      .Number=0 },
+        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC0 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD5 },
+    },
+    .ShouldSetDDR = true
+};
+
 int main(void)
 {
     USART_Init();
@@ -47,39 +71,20 @@ int main(void)
     SpiTransmit(0);
     PORTD &= ~(1<<PD2);  // Enable OE by pulling it low.
 
-    Port_t column_ports[LEFT_COLS_NUM] = {
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
-        // Column 3 is controlled by DRAIN7 of the TPIC6C595 power shift register.
-        { .Direction=0,     .Name=0,      .Number=0 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC0 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD5 },
-    };
 
-    Pin_t row_pins[ROWS_NUM] = {
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB1 },
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB2 },
-        { .Direction=&DDRC, .Name=&PINC, .Number=PINC1 },
-        { .Direction=&DDRC, .Name=&PINC, .Number=PINC2 },
-    };
-
-    KeyMatrix_Init(&keyMatrix, ROWS_NUM, LEFT_COLS_NUM);
-    KeyMatrix_SetColPortsAndRowPins(&keyMatrix, column_ports, row_pins);
+    KeyMatrix_Init(&KeyMatrixLeft, KeyMatrixInfoLeft);
 
     while (1) {
-        KeyMatrix_Scan(&keyMatrix, EnableColumn);
-        for (uint8_t row=0; row<ROWS_NUM; row++) {
-            for (uint8_t col=0; col<LEFT_COLS_NUM; col++) {
-                uint8_t state = KeyMatrix_GetElement(&keyMatrix, row, col);
+        KeyMatrix_Scan(&KeyMatrixLeft, EnableColumn);
+        for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
+            for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
+                uint8_t state = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
                 if (IS_KEY_STATE_CHANGED(state)) {
-                    uint8_t is_key_pressed = GET_KEY_STATE_CURRENT(state);
-                    uint8_t event = EVENT_TYPE_KEY |
-                                    CONSTRUCT_EVENT_STATE(is_key_pressed) |
-                                    CONSTRUCT_KEYCODE(row, col, LEFT_COLS_NUM);
-                    USART_SendByte(event);
+                    uint8_t IsKeyPressed = GET_KEY_STATE_CURRENT(state);
+                    uint8_t Event = EVENT_TYPE_KEY |
+                                    CONSTRUCT_EVENT_STATE(IsKeyPressed) |
+                                    CONSTRUCT_KEYCODE(Row, Col, LEFT_COLS_NUM);
+                    USART_SendByte(Event);
                 }
             }
         }
