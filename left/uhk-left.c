@@ -1,9 +1,9 @@
-#include <avr/io.h>
-#include <avr/pgmspace.h>
-#include <util/delay.h>
-#include <stdbool.h>
-#include "USART.h"
-#include "KeyMatrix.h"
+/** \file
+ *
+ *  Main file for the left keyboard half.
+ */
+
+#include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
 
