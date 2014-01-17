@@ -39,6 +39,5 @@ void KeyMatrix_SetElement(KeyMatrix_t *KeyMatrix, uint8_t Row, uint8_t Col, uint
 // If the callback is used then return 1 for callback-handled non-GPIO pins and
 // 0 for unhandled GPIO pins that will be enabled/disabled by KeyMatrix_Scan()
 void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t SetColCallback(uint8_t));
-void KeyMatrix_ReceiveEvent(KeyMatrix_t *KeyMatrix, uint8_t Event);
 
 #endif
