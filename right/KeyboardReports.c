@@ -18,9 +18,9 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     while (USART_HasByte()) {
         uint8_t Event = USART_ReceiveByte();
         uint8_t KeyState = GET_EVENT_STATE(Event);
-        uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
-        uint8_t Row = KeyId / KEYMATRIX_LEFT->ColNum;
-        uint8_t Col = KeyId % KEYMATRIX_LEFT->ColNum;
+        uint8_t KeyCode = GET_EVENT_PAYLOAD(Event);
+        uint8_t Row = EXTRACT_KEYCODE_ROW(KeyCode, LEFT_COLS_NUM);
+        uint8_t Col = EXTRACT_KEYCODE_COL(KeyCode, LEFT_COLS_NUM);
         KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState ? 0 : 1);
     }
 */
