@@ -7,6 +7,7 @@
 #include "Pin.h"
 #include "Event.h"
 #include "KeyState.h"
+#include "KeyCode.h"
 
 #define LEFT_COLS_NUM 7
 #define RIGHT_COLS_NUM 7

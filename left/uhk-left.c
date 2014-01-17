@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include "../USART.h"
 #include "../KeyMatrix.h"
-#include "../keycode.h"
 
 KeyMatrix_t KeyMatrixLeft;
 
