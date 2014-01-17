@@ -56,3 +56,8 @@ include $(LUFA_PATH)/Build/lufa_dfu.mk
 include $(LUFA_PATH)/Build/lufa_hid.mk
 include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
+
+clean: mostlyclean
+	@echo $(MSG_REMOVE_CMD) Removing output files of \"$(TARGET)\"
+	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).bin $(TARGET).eep $(TARGET).map $(TARGET).lss $(TARGET).sym $(TARGET).a
+	rm `cat .gitignore`
