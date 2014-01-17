@@ -6,6 +6,7 @@ void USART_Init()
     UBRRH = BAUD_PRESCALE >> 8;
     UBRRL = BAUD_PRESCALE;
 }
+
 uint8_t USART_HasByte()
 {
     return UCSRA & (1 << RXC);
