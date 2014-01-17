@@ -38,10 +38,10 @@ SRC = $(TARGET).c                                                   \
 	$(LUFA_SRC_USB)                                             \
 	$(LUFA_SRC_USBCLASS)
 
-build: copy-shared-files all
+build: sync-shared-files all
 
-copy-shared-files:
-	cp ../*.[ch] .
+sync-shared-files:
+	rsync --update ../*.[ch] .
 
 # Default target
 all:

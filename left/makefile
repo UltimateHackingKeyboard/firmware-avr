@@ -27,11 +27,11 @@ SRC = $(TARGET).c                                                   \
 	KeyMatrix.c                                                 \
 	USART.c                                                     \
 
-build: copy-shared-files all
+build: sync-shared-files all
 	
 
-copy-shared-files:
-	cp ../*.[ch] .
+sync-shared-files:
+	rsync --update ../*.[ch] .
 
 # Default target
 all:
