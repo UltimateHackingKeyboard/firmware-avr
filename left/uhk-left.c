@@ -1,9 +1,9 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
-#include "../USART.c"
+#include <stdbool.h>
+#include "../USART.h"
 #include "../KeyMatrix.h"
-#include "../KeyMatrix.c"
 #include "../keycode.h"
 
 KeyMatrix_t KeyMatrixLeft;
@@ -72,7 +72,7 @@ int main(void)
     PORTD &= ~(1<<PD2);  // Enable OE by pulling it low.
 
 
-    KeyMatrix_Init(&KeyMatrixLeft, KeyMatrixInfoLeft);
+    KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft);
 
     while (1) {
         KeyMatrix_Scan(&KeyMatrixLeft, EnableColumn);

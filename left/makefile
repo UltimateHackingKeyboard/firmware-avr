@@ -1,33 +1,42 @@
-# TODO: What compiler flags to use?
+#
+#             LUFA Library
+#     Copyright (C) Dean Camera, 2013.
+#
+#  dean [at] fourwalledcubicle [dot] com
+#           www.lufa-lib.org
+#
+# --------------------------------------
+#         LUFA Project Makefile.
+# --------------------------------------
 
-MCU = atmega48
-AVRDUDE_MCU = m48
-F_CPU = 16000000
-CC = avr-gcc
-OBJCOPY = avr-objcopy
-AVRDUDE = avrdude
-REMOVE = rm -f
-FORMAT = ihex
-TARGET = uhk-left
-CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU)UL -std=c99 -O
+# Run "make help" for target help.
 
-all: build
+MCU          = atmega48
+ARCH         = AVR8
+F_CPU        = 16000000
+F_USB        = 16000000
+OPTIMIZATION = s
+TARGET       = uhk-left
+LUFA_PATH    = ../right/lufa/LUFA
+CC_FLAGS     =
+LD_FLAGS     =
+AVRDUDE_PROGRAMMER = avr109
+AVRDUDE_PORT = /dev/ttyACM0
 
-build: $(TARGET).c
-	$(CC) $(CFLAGS) $(TARGET).c -o$(TARGET).elf
-	$(OBJCOPY) -O $(FORMAT) $(TARGET).elf $(TARGET).hex
+SRC = $(TARGET).c                                                   \
+	../KeyMatrix.c                                              \
+	../USART.c                                                  \
 
-program-fuses:
-	$(AVRDUDE) -p $(AVRDUDE_MCU) -c usbtiny -U lfuse:w:0xce:m
+# Default target
+all:
 
-program: build
-	$(AVRDUDE) -p $(AVRDUDE_MCU) -c usbtiny -U flash:w:$(TARGET).hex
-
-clean:
-	$(REMOVE) $(TARGET).elf
-	$(REMOVE) $(TARGET).hex
-
-.PHONY: all build program-fuses program clean
-
-upload:
-	rootify avrdude -p m48 -c usbtiny -U flash:w:uhk-left.hex
+# Include LUFA build script makefiles
+include $(LUFA_PATH)/Build/lufa_core.mk
+include $(LUFA_PATH)/Build/lufa_sources.mk
+include $(LUFA_PATH)/Build/lufa_build.mk
+include $(LUFA_PATH)/Build/lufa_cppcheck.mk
+include $(LUFA_PATH)/Build/lufa_doxygen.mk
+include $(LUFA_PATH)/Build/lufa_dfu.mk
+include $(LUFA_PATH)/Build/lufa_hid.mk
+include $(LUFA_PATH)/Build/lufa_avrdude.mk
+include $(LUFA_PATH)/Build/lufa_atprogram.mk
