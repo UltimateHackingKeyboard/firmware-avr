@@ -1,33 +1,91 @@
 #!/usr/bin/env node
 
+// Includes
+
 var usb = require('usb');
+
+// Constants
 
 agentCommand = {
     REENUMERATE: 0
 };
 
 reenumerateAs = {
-    KEYBOARD:      0,
-    CDCBOOTLOADER: 1,
-    USBTOSERIAL:   2
+    KEYBOARD      : 0,
+    BOOTLOADER    : 1,
+    USB_TO_SERIAL : 2
 };
 
-vendorId = 0x16D0;
-productId = 0x05EB;
-interfaceNumber = 2;
+vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
+agentInterface = {
+    KEYBOARD_6KRO : { productId: 0x05EA, interfaceNumber:  2 },
+    KEYBOARD_NKRO : { productId: 0x05EB, interfaceNumber:  2 },
+    BOOTLOADER    : { productId: 0x05EC, interfaceNumber: -1 },
+    USB_TO_SERIAL : { productId: 0x05ED, interfaceNumber:  0 }
+};
 
-device = usb.findByIds(vendorId, productId);
-if (!device) {
-    console.log('No device found');
+// Check arguments.
+
+var args = process.argv.splice(2);
+
+if (args.length != 2) {
+    printUsageAndExit();
+}
+
+var leftOrRightHalf = args[0];
+var enterOrLeave = args[1];
+
+if (['left', 'right'].indexOf(leftOrRightHalf) == -1 ||
+    ['enter', 'leave'].indexOf(enterOrLeave) == -1)
+{
+    printUsageAndExit();
+}
+
+function printUsageAndExit()
+{
+    console.log('Usage: jump-to-bootloader [left|right] [enter|leave]');
     process.exit(1);
 }
-device.open();  // TODO: What if multiple keyboards are plugged in?
 
-var interface = device.interface(interfaceNumber);
-if (interface.isKernelDriverActive()) {
-    interface.detachKernelDriver();
+// Set up USB connection.
+
+if (leftOrRightHalf == 'left') {
+    if (enterOrLeave == 'enter') {
+        connectAndSendAgentCommand(agentInterface.KEYBOARD_6KRO, reenumerateAs.USB_TO_SERIAL);
+    } else if (enterOrLeave == 'leave') {
+        connectAndSendAgentCommand(agentInterface.USB_TO_SERIAL, reenumerateAs.KEYBOARD);
+    }
+} else if (leftOrRightHalf == 'right') {
+    if (enterOrLeave == 'enter') {
+        connectAndSendAgentCommand(agentInterface.KEYBOARD_6KRO, reenumerateAs.BOOTLOADER);
+    } else if (enterOrLeave == 'leave') {
+        console.log('Not sending command for leaving the right bootloader because it is automatically left after a firmware update.');
+    }
 }
-interface.claim();
+
+function connectAndSendAgentCommand(agentInterface, reenumerateAs)
+{
+    device = usb.findByIds(vendorId, agentInterface.productId);
+    if (!device) {
+        console.log('No device found');
+        process.exit(2);
+    }
+    device.open();  // TODO: What if multiple keyboards are plugged in?
+
+    interfaceNumber = agentInterface.interfaceNumber;
+    interface = device.interface(interfaceNumber);
+    if (interface.isKernelDriverActive()) {
+        interface.detachKernelDriver();
+    }
+    interface.claim();
+
+    sendAgentCommand(agentCommand.REENUMERATE, reenumerateAs);
+}
+
+function sendAgentCommand(command, arg)
+{
+    setReport(new Buffer([command, arg]));
+}
 
 function setReport(message)
 {
@@ -38,14 +96,12 @@ function setReport(message)
         interfaceNumber,          // wIndex (interface number)
         message,                  // message to be sent
         function(error, data) {   // callback to be executed upon finishing the transfer
-            console.log('Set Report(0x' +  message.toString('hex') + ') succeeded' );
+            var status = 'Set Report(0x' +  message.toString('hex') + ') sent';
+            if (error.errno != 1) {
+                console.log('%s - error %j', status, error);
+            } else {
+                console.log('%s - success', status);
+            }
         }
     );
 }
-
-function sendAgentCommand(command, arg)
-{
-    setReport(new Buffer([command, arg]));
-}
-
-sendAgentCommand(agentCommand.REENUMERATE, reenumerateAs.CDCBOOTLOADER)

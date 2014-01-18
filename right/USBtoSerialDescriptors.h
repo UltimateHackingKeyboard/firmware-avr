@@ -3,6 +3,7 @@
 
     /* Includes: */
         #include <LUFA/Drivers/USB/USB.h>
+        #include "Descriptors.h"
 
     /* Type Defines: */
         typedef struct
