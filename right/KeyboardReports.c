@@ -106,11 +106,6 @@ void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
 
     if (Command == AGENT_COMMAND_REENUMERATE) {
         uint8_t ReenumerateAs = Data[1];
-
-        if (ReenumerateAs == REENUMERATE_AS_BOOTLOADER) {
-            Jump_To_Bootloader(MAGIC_BOOT_KEY);
-        } else if (ReenumerateAs == REENUMERATE_AS_USB_TO_SERIAL) {
-            Jump_To_Bootloader(MAGIC_USB_TO_SERIAL_KEY);
-        }
+        Reenumerate(ReenumerateAs);
     }
 }

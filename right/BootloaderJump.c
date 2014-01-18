@@ -32,3 +32,14 @@ void Jump_To_Bootloader(uint32_t BootKey)
     wdt_enable(WDTO_250MS);
     for (;;);
 }
+
+void Reenumerate(uint8_t ReenumerateAs)
+{
+    if (ReenumerateAs == REENUMERATE_AS_KEYBOARD) {
+        Jump_To_Bootloader(0);
+    } else if (ReenumerateAs == REENUMERATE_AS_BOOTLOADER) {
+        Jump_To_Bootloader(MAGIC_BOOT_KEY);
+    } else if (ReenumerateAs == REENUMERATE_AS_USB_TO_SERIAL) {
+        Jump_To_Bootloader(MAGIC_USB_TO_SERIAL_KEY);
+    }
+}

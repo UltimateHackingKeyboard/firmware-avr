@@ -48,7 +48,6 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface =
             },
     };
 
-
 int USBtoSerialMainLoop(void)
 {
     RingBuffer_InitBuffer(&USBtoUSART_Buffer, USBtoUSART_Buffer_Data, sizeof(USBtoUSART_Buffer_Data));
@@ -121,6 +120,7 @@ bool EVENT_USB_USBtoSerial_Device_ConfigurationChanged(void)
 
 void EVENT_USB_USBtoSerial_Device_ControlRequest(void)
 {
+    CatchReenumerateRequest();
     CDC_Device_ProcessControlRequest(&VirtualSerial_CDC_Interface);
 }
 
@@ -166,4 +166,38 @@ void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCI
     UCSR1C = ConfigMask;
     UCSR1A = (1 << U2X1);
     UCSR1B = ((1 << RXCIE1) | (1 << TXEN1) | (1 << RXEN1));
+}
+
+void CatchReenumerateRequest()
+{
+    if (!(Endpoint_IsSETUPReceived())) {
+        return;
+    }
+
+    if (USB_ControlRequest.wIndex != INTERFACE_ID_CDC_CCI) {
+        return;
+    }
+
+    if (USB_ControlRequest.bRequest != HID_REQ_SetReport) {
+        return;
+    }
+
+    if (USB_ControlRequest.bmRequestType != (REQDIR_HOSTTODEVICE | REQTYPE_CLASS | REQREC_INTERFACE)) {
+        return;
+    }
+
+    uint16_t ReportSize = USB_ControlRequest.wLength;
+    uint8_t  ReportData[ReportSize];
+
+    Endpoint_ClearSETUP();
+    Endpoint_Read_Control_Stream_LE(ReportData, ReportSize);
+    Endpoint_ClearIN();
+
+    uint8_t Command = ReportData[0];
+    if (Command != AGENT_COMMAND_REENUMERATE) {
+        return;
+    }
+
+    uint8_t ReenumerateAs = ReportData[1];
+    Reenumerate(ReenumerateAs);
 }
