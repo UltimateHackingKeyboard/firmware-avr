@@ -43,6 +43,9 @@ build: sync-shared-files all
 sync-shared-files:
 	rsync --update ../*.[ch] .
 
+fuses:
+	avrdude -p $(MCU) -U lfuse:w:0xde:m  # Unset CKDIV8.
+
 # Default target
 all:
 
