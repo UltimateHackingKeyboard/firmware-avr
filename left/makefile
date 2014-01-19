@@ -28,11 +28,12 @@ SRC = $(TARGET).c                                                   \
 	USART.c                                                     \
 
 build: sync-shared-files all
-	
 
 sync-shared-files:
 	rsync --update ../*.[ch] .
 
+fuses:
+	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
 
 # Default target
 all:
