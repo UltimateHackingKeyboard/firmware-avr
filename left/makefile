@@ -20,8 +20,9 @@ TARGET       = uhk-left
 LUFA_PATH    = ../right/lufa/LUFA
 CC_FLAGS     =
 LD_FLAGS     =
-AVRDUDE_PROGRAMMER = avr109
+AVRDUDE_PROGRAMMER = stk500v1
 AVRDUDE_PORT = /dev/ttyACM0
+AVRDUDE_FLAGS = -b 38400 -F
 
 SRC = $(TARGET).c                                                   \
 	KeyMatrix.c                                                 \
