@@ -13,7 +13,6 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
     uint8_t UsedKeyCodes = 0;
 
-/*
     // Update the left keyboard matrix.
     while (USART_HasByte()) {
         uint8_t Event = USART_ReceiveByte();
@@ -23,11 +22,9 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         uint8_t Col = EXTRACT_KEYCODE_COL(KeyCode, LEFT_COLS_NUM);
         KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState ? 0 : 1);
     }
-*/
 
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
-
 
     // Figure out which keymap is active.
     uint8_t ActiveKeymap = KEYMAP_ID_NORMAL;
