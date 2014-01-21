@@ -1,6 +1,0 @@
-#!/bin/bash
-
-reenumeration_delay=4  # CDC ACM bootloader reenumeration delay in seconds
-
-../jump-to-bootloader && sleep $reenumeration_delay
-make avrdude
