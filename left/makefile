@@ -33,6 +33,14 @@ build: sync-shared-files all
 sync-shared-files:
 	rsync --update ../*.[ch] .
 
+program: build
+	../jump-to-bootloader left enter
+	@sleep 2
+	@echo 'Reset the left half and quickly after press enter!'
+	@read enter
+	make avrdude
+	../jump-to-bootloader left leave
+
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
 
