@@ -33,7 +33,7 @@ build: sync-shared-files all
 sync-shared-files:
 	rsync --update ../*.[ch] .
 
-program: build
+upload: build
 	../jump-to-bootloader left enter
 	@echo 'Reenumerating as the left bootloader...'
 	@sleep 2
