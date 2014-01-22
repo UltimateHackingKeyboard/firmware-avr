@@ -10,7 +10,8 @@
 
         #if defined(__AVR_ATmega88__)
             #define UCSRA UCSR0A
-            #define UCSRB UCSR0A
+            #define UCSRB UCSR0B
+            #define UCSRC UCSR0C
             #define RXEN RXEN0
             #define TXEN TXEN0
             #define UBRRH UBRR0H
@@ -18,9 +19,14 @@
             #define UDR UDR0
             #define RXC RXC0
             #define UDRE UDRE0
+            #define UCSZ0 UCSZ00
+            #define UCSZ1 UCSZ01
+            #define UDDR DDRB
+            #define UDDX DDB3
         #elif defined(__AVR_ATmega32U2__)
             #define UCSRA UCSR1A
-            #define UCSRB UCSR1A
+            #define UCSRB UCSR1B
+            #define UCSRC UCSR1C
             #define RXEN RXEN1
             #define TXEN TXEN1
             #define UBRRH UBRR1H
@@ -28,6 +34,10 @@
             #define UDR UDR1
             #define RXC RXC1
             #define UDRE UDRE1
+            #define UCSZ0 UCSZ10
+            #define UCSZ1 UCSZ11
+            #define UDDR DDRB
+            #define UDDX DDB2
         #endif
 
     /* Function Prototypes: */

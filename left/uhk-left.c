@@ -61,15 +61,12 @@ int main(void)
     USART_Init();
 
     /* Initialize SPI */
-
-    DDRB |= 1<<DDB3;  // MOSI is output.
     DDRD |= 1<<DDD2;  // OE is output.
     DDRB |= 1<<DDB5;  // SCK is output.
     DDRC |= 1<<DDC3;  // RCK is output.
     SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0) | (1<<CPOL) | (1<<CPHA);  // SPI enable, Master, f/16
     SpiTransmit(0);
     PORTD &= ~(1<<PD2);  // Enable OE by pulling it low.
-
 
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft);
 
