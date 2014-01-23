@@ -36,7 +36,7 @@ sync-shared-files:
 upload: build
 	../jump-to-bootloader left enter
 	@echo 'Reenumerating as the left bootloader...'
-	@sleep 2
+	@sleep 3
 	@echo 'Reset the left half and quickly after press enter!'
 	@read enter
 	make avrdude
