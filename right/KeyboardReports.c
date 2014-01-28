@@ -60,11 +60,22 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
-
                     // TODO: Remove "const __flash" after putting the layout into the SRAM.
-                    const __flash uint8_t *Key = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
-                    uint8_t Action = Key[KEY_ACTION];
-                    uint8_t Argument = Key[KEY_ARGUMENT];
+                    const __flash uint8_t *ActiveKey = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
+                    const __flash uint8_t *NormalKey = KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL];
+
+                    // TODO: Figure out why the following code misbehaves.
+//                    const __flash uint8_t **Key = KeyboardLayout[Row][Col+ColIndex];
+//                    const __flash uint8_t *NormalKey = Key[KEYMAP_ID_NORMAL];
+
+                    if (NormalKey[KEY_ACTION] == NO_ACTION &&
+                        NormalKey[KEY_ARGUMENT] != NO_ARGUMENT)
+                    {
+                        KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
+                    }
+
+                    uint8_t Action = ActiveKey[KEY_ACTION];
+                    uint8_t Argument = ActiveKey[KEY_ARGUMENT];
                     if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
                         Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
                     {
