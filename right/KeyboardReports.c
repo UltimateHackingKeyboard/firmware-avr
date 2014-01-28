@@ -5,6 +5,9 @@
 
 #include "KeyboardReports.h"
 
+uint8_t PreviousKeymap = KEYMAP_ID_NORMAL;
+uint8_t PreviousModifiers = NO_ARGUMENT;
+
 bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
     // TODO: Implement proper debouncing algorithm that does not block.
@@ -65,19 +68,22 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                     const __flash uint8_t *NormalKey = KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL];
 
                     // TODO: Figure out why the following code misbehaves.
-//                    const __flash uint8_t **Key = KeyboardLayout[Row][Col+ColIndex];
-//                    const __flash uint8_t *NormalKey = Key[KEYMAP_ID_NORMAL];
-
-                    if (NormalKey[KEY_ACTION] == NO_ACTION &&
-                        NormalKey[KEY_ARGUMENT] != NO_ARGUMENT)
-                    {
-                        KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
-                    }
+                    // const __flash uint8_t **Key = KeyboardLayout[Row][Col+ColIndex];
+                    // const __flash uint8_t *NormalKey = Key[KEYMAP_ID_NORMAL];
 
                     uint8_t Action = ActiveKey[KEY_ACTION];
                     uint8_t Argument = ActiveKey[KEY_ARGUMENT];
-                    if (Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
-                        Action != VIRTUAL_MODIFIER_KEY_FN && Action != VIRTUAL_MODIFIER_KEY_MOD)
+
+                    if  // Check modifier keys on the normal keymap.
+                       (NormalKey[KEY_ACTION] == NO_ACTION &&
+                        NormalKey[KEY_ARGUMENT] != NO_ARGUMENT)
+                    {
+                        KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
+                    } else if  // Check the keys of the actual keymap.
+                       (Action != NO_ACTION &&
+                        Action != VIRTUAL_MODIFIER_KEY_MOUSE &&
+                        Action != VIRTUAL_MODIFIER_KEY_FN &&
+                        Action != VIRTUAL_MODIFIER_KEY_MOD)
                     {
                         KeyboardReport->KeyCode[UsedKeyCodes++] = Action;
                         KeyboardReport->Modifier |= Argument;
@@ -88,7 +94,17 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         ColIndex += ColNum;
     }
 
+    // When a virtual modifier gets pressed along with another key that produces some actual
+    // modifiers and the accomanying key gets released then keep the related actual modifiers active
+    // as long as the virtual modifier gets released.  Useful for alt-tab alternatives and the like.
+    if (ActiveKeymap != KEYMAP_ID_NORMAL && ActiveKeymap == PreviousKeymap && UsedKeyCodes == 0) {
+        KeyboardReport->Modifier |= PreviousModifiers;
+    }
+
     *ReportSize = sizeof(USB_KeyboardReport_Data_t);
+
+    PreviousKeymap = ActiveKeymap;
+    PreviousModifiers = KeyboardReport->Modifier;
 
     return false;
 }
