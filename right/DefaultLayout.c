@@ -165,7 +165,7 @@ const __flash uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][KEYMAPS_NUM][ITEM
             /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C3 key */ {
             /* normal keymap */ { HID_KEYBOARD_SC_S,                                 NO_ARGUMENT },
-            /* mod keymap    */ { HID_KEYBOARD_SC_S,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT },
+            /* mod keymap    */ { HID_KEYBOARD_SC_A,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C4 key */ {
@@ -175,7 +175,7 @@ const __flash uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][KEYMAPS_NUM][ITEM
             /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C5 key */ {
             /* normal keymap */ { HID_KEYBOARD_SC_F,                                 NO_ARGUMENT },
-            /* mod keymap    */ { HID_KEYBOARD_SC_F,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT },
+            /* mod keymap    */ { HID_KEYBOARD_SC_S,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTALT },
             /* fn keymap     */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse keymap  */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* C6 key */ {
