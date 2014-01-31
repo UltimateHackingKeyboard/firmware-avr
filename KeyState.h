@@ -8,8 +8,8 @@
         #define GET_KEY_STATE_CURRENT(KeyState) (KeyState & KEY_STATE_MASK_CURRENT)
         #define GET_KEY_STATE_PREV(KeyState)    (KeyState & KEY_STATE_MASK_PREV)
 
-        #define CONSTRUCT_KEY_STATE(CurrentKeyState, PrevKeyState) \
-            ((CurrentKeyState ? 1 : 0) | (PrevKeyState ? 0b10 : 0))
+        #define CONSTRUCT_KEY_STATE(PrevKeyState, CurrentKeyState) \
+            ((CurrentKeyState ? KEY_STATE_MASK_CURRENT : 0) | (PrevKeyState ? KEY_STATE_MASK_PREV : 0))
 
         #define KEY_STATE_PRESSED  0b11
         #define KEY_STATE_RELEASED 0b00

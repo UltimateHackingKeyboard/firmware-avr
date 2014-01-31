@@ -19,11 +19,16 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     // Update the left keyboard matrix.
     while (USART_HasByte()) {
         uint8_t Event = USART_ReceiveByte();
-        uint8_t KeyState = GET_EVENT_STATE(Event);
-        uint8_t KeyCode = GET_EVENT_PAYLOAD(Event);
-        uint8_t Row = EXTRACT_KEYCODE_ROW(KeyCode, LEFT_COLS_NUM);
-        uint8_t Col = EXTRACT_KEYCODE_COL(KeyCode, LEFT_COLS_NUM);
-        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState ? 0 : 1);
+
+        uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
+        uint8_t Row = EXTRACT_KEYCODE_ROW(KeyId, LEFT_COLS_NUM);
+        uint8_t Col = EXTRACT_KEYCODE_COL(KeyId, LEFT_COLS_NUM);
+
+        uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col));
+        uint8_t IsKeyPressed = GET_EVENT_STATE(Event);
+        uint8_t KeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed);
+
+        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState);
     }
 
     // Update the right keyboard matrix.
