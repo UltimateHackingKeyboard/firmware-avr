@@ -27,6 +27,7 @@ AVRDUDE_PORT = /dev/ttyACM0
 SRC = $(TARGET).c                                                   \
 	KeyMatrix.c                                                 \
 	USART.c                                                     \
+	MessageBuffer.c                                             \
 	BootloaderJump.c                                            \
 	DefaultLayout.c                                             \
 	Descriptors.c                                               \

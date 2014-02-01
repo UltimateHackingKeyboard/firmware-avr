@@ -4,10 +4,10 @@
     /* Includes: */
         #include <avr/io.h>
         #include <LUFA/Drivers/USB/USB.h>
-        #include <LUFA/Drivers/Misc/RingBuffer.h>
         #include "Config/AppConfig.h"
         #include "KeyMatrix.h"
         #include "USART.h"
+        #include "MessageBuffer.h"
         #include "KeyboardDescriptors.h"
         #include "KeyboardReports.h"
 
@@ -45,6 +45,7 @@
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
         void KeyboardRxCallback(void);
+        void ProcessBufferedKeyStates(void);
 
         bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void);
         void EVENT_USB_Keyboard_Device_ControlRequest(void);
