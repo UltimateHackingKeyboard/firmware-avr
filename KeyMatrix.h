@@ -1,5 +1,5 @@
-#ifndef __KEYMATRIX_H__
-#define __KEYMATRIX_H__
+#ifndef __KEY_MATRIX_H__
+#define __KEY_MATRIX_H__
 
     /* Includes: */
         #include <avr/io.h>
