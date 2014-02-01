@@ -16,23 +16,6 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
     uint8_t UsedKeyCodes = 0;
 
-    // Update the left keyboard matrix.
-    while (USART_HasByte()) {
-        uint8_t Event = USART_ReceiveByte();
-
-        uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
-        uint8_t Row = EXTRACT_KEYCODE_ROW(KeyId, LEFT_COLS_NUM);
-        uint8_t Col = EXTRACT_KEYCODE_COL(KeyId, LEFT_COLS_NUM);
-
-        uint8_t KeyState = KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col);
-        uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
-        uint8_t IsKeyPressed = GET_EVENT_STATE(Event);
-        uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
-        uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
-
-        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, NewKeyState);
-    }
-
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 

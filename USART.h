@@ -18,6 +18,7 @@
             #define UBRRL UBRR0L
             #define UDR UDR0
             #define RXC RXC0
+            #define RXCIE RXCIE0
             #define UDRE UDRE0
             #define UCSZ0 UCSZ00
             #define UCSZ1 UCSZ01
@@ -33,6 +34,7 @@
             #define UBRRL UBRR1L
             #define UDR UDR1
             #define RXC RXC1
+            #define RXCIE RXCIE1
             #define UDRE UDRE1
             #define UCSZ0 UCSZ10
             #define UCSZ1 UCSZ11

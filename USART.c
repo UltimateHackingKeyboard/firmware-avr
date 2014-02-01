@@ -3,7 +3,7 @@
 void USART_Init()
 {
     UDDR |= 1 << UDDX;
-    UCSRB |= (1 << RXEN) | (1 << TXEN);
+    UCSRB |= (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
     UCSRC = (1 << UCSZ0) | (1 << UCSZ1);
     UBRRH = BAUD_PRESCALE >> 8;
     UBRRL = BAUD_PRESCALE;
