@@ -16,6 +16,8 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
     uint8_t UsedKeyCodes = 0;
 
+    ProcessBufferedKeyStates();
+
     // Update the right keyboard matrix.
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 

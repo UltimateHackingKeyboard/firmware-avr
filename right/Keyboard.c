@@ -7,6 +7,9 @@
 
 KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
 
+RingBuffer_t KeyStateBuffer;
+uint8_t      KeyStateBufferData[128];
+
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
 
@@ -94,6 +97,8 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
 
 int KeyboardMainLoop(void)
 {
+    RingBuffer_InitBuffer(&KeyStateBuffer, KeyStateBufferData, sizeof(KeyStateBufferData));
+
     USART_Init();
 
     KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight);
@@ -112,18 +117,28 @@ int KeyboardMainLoop(void)
 void KeyboardRXCallback(void)
 {
     uint8_t Event = USART_ReceiveByte();
+    if (!RingBuffer_IsFull(&KeyStateBuffer)) {
+        RingBuffer_Insert(&KeyStateBuffer, Event);
+    }
+}
 
-    uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
-    uint8_t Row = EXTRACT_KEYCODE_ROW(KeyId, LEFT_COLS_NUM);
-    uint8_t Col = EXTRACT_KEYCODE_COL(KeyId, LEFT_COLS_NUM);
+void ProcessBufferedKeyStates(void)
+{
+    while (!RingBuffer_IsEmpty(&KeyStateBuffer)) {
+        uint8_t Event = RingBuffer_Remove(&KeyStateBuffer);
 
-    uint8_t KeyState = KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col);
-    uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
-    uint8_t IsKeyPressed = GET_EVENT_STATE(Event);
-    uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
-    uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
+        uint8_t KeyId = GET_EVENT_PAYLOAD(Event);
+        uint8_t Row = EXTRACT_KEYCODE_ROW(KeyId, LEFT_COLS_NUM);
+        uint8_t Col = EXTRACT_KEYCODE_COL(KeyId, LEFT_COLS_NUM);
 
-    KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, NewKeyState);
+        uint8_t KeyState = KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col);
+        uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
+        uint8_t IsKeyPressed = GET_EVENT_STATE(Event);
+        uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
+        uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
+
+        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, NewKeyState);
+    }
 }
 
 bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void)

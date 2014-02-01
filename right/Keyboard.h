@@ -4,6 +4,7 @@
     /* Includes: */
         #include <avr/io.h>
         #include <LUFA/Drivers/USB/USB.h>
+        #include <LUFA/Drivers/Misc/RingBuffer.h>
         #include "Config/AppConfig.h"
         #include "KeyMatrix.h"
         #include "USART.h"
