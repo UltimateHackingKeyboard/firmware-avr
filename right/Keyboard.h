@@ -44,7 +44,7 @@
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
-        void KeyboardRXCallback(void);
+        void KeyboardRxCallback(void);
 
         bool EVENT_USB_Keyboard_Device_ConfigurationChanged(void);
         void EVENT_USB_Keyboard_Device_ControlRequest(void);

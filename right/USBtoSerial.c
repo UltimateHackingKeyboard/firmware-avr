@@ -103,7 +103,7 @@ int USBtoSerialMainLoop(void)
     }
 }
 
-void USBtoSerialRXCallback()
+void USBtoSerialRxCallback()
 {
     uint8_t ReceivedByte = UDR1;
 

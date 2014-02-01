@@ -11,7 +11,7 @@
 
     /* Function Prototypes: */
         int USBtoSerialMainLoop(void);
-        void USBtoSerialRXCallback(void);
+        void USBtoSerialRxCallback(void);
         bool EVENT_USB_USBtoSerial_Device_ConfigurationChanged(void);
         void EVENT_USB_USBtoSerial_Device_ControlRequest(void);
         void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo);

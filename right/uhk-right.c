@@ -67,8 +67,8 @@ void EVENT_USB_Device_ControlRequest(void)
 ISR(USART1_RX_vect, ISR_BLOCK)
 {
     if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
-        KeyboardRXCallback();
+        KeyboardRxCallback();
     } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
-        USBtoSerialRXCallback();
+        USBtoSerialRxCallback();
     }
 }

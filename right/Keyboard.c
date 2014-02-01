@@ -114,7 +114,7 @@ int KeyboardMainLoop(void)
     }
 }
 
-void KeyboardRXCallback(void)
+void KeyboardRxCallback(void)
 {
     uint8_t Event = USART_ReceiveByte();
     if (!RingBuffer_IsFull(&KeyStateBuffer)) {
