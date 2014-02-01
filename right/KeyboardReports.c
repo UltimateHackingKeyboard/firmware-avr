@@ -24,11 +24,13 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         uint8_t Row = EXTRACT_KEYCODE_ROW(KeyId, LEFT_COLS_NUM);
         uint8_t Col = EXTRACT_KEYCODE_COL(KeyId, LEFT_COLS_NUM);
 
-        uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col));
+        uint8_t KeyState = KeyMatrix_GetElement(KEYMATRIX_LEFT, Row, Col);
+        uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
         uint8_t IsKeyPressed = GET_EVENT_STATE(Event);
-        uint8_t KeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed);
+        uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
+        uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
 
-        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, KeyState);
+        KeyMatrix_SetElement(KEYMATRIX_LEFT, Row, Col, NewKeyState);
     }
 
     // Update the right keyboard matrix.
@@ -67,7 +69,8 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         uint8_t ColNum = KeyMatrix->Info->ColNum;
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col)) && UsedKeyCodes<KEYBOARD_ROLLOVER) {
+                uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
+                if (GET_KEY_STATE_CURRENT(KeyState)) {
                     // TODO: Remove "const __flash" after putting the layout into the SRAM.
                     const __flash uint8_t *ActiveKey = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
                     const __flash uint8_t *NormalKey = KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL];
@@ -90,9 +93,24 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                         Action != VIRTUAL_MODIFIER_KEY_FN &&
                         Action != VIRTUAL_MODIFIER_KEY_MOD)
                     {
-                        KeyboardReport->KeyCode[UsedKeyCodes++] = Action;
-                        KeyboardReport->Modifier |= Argument;
+                        // Suppress keys upon virtual modifier release.
+                        if (PreviousKeymap != KEYMAP_ID_NORMAL && ActiveKeymap == KEYMAP_ID_NORMAL) {
+                            KeyState |= KEY_STATE_MASK_SUPPRESSED;
+                            KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState);
+                        }
+
+                        // Add scancode to the array to be sent to the host.
+                        if (!GET_KEY_STATE_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
+                            KeyboardReport->KeyCode[UsedKeyCodes++] = Action;
+                            KeyboardReport->Modifier |= Argument;
+                        }
                     }
+                } else if  // Unsuppress suppressed keys upon release.
+                    (GET_KEY_STATE_PREV(KeyState) &&
+                    !GET_KEY_STATE_CURRENT(KeyState) &&
+                     GET_KEY_STATE_SUPPRESSED(KeyState))
+                {
+                    KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState & ~KEY_STATE_MASK_SUPPRESSED);
                 }
             }
         }

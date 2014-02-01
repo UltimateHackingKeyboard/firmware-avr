@@ -47,10 +47,13 @@ void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t SetColCallback(uint8_t))
         for (uint8_t Row=0; Row<KeyMatrix->Info->RowNum; Row++) {
             const Pin_t *RowPin = KeyMatrix->Info->RowPins + Row;
             // Read the input pin of the row.
-            uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col));
+            uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
+            uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
             uint8_t IsKeyPressed = *RowPin->Name & 1<<RowPin->Number;
-            uint8_t KeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed);
-            KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState);
+            uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
+
+            uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
+            KeyMatrix_SetElement(KeyMatrix, Row, Col, NewKeyState);
         }
 
         if (!ColumnAlreadyEnabled) {
