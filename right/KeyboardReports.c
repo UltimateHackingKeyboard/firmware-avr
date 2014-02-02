@@ -48,12 +48,12 @@ uint8_t GetActiveLayer()
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (KEY_STATE_IS_PRESSED(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
-                    if (Action == LAYER_SWITCHER_KEY_MOUSE) {
+                    uint8_t KeyAction = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
+                    if (KeyAction == LAYER_SWITCHER_KEY_MOUSE) {
                         ActiveLayer = LAYER_ID_MOUSE;
-                    } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
+                    } else if (KeyAction == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
                         ActiveLayer = LAYER_ID_FN;
-                    } else if (Action == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
+                    } else if (KeyAction == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
                         ActiveLayer = LAYER_ID_MOD;
                     }
                 }
