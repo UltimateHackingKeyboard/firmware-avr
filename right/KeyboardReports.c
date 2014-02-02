@@ -38,7 +38,8 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 
 uint8_t GetActiveLayer()
 {
-    uint8_t ActiveLayer = LAYER_ID_NORMAL;
+    uint8_t ActiveLayerId = 0;
+    uint8_t HighestLayerPriority = 0;
     uint8_t ColIndex = 0;
 
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
@@ -49,12 +50,13 @@ uint8_t GetActiveLayer()
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (KEY_STATE_IS_PRESSED(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
                     uint8_t KeyAction = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
-                    if (KeyAction == LAYER_SWITCHER_KEY_MOUSE) {
-                        ActiveLayer = LAYER_ID_MOUSE;
-                    } else if (KeyAction == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
-                        ActiveLayer = LAYER_ID_FN;
-                    } else if (KeyAction == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
-                        ActiveLayer = LAYER_ID_MOD;
+                    if (IS_KEY_ACTION_LAYER_SWITCHER(KeyAction)) {
+                        uint8_t LayerId = LAYER_SWITCHER_KEY_TO_LAYER_ID(KeyAction);
+                        uint8_t LayerPriority = LAYER_GET_PRIORITY(LayerId);
+                        if (LayerPriority > HighestLayerPriority) {
+                            ActiveLayerId = LayerId;
+                            HighestLayerPriority = LayerPriority;
+                        }
                     }
                 }
             }
@@ -62,7 +64,7 @@ uint8_t GetActiveLayer()
         ColIndex += ColNum;
     }
 
-    return ActiveLayer;
+    return ActiveLayerId;
 }
 
 uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* KeyboardReport, uint16_t* const ReportSize)

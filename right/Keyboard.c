@@ -7,6 +7,8 @@
 
 KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
 
+uint8_t LayerPriorities[LAYER_SWITCHER_KEY_TYPES_NUM] = {0, 1, 2};
+
 MessageBuffer_t KeyStateBuffer;
 uint8_t         KeyStateBufferData[128];
 

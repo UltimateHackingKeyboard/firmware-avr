@@ -24,7 +24,9 @@
         #define NO_ARGUMENT 0
 
         #define IS_KEY_MODIFIER(Key) (Key[KEY_ACTION] == NO_ACTION && Key[KEY_ARGUMENT] != NO_ARGUMENT)
-        #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || Action == LAYER_SWITCHER_KEY_FN || Action == LAYER_SWITCHER_KEY_MOD)
+        #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || \
+                                                      Action == LAYER_SWITCHER_KEY_FN || \
+                                                      Action == LAYER_SWITCHER_KEY_MOD)
         #define IS_KEY_ACTION_REGULAR(KeyAction) (KeyAction != NO_ACTION && !IS_KEY_ACTION_LAYER_SWITCHER(KeyAction))
 
         #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
@@ -32,11 +34,16 @@
 
         #define ITEM_NUM_PER_KEY 2  // bytes
 
-        /* The following values must not collide with any of the HID_KEYBOARD_SC_* constants of LUFA! */
+        /* The following values must not conflict with any of the HID_KEYBOARD_SC_* constants of LUFA! */
         #define LAYER_SWITCHER_KEY_NONE  0x00
         #define LAYER_SWITCHER_KEY_MOD   0xE8
         #define LAYER_SWITCHER_KEY_FN    0xE9
         #define LAYER_SWITCHER_KEY_MOUSE 0xEA
+
+        #define LAYER_SWITCHER_KEY_TO_LAYER_ID(LayerSwitcherKey) \
+            (LayerSwitcherKey == NO_ACTION ? LAYER_ID_NORMAL : LayerSwitcherKey-LAYER_SWITCHER_KEY_MOD+1)
+
+        #define LAYER_GET_PRIORITY(LayerId) (LayerId == LAYER_ID_NORMAL ? 0 : LayerPriorities[LayerId-1]+1)
 
         #define KEYMATRICES_NUM 2
         #define KEYMATRIX_LEFT  (KeyMatrices + 0)
@@ -45,6 +52,7 @@
     /* External Variables: */
         extern const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY];
         extern KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
+        extern uint8_t LayerPriorities[LAYER_SWITCHER_KEY_TYPES_NUM];
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
