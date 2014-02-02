@@ -23,6 +23,8 @@
         #define NO_ACTION   0
         #define NO_ARGUMENT 0
 
+        #define IS_KEY_MODIFIER(Key) (Key[KEY_ACTION] == NO_ACTION && Key[KEY_ARGUMENT] != NO_ARGUMENT)
+
         #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
         #define LAYERS_NUM (VIRUTAL_MODIFIER_TYPES_NUM + 1)
 

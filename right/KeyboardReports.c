@@ -86,10 +86,7 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                     uint8_t Action = ActiveKey[KEY_ACTION];
                     uint8_t Argument = ActiveKey[KEY_ARGUMENT];
 
-                    if  // Check modifier keys on the normal keymap.
-                       (NormalKey[KEY_ACTION] == NO_ACTION &&
-                        NormalKey[KEY_ARGUMENT] != NO_ARGUMENT)
-                    {
+                    if (IS_KEY_MODIFIER(NormalKey)) {
                         KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
                     } else if  // Check the keys of the actual keymap.
                        (Action != NO_ACTION &&
