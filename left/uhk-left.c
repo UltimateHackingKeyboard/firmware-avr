@@ -66,7 +66,7 @@ int main(void)
     SpiTransmit(0);
     PORT_OE &= ~(1<<PD_OE);  // Enable OE by pulling it low.
 
-    KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, &KeyMatrixDataLeft);
+    KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
     while (1) {
         KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);

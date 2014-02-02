@@ -106,8 +106,8 @@ int KeyboardMainLoop(void)
 
     USART_Init();
 
-    KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight, &KeyMatrixDataRight);
-    KeyMatrix_Init(KEYMATRIX_LEFT, &KeyMatrixInfoLeft, &KeyMatrixDataLeft);
+    KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight, (uint8_t*)&KeyMatrixDataRight);
+    KeyMatrix_Init(KEYMATRIX_LEFT, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
     for (;;)
     {
