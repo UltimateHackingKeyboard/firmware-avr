@@ -4,6 +4,9 @@
     /* Includes: */
         #include <LUFA/Drivers/Misc/RingBuffer.h>
 
+    /* Macros: */
+        #define KEY_STATE_BUFFER_SIZE 128
+
     /* Type Defines: */
         typedef struct {
             RingBuffer_t RingBuffer;

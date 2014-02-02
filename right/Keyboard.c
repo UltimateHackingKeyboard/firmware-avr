@@ -10,7 +10,7 @@ KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
 uint8_t LayerPriorities[LAYER_SWITCHER_KEY_TYPES_NUM] = {0, 1, 2};
 
 MessageBuffer_t KeyStateBuffer;
-uint8_t         KeyStateBufferData[128];
+uint8_t         KeyStateBufferData[KEY_STATE_BUFFER_SIZE];
 
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
