@@ -97,14 +97,17 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
     .ShouldSetDDR = true
 };
 
+uint8_t KeyMatrixDataLeft[LEFT_COLS_NUM*ROWS_NUM];
+uint8_t KeyMatrixDataRight[RIGHT_COLS_NUM*ROWS_NUM];
+
 int KeyboardMainLoop(void)
 {
     MessageBuffer_InitBuffer(&KeyStateBuffer, KeyStateBufferData, sizeof(KeyStateBufferData));
 
     USART_Init();
 
-    KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight);
-    KeyMatrix_Init(KEYMATRIX_LEFT, &KeyMatrixInfoLeft);
+    KeyMatrix_Init(KEYMATRIX_RIGHT, &KeyMatrixInfoRight, &KeyMatrixDataRight);
+    KeyMatrix_Init(KEYMATRIX_LEFT, &KeyMatrixInfoLeft, &KeyMatrixDataLeft);
 
     for (;;)
     {

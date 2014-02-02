@@ -1,12 +1,12 @@
 #include "KeyMatrix.h"
 
-void KeyMatrix_Init(KeyMatrix_t *KeyMatrix, const __flash KeyMatrixInfo_t *KeyMatrixInfo)
+void KeyMatrix_Init(KeyMatrix_t *KeyMatrix, const __flash KeyMatrixInfo_t *KeyMatrixInfo, uint8_t *KeyMatrixData)
 {
     uint8_t RowNum = KeyMatrixInfo->RowNum;
     uint8_t ColNum = KeyMatrixInfo->ColNum;
 
     KeyMatrix->Info = KeyMatrixInfo;
-    KeyMatrix->Matrix = calloc(RowNum*ColNum, sizeof(uint8_t));
+    KeyMatrix->Matrix = KeyMatrixData;
 
     if (!KeyMatrixInfo->ShouldSetDDR) {
         return;

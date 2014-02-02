@@ -51,6 +51,8 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoLeft = {
     .ShouldSetDDR = true
 };
 
+uint8_t *KeyMatrixDataLeft[LEFT_COLS_NUM*ROWS_NUM];
+
 int main(void)
 {
     USART_Init();
@@ -64,7 +66,7 @@ int main(void)
     SpiTransmit(0);
     PORT_OE &= ~(1<<PD_OE);  // Enable OE by pulling it low.
 
-    KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft);
+    KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, &KeyMatrixDataLeft);
 
     while (1) {
         KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
