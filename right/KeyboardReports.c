@@ -88,7 +88,7 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
 
                     if (IS_KEY_MODIFIER(NormalKey)) {
                         KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
-                    } else if (KeyAction != NO_ACTION && !IS_KEY_ACTION_LAYER_SWITCHER(KeyAction)) {
+                    } else if (IS_KEY_ACTION_REGULAR(KeyAction)) {
                         // Suppress keys upon layer switcher key release.
                         if (PreviousLayer != LAYER_ID_NORMAL && ActiveLayer == LAYER_ID_NORMAL) {
                             KeyState |= KEY_STATE_MASK_SUPPRESSED;
