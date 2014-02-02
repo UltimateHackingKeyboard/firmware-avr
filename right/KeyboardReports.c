@@ -83,12 +83,12 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                     const __flash uint8_t *ActiveKey = (*Key)[ActiveLayer];
                     const __flash uint8_t *NormalKey = (*Key)[LAYER_ID_NORMAL];
 
-                    uint8_t Action = ActiveKey[KEY_ACTION];
-                    uint8_t Argument = ActiveKey[KEY_ARGUMENT];
+                    uint8_t KeyAction = ActiveKey[KEY_ACTION];
+                    uint8_t KeyArgument = ActiveKey[KEY_ARGUMENT];
 
                     if (IS_KEY_MODIFIER(NormalKey)) {
                         KeyboardReport->Modifier |= NormalKey[KEY_ARGUMENT];
-                    } else if (Action != NO_ACTION && IS_KEY_ACTION_LAYER_SWITCHER(Action)) {
+                    } else if (KeyAction != NO_ACTION && IS_KEY_ACTION_LAYER_SWITCHER(KeyAction)) {
                         // Suppress keys upon layer switcher key release.
                         if (PreviousLayer != LAYER_ID_NORMAL && ActiveLayer == LAYER_ID_NORMAL) {
                             KeyState |= KEY_STATE_MASK_SUPPRESSED;
@@ -97,8 +97,8 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
 
                         // Add scancode to the array to be sent to the host.
                         if (!GET_KEY_STATE_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
-                            KeyboardReport->KeyCode[UsedKeyCodes++] = Action;
-                            KeyboardReport->Modifier |= Argument;
+                            KeyboardReport->KeyCode[UsedKeyCodes++] = KeyAction;
+                            KeyboardReport->Modifier |= KeyArgument;
                         }
                     }
                 } else if  // Unsuppress suppressed keys upon release.
