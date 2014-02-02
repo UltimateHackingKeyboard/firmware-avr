@@ -14,18 +14,62 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     _delay_ms(10);  // Work around key bouncing.
 
     USB_KeyboardReport_Data_t* KeyboardReport = (USB_KeyboardReport_Data_t*)ReportData;
-    uint8_t UsedKeyCodes = 0;
 
-    ProcessBufferedKeyStates();
+    ProcessBufferedKeyStates();             // Update the left keyboard matrix.
+    KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);  // Update the right keyboard matrix.
 
-    // Update the right keyboard matrix.
-    KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
-
-    // Figure out which layer is active.
     uint8_t ActiveLayer = GetActiveLayer();
+    uint8_t UsedKeyCodes = ConstructKeyboardReport(ActiveLayer, KeyboardReport, ReportSize);
 
-    // Construct the keyboard report according to the pressed keys.
+    // When a layer switcher key gets pressed along with another key that produces some modifiers
+    // and the accomanying key gets released then keep the related modifiers active a long as the
+    // layer switcher key stays pressed.  Useful for alt-tab alternatives and the like.
+    if (ActiveLayer != LAYER_ID_NORMAL && ActiveLayer == PreviousLayer && UsedKeyCodes == 0) {
+        KeyboardReport->Modifier |= PreviousModifiers;
+    }
+
+    *ReportSize = sizeof(USB_KeyboardReport_Data_t);
+
+    PreviousLayer = ActiveLayer;
+    PreviousModifiers = KeyboardReport->Modifier;
+
+    return false;
+}
+
+uint8_t GetActiveLayer()
+{
+    uint8_t ActiveLayer = LAYER_ID_NORMAL;
     uint8_t ColIndex = 0;
+
+    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
+        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
+        uint8_t RowNum = KeyMatrix->Info->RowNum;
+        uint8_t ColNum = KeyMatrix->Info->ColNum;
+        for (uint8_t Row=0; Row<RowNum; Row++) {
+            for (uint8_t Col=0; Col<ColNum; Col++) {
+                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
+                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
+                    if (Action == LAYER_SWITCHER_KEY_MOUSE) {
+                        ActiveLayer = LAYER_ID_MOUSE;
+                    } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
+                        ActiveLayer = LAYER_ID_FN;
+                    } else if (Action == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
+                        ActiveLayer = LAYER_ID_MOD;
+                    }
+                }
+            }
+        }
+        ColIndex += ColNum;
+    }
+
+    return ActiveLayer;
+}
+
+uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* KeyboardReport, uint16_t* const ReportSize)
+{
+    uint8_t UsedKeyCodes = 0;
+    uint8_t ColIndex = 0;
+
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
         uint8_t RowNum = KeyMatrix->Info->RowNum;
@@ -77,48 +121,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         ColIndex += ColNum;
     }
 
-    // When a layer switcher key gets pressed along with another key that produces some modifiers
-    // and the accomanying key gets released then keep the related modifiers active a long as the
-    // layer switcher key stays pressed.  Useful for alt-tab alternatives and the like.
-    if (ActiveLayer != LAYER_ID_NORMAL && ActiveLayer == PreviousLayer && UsedKeyCodes == 0) {
-        KeyboardReport->Modifier |= PreviousModifiers;
-    }
-
-    *ReportSize = sizeof(USB_KeyboardReport_Data_t);
-
-    PreviousLayer = ActiveLayer;
-    PreviousModifiers = KeyboardReport->Modifier;
-
-    return false;
-}
-
-uint8_t GetActiveLayer()
-{
-    uint8_t ActiveLayer = LAYER_ID_NORMAL;
-    uint8_t ColIndex = 0;
-
-    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
-        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
-        uint8_t RowNum = KeyMatrix->Info->RowNum;
-        uint8_t ColNum = KeyMatrix->Info->ColNum;
-        for (uint8_t Row=0; Row<RowNum; Row++) {
-            for (uint8_t Col=0; Col<ColNum; Col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
-                    if (Action == LAYER_SWITCHER_KEY_MOUSE) {
-                        ActiveLayer = LAYER_ID_MOUSE;
-                    } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
-                        ActiveLayer = LAYER_ID_FN;
-                    } else if (Action == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
-                        ActiveLayer = LAYER_ID_MOD;
-                    }
-                }
-            }
-        }
-        ColIndex += ColNum;
-    }
-
-    return ActiveLayer;
+    return UsedKeyCodes;
 }
 
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
