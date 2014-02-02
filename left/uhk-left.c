@@ -70,9 +70,9 @@ int main(void)
         KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
         for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
             for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
-                uint8_t state = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
-                if (IS_KEY_STATE_CHANGED(state)) {
-                    uint8_t IsKeyPressed = KEY_STATE_IS_PRESSED(state);
+                uint8_t KeyState = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
+                if (KEY_STATE_CHANGED(KeyState)) {
+                    uint8_t IsKeyPressed = KEY_STATE_IS_PRESSED(KeyState);
                     uint8_t Event = EVENT_TYPE_KEY |
                                     CONSTRUCT_EVENT_STATE(IsKeyPressed) |
                                     CONSTRUCT_KEYCODE(Row, Col, LEFT_COLS_NUM);
