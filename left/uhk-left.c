@@ -73,8 +73,7 @@ int main(void)
                 uint8_t KeyState = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
                 if (KEY_STATE_CHANGED(KeyState)) {
                     uint8_t IsKeyPressed = KEY_STATE_IS_PRESSED(KeyState);
-                    uint8_t Event = EVENT_TYPE_KEY |
-                                    CONSTRUCT_EVENT_STATE(IsKeyPressed) |
+                    uint8_t Event = CONSTRUCT_EVENT_STATE(IsKeyPressed) |
                                     CONSTRUCT_KEYCODE(Row, Col, LEFT_COLS_NUM);
                     USART_SendByte(Event);
                 }

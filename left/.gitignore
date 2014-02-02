@@ -3,5 +3,4 @@ KeyCode.h
 KeyMatrix.[ch]
 KeyState.h
 MessageBuffer.[ch]
-Pin.h
 USART.[ch]

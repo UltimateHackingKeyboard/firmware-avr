@@ -5,7 +5,6 @@
         #include <avr/io.h>
         #include <stdlib.h>
         #include <avr/pgmspace.h>
-        #include "Pin.h"
         #include "Event.h"
         #include "KeyState.h"
         #include "KeyCode.h"
@@ -17,6 +16,14 @@
         #define ROWS_NUM 5
 
     /* Type Defines: */
+        typedef struct {
+            // TODO: Investigate on why these volatile qualifiers are needed to avoid the following compiler warning:
+            // warning: initialization discards ‘volatile’ qualifier from pointer target type [enabled by default]
+            volatile uint8_t *Direction;
+            volatile uint8_t *Name;
+            uint8_t Number;
+        } Pin_t;
+
         /* This part of the key matrix is to be stored in the Flash to save SRAM space. */
         typedef struct {
             const uint8_t ShouldSetDDR;
