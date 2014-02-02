@@ -1,3 +1,8 @@
+/** \file
+ *
+ *  Special buffer to store messages.  It's a specialization of the ring buffer of LUFA.
+ */
+
 #include "MessageBuffer.h"
 
 void MessageBuffer_InitBuffer(MessageBuffer_t *MessageBuffer, uint8_t* const DataPtr, const uint16_t Size)

@@ -1,3 +1,9 @@
+/** \file
+ *
+ *  USART communication functions.
+ */
+
+
 #include "USART.h"
 
 void USART_Init()
