@@ -47,7 +47,7 @@ uint8_t GetActiveLayer()
         uint8_t ColNum = KeyMatrix->Info->ColNum;
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
+                if (KEY_STATE_IS_PRESSED(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
                     uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
                     if (Action == LAYER_SWITCHER_KEY_MOUSE) {
                         ActiveLayer = LAYER_ID_MOUSE;
@@ -77,7 +77,7 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
-                if (GET_KEY_STATE_CURRENT(KeyState)) {
+                if (KEY_STATE_IS_PRESSED(KeyState)) {
                     // TODO: Remove "const __flash" after putting the keymap into the SRAM.
                     const __flash uint8_t (*Key)[LAYERS_NUM][ITEM_NUM_PER_KEY] = &KeyMap[Row][Col+ColIndex];
                     const __flash uint8_t *ActiveKey = (*Key)[ActiveLayer];
@@ -97,15 +97,15 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                         }
 
                         // Add scancode to the array to be sent to the host.
-                        if (!GET_KEY_STATE_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
+                        if (!KEY_STATE_IS_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
                             KeyboardReport->KeyCode[UsedKeyCodes++] = KeyAction;
                             KeyboardReport->Modifier |= KeyArgument;
                         }
                     }
                 } else if  // Unsuppress suppressed keys upon release.
-                    (GET_KEY_STATE_PREV(KeyState) &&
-                    !GET_KEY_STATE_CURRENT(KeyState) &&
-                     GET_KEY_STATE_SUPPRESSED(KeyState))
+                    (KEY_STATE_WAS_PRESSED(KeyState) &&
+                    !KEY_STATE_IS_PRESSED(KeyState) &&
+                     KEY_STATE_IS_SUPPRESSED(KeyState))
                 {
                     KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState & ~KEY_STATE_MASK_SUPPRESSED);
                 }

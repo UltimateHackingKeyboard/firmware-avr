@@ -6,9 +6,9 @@
         #define KEY_STATE_MASK_PREV       (1 << 1)
         #define KEY_STATE_MASK_SUPPRESSED (1 << 2)
 
-        #define GET_KEY_STATE_CURRENT(KeyState)    (KeyState & KEY_STATE_MASK_CURRENT)
-        #define GET_KEY_STATE_PREV(KeyState)       (KeyState & KEY_STATE_MASK_PREV)
-        #define GET_KEY_STATE_SUPPRESSED(KeyState) (KeyState & KEY_STATE_MASK_SUPPRESSED)
+        #define KEY_STATE_IS_PRESSED(KeyState)    (KeyState & KEY_STATE_MASK_CURRENT)
+        #define KEY_STATE_WAS_PRESSED(KeyState)   (KeyState & KEY_STATE_MASK_PREV)
+        #define KEY_STATE_IS_SUPPRESSED(KeyState) (KeyState & KEY_STATE_MASK_SUPPRESSED)
 
         #define CONSTRUCT_KEY_STATE(PrevKeyState, CurrentKeyState, SuppressedKeyState) \
             ((CurrentKeyState    ? KEY_STATE_MASK_CURRENT    : 0) | \

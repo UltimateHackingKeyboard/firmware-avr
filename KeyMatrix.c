@@ -48,9 +48,9 @@ void KeyMatrix_Scan(KeyMatrix_t *KeyMatrix, uint8_t SetColCallback(uint8_t))
             const Pin_t *RowPin = KeyMatrix->Info->RowPins + Row;
             // Read the input pin of the row.
             uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
-            uint8_t WasKeyPressed = GET_KEY_STATE_CURRENT(KeyState);
+            uint8_t WasKeyPressed = KEY_STATE_IS_PRESSED(KeyState);
             uint8_t IsKeyPressed = *RowPin->Name & 1<<RowPin->Number;
-            uint8_t IsKeySuppressed = GET_KEY_STATE_SUPPRESSED(KeyState);
+            uint8_t IsKeySuppressed = KEY_STATE_IS_SUPPRESSED(KeyState);
 
             uint8_t NewKeyState = CONSTRUCT_KEY_STATE(WasKeyPressed, IsKeyPressed, IsKeySuppressed);
             KeyMatrix_SetElement(KeyMatrix, Row, Col, NewKeyState);
