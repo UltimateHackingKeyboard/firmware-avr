@@ -27,8 +27,8 @@
         #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || Action == LAYER_SWITCHER_KEY_FN || Action == LAYER_SWITCHER_KEY_MOD)
         #define IS_KEY_ACTION_REGULAR(KeyAction) (KeyAction != NO_ACTION && !IS_KEY_ACTION_LAYER_SWITCHER(KeyAction))
 
-        #define VIRUTAL_MODIFIER_TYPES_NUM 3  // Mod, Fn and Mouse
-        #define LAYERS_NUM (VIRUTAL_MODIFIER_TYPES_NUM + 1)
+        #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
+        #define LAYERS_NUM (LAYER_SWITCHER_KEY_TYPES_NUM + 1)
 
         #define ITEM_NUM_PER_KEY 2  // bytes
 
