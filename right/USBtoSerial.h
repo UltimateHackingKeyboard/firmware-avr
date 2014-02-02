@@ -9,6 +9,9 @@
         #include "USBtoSerialDescriptors.h"
         #include "Keyboard.h"
 
+    /* Macros: */
+        #define USB_TO_SERIAL_BUFFER_SIZE 128
+
     /* Function Prototypes: */
         int USBtoSerialMainLoop(void);
         void USBtoSerialRxCallback(void);

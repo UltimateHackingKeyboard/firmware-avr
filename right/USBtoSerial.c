@@ -10,13 +10,13 @@
 static RingBuffer_t USBtoUSART_Buffer;
 
 /** Underlying data buffer for \ref USBtoUSART_Buffer, where the stored bytes are located. */
-static uint8_t      USBtoUSART_Buffer_Data[128];
+static uint8_t      *USBtoUSART_Buffer_Data;
 
 /** Circular buffer to hold data from the serial port before it is sent to the host. */
 static RingBuffer_t USARTtoUSB_Buffer;
 
 /** Underlying data buffer for \ref USARTtoUSB_Buffer, where the stored bytes are located. */
-static uint8_t      USARTtoUSB_Buffer_Data[128];
+static uint8_t      *USARTtoUSB_Buffer_Data;
 
 /** LUFA CDC Class driver interface configuration and state information. This structure is
  *  passed to all CDC Class driver functions, so that multiple instances of the same class
@@ -50,8 +50,11 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface =
 
 int USBtoSerialMainLoop(void)
 {
-    RingBuffer_InitBuffer(&USBtoUSART_Buffer, USBtoUSART_Buffer_Data, sizeof(USBtoUSART_Buffer_Data));
-    RingBuffer_InitBuffer(&USARTtoUSB_Buffer, USARTtoUSB_Buffer_Data, sizeof(USARTtoUSB_Buffer_Data));
+    USBtoUSART_Buffer_Data = malloc(USB_TO_SERIAL_BUFFER_SIZE);
+    USARTtoUSB_Buffer_Data = malloc(USB_TO_SERIAL_BUFFER_SIZE);
+
+    RingBuffer_InitBuffer(&USBtoUSART_Buffer, USBtoUSART_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
+    RingBuffer_InitBuffer(&USARTtoUSB_Buffer, USARTtoUSB_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
 
     for (;;)
     {
