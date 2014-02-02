@@ -15,7 +15,7 @@
         #define KEY_STATE_BECAME_RELEASED(KeyState) \
             (KEY_STATE_WAS_PRESSED(KeyState) && !KEY_STATE_IS_PRESSED(KeyState))
         #define KEY_STATE_CHANGED(KeyState) \
-            (KEY_STATE_BECAME_PRESSED(KeyState) || !KEY_STATE_BECAME_RELEASED(KeyState))
+            (KEY_STATE_BECAME_PRESSED(KeyState) || KEY_STATE_BECAME_RELEASED(KeyState))
 
         #define CONSTRUCT_KEY_STATE(PrevKeyState, CurrentKeyState, SuppressedKeyState) \
             ((CurrentKeyState    ? KEY_STATE_MASK_CURRENT    : 0) | \
