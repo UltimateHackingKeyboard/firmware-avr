@@ -11,7 +11,6 @@
         #define GET_EVENT_PAYLOAD(event) (event & EVENT_MASK_PAYLOAD)
 
         #define CONSTRUCT_EVENT_STATE(state) (state ? EVENT_MASK_STATE : 0)
-        #define CONSTRUCT_EVENT_STATE(state) (state ? EVENT_MASK_STATE : 0)
 
         #define EVENT_TYPE_KEY  0
         #define EVENT_TYPE_LED  EVENT_MASK_TYPE
