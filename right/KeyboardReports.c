@@ -57,12 +57,9 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
                 uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
                 if (GET_KEY_STATE_CURRENT(KeyState)) {
                     // TODO: Remove "const __flash" after putting the layout into the SRAM.
-                    const __flash uint8_t *ActiveKey = KeyboardLayout[Row][Col+ColIndex][ActiveKeymap];
-                    const __flash uint8_t *NormalKey = KeyboardLayout[Row][Col+ColIndex][KEYMAP_ID_NORMAL];
-
-                    // TODO: Figure out why the following code misbehaves.
-                    // const __flash uint8_t **Key = KeyboardLayout[Row][Col+ColIndex];
-                    // const __flash uint8_t *NormalKey = Key[KEYMAP_ID_NORMAL];
+                    const __flash uint8_t (*Key)[KEYMAPS_NUM][ITEM_NUM_PER_KEY] = &KeyboardLayout[Row][Col+ColIndex];
+                    const __flash uint8_t *ActiveKey = (*Key)[ActiveKeymap];
+                    const __flash uint8_t *NormalKey = (*Key)[KEYMAP_ID_NORMAL];
 
                     uint8_t Action = ActiveKey[KEY_ACTION];
                     uint8_t Argument = ActiveKey[KEY_ARGUMENT];
