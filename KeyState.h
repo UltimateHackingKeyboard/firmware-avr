@@ -21,6 +21,5 @@
         #define IS_KEY_STATE_CHANGED(KeyState) \
             ( (KeyState & KEY_STATE_MASK_PREV) && !(KeyState & KEY_STATE_MASK_CURRENT)) || \
             (!(KeyState & KEY_STATE_MASK_PREV) &&  (KeyState & KEY_STATE_MASK_CURRENT))
-        #define IS_KEY_PRESSED(KeyState) (KeyState & KEY_STATE_MASK_CURRENT)
 
 #endif
