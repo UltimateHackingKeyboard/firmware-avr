@@ -29,7 +29,7 @@ SRC = $(TARGET).c                                                   \
 	USART.c                                                     \
 	MessageBuffer.c                                             \
 	BootloaderJump.c                                            \
-	DefaultLayout.c                                             \
+	DefaultKeyMap.c                                             \
 	Descriptors.c                                               \
 	Keyboard.c                                                  \
 	KeyboardReports.c                                           \

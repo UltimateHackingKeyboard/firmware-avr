@@ -3,7 +3,7 @@
  *  The default keymap.
  */
 
-#include "DefaultLayout.h"
+#include "DefaultKeyMap.h"
 
 // TODO: Should be put into the SRAM eventually.
 const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY] =
