@@ -5,7 +5,7 @@
 
 #include "KeyboardReports.h"
 
-uint8_t PreviousLayer = LAYER_ID_NORMAL;
+uint8_t PreviousLayer = LAYER_NORMAL;
 uint8_t PreviousModifiers = NO_ARGUMENT;
 
 bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
@@ -24,7 +24,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     // When a layer switcher key gets pressed along with another key that produces some modifiers
     // and the accomanying key gets released then keep the related modifiers active a long as the
     // layer switcher key stays pressed.  Useful for alt-tab alternatives and the like.
-    if (ActiveLayer != LAYER_ID_NORMAL && ActiveLayer == PreviousLayer && UsedKeyCodes == 0) {
+    if (ActiveLayer != LAYER_NORMAL && ActiveLayer == PreviousLayer && UsedKeyCodes == 0) {
         KeyboardReport->Modifier |= PreviousModifiers;
     }
 
@@ -38,7 +38,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 
 uint8_t GetActiveLayer()
 {
-    uint8_t ActiveLayerId = 0;
+    uint8_t ActiveLayer = 0;
     uint8_t HighestLayerPriority = 0;
     uint8_t ColIndex = 0;
 
@@ -49,12 +49,12 @@ uint8_t GetActiveLayer()
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (KEY_STATE_IS_PRESSED(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    uint8_t KeyAction = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
+                    uint8_t KeyAction = KeyMap[Row][Col+ColIndex][LAYER_NORMAL][KEY_ACTION];
                     if (IS_KEY_ACTION_LAYER_SWITCHER(KeyAction)) {
-                        uint8_t LayerId = LAYER_SWITCHER_KEY_TO_LAYER_ID(KeyAction);
-                        uint8_t LayerPriority = LAYER_GET_PRIORITY(LayerId);
+                        uint8_t Layer = LAYER_SWITCHER_KEY_TO_LAYER(KeyAction);
+                        uint8_t LayerPriority = LAYER_GET_PRIORITY(Layer);
                         if (LayerPriority > HighestLayerPriority) {
-                            ActiveLayerId = LayerId;
+                            ActiveLayer = Layer;
                             HighestLayerPriority = LayerPriority;
                         }
                     }
@@ -64,7 +64,7 @@ uint8_t GetActiveLayer()
         ColIndex += ColNum;
     }
 
-    return ActiveLayerId;
+    return ActiveLayer;
 }
 
 uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* KeyboardReport, uint16_t* const ReportSize)
@@ -83,7 +83,7 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                     // TODO: Remove "const __flash" after putting the keymap into the SRAM.
                     const __flash uint8_t (*Key)[LAYERS_NUM][ITEM_NUM_PER_KEY] = &KeyMap[Row][Col+ColIndex];
                     const __flash uint8_t *ActiveKey = (*Key)[ActiveLayer];
-                    const __flash uint8_t *NormalKey = (*Key)[LAYER_ID_NORMAL];
+                    const __flash uint8_t *NormalKey = (*Key)[LAYER_NORMAL];
 
                     uint8_t KeyAction = ActiveKey[KEY_ACTION];
                     uint8_t KeyArgument = ActiveKey[KEY_ARGUMENT];
@@ -93,7 +93,7 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                     } else if (IS_KEY_ACTION_REGULAR(KeyAction)) {
 
                         // Suppress keys upon layer switcher key release.
-                        if (PreviousLayer != LAYER_ID_NORMAL && ActiveLayer == LAYER_ID_NORMAL) {
+                        if (PreviousLayer != LAYER_NORMAL && ActiveLayer == LAYER_NORMAL) {
                             KeyState |= KEY_STATE_MASK_SUPPRESSED;
                             KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState);
                         }

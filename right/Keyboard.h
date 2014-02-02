@@ -12,10 +12,10 @@
         #include "KeyboardReports.h"
 
     /* Macros: */
-        #define LAYER_ID_NORMAL 0
-        #define LAYER_ID_MOD    1
-        #define LAYER_ID_FN     2
-        #define LAYER_ID_MOUSE  3
+        #define LAYER_NORMAL 0
+        #define LAYER_MOD    1
+        #define LAYER_FN     2
+        #define LAYER_MOUSE  3
 
         #define KEY_ACTION   0
         #define KEY_ARGUMENT 1
@@ -40,10 +40,10 @@
         #define LAYER_SWITCHER_KEY_FN    0xE9
         #define LAYER_SWITCHER_KEY_MOUSE 0xEA
 
-        #define LAYER_SWITCHER_KEY_TO_LAYER_ID(LayerSwitcherKey) \
-            (LayerSwitcherKey == NO_ACTION ? LAYER_ID_NORMAL : LayerSwitcherKey-LAYER_SWITCHER_KEY_MOD+1)
+        #define LAYER_SWITCHER_KEY_TO_LAYER(LayerSwitcherKey) \
+            (LayerSwitcherKey == NO_ACTION ? LAYER_NORMAL : LayerSwitcherKey-LAYER_SWITCHER_KEY_MOD+1)
 
-        #define LAYER_GET_PRIORITY(LayerId) (LayerId == LAYER_ID_NORMAL ? 0 : LayerPriorities[LayerId-1]+1)
+        #define LAYER_GET_PRIORITY(Layer) (Layer == LAYER_NORMAL ? 0 : LayerPriorities[Layer-1]+1)
 
         #define KEYMATRICES_NUM 2
         #define KEYMATRIX_LEFT  (KeyMatrices + 0)
