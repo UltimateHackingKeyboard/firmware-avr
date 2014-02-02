@@ -32,7 +32,7 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
         for (uint8_t Row=0; Row<RowNum; Row++) {
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    uint8_t Action = KeyboardLayout[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
+                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
                     if (Action == LAYER_SWITCHER_KEY_MOUSE) {
                         ActiveLayer = LAYER_ID_MOUSE;
                     } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
@@ -56,8 +56,8 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
             for (uint8_t Col=0; Col<ColNum; Col++) {
                 uint8_t KeyState = KeyMatrix_GetElement(KeyMatrix, Row, Col);
                 if (GET_KEY_STATE_CURRENT(KeyState)) {
-                    // TODO: Remove "const __flash" after putting the layout into the SRAM.
-                    const __flash uint8_t (*Key)[LAYERS_NUM][ITEM_NUM_PER_KEY] = &KeyboardLayout[Row][Col+ColIndex];
+                    // TODO: Remove "const __flash" after putting the keymap into the SRAM.
+                    const __flash uint8_t (*Key)[LAYERS_NUM][ITEM_NUM_PER_KEY] = &KeyMap[Row][Col+ColIndex];
                     const __flash uint8_t *ActiveKey = (*Key)[ActiveLayer];
                     const __flash uint8_t *NormalKey = (*Key)[LAYER_ID_NORMAL];
 

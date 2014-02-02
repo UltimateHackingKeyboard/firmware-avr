@@ -1,12 +1,12 @@
 /** \file
  *
- *  The default keyboard layout.
+ *  The default keymap.
  */
 
 #include "DefaultLayout.h"
 
 // TODO: Should be put into the SRAM eventually.
-const __flash uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY] =
+const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY] =
 {
     { /* key matrix row 1 */
         { /* A1 key */

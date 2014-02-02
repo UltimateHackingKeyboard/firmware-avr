@@ -39,7 +39,7 @@
         #define KEYMATRIX_RIGHT (KeyMatrices + 1)
 
     /* External Variables: */
-        extern const __flash uint8_t KeyboardLayout[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY];
+        extern const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_KEY];
         extern KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
 
     /* Function Prototypes: */
