@@ -22,32 +22,10 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     KeyMatrix_Scan(KEYMATRIX_RIGHT, NULL);
 
     // Figure out which layer is active.
-    uint8_t ActiveLayer = LAYER_ID_NORMAL;
-    uint8_t ColIndex = 0;
-
-    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
-        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
-        uint8_t RowNum = KeyMatrix->Info->RowNum;
-        uint8_t ColNum = KeyMatrix->Info->ColNum;
-        for (uint8_t Row=0; Row<RowNum; Row++) {
-            for (uint8_t Col=0; Col<ColNum; Col++) {
-                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
-                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
-                    if (Action == LAYER_SWITCHER_KEY_MOUSE) {
-                        ActiveLayer = LAYER_ID_MOUSE;
-                    } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
-                        ActiveLayer = LAYER_ID_FN;
-                    } else if (Action == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
-                        ActiveLayer = LAYER_ID_MOD;
-                    }
-                }
-            }
-        }
-        ColIndex += ColNum;
-    }
+    uint8_t ActiveLayer = GetActiveLayer();
 
     // Construct the keyboard report according to the pressed keys.
-    ColIndex = 0;
+    uint8_t ColIndex = 0;
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
         uint8_t RowNum = KeyMatrix->Info->RowNum;
@@ -112,6 +90,35 @@ bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
     PreviousModifiers = KeyboardReport->Modifier;
 
     return false;
+}
+
+uint8_t GetActiveLayer()
+{
+    uint8_t ActiveLayer = LAYER_ID_NORMAL;
+    uint8_t ColIndex = 0;
+
+    for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
+        KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
+        uint8_t RowNum = KeyMatrix->Info->RowNum;
+        uint8_t ColNum = KeyMatrix->Info->ColNum;
+        for (uint8_t Row=0; Row<RowNum; Row++) {
+            for (uint8_t Col=0; Col<ColNum; Col++) {
+                if (GET_KEY_STATE_CURRENT(KeyMatrix_GetElement(KeyMatrix, Row, Col))) {
+                    uint8_t Action = KeyMap[Row][Col+ColIndex][LAYER_ID_NORMAL][KEY_ACTION];
+                    if (Action == LAYER_SWITCHER_KEY_MOUSE) {
+                        ActiveLayer = LAYER_ID_MOUSE;
+                    } else if (Action == LAYER_SWITCHER_KEY_FN && ActiveLayer != LAYER_ID_MOUSE) {
+                        ActiveLayer = LAYER_ID_FN;
+                    } else if (Action == LAYER_SWITCHER_KEY_MOD && ActiveLayer != LAYER_ID_MOUSE && ActiveLayer != LAYER_ID_FN) {
+                        ActiveLayer = LAYER_ID_MOD;
+                    }
+                }
+            }
+        }
+        ColIndex += ColNum;
+    }
+
+    return ActiveLayer;
 }
 
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)

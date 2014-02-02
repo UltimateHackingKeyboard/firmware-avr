@@ -12,6 +12,7 @@
 
     /* Function Prototypes: */
         bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize);
+        uint8_t GetActiveLayer(void);
         bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize);
         bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize);
         void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize);
