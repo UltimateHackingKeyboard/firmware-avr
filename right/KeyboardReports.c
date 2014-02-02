@@ -104,11 +104,8 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                             KeyboardReport->Modifier |= KeyArgument;
                         }
                     }
-                } else if  // Unsuppress suppressed keys upon release.
-                    (KEY_STATE_WAS_PRESSED(KeyState) &&
-                    !KEY_STATE_IS_PRESSED(KeyState) &&
-                     KEY_STATE_IS_SUPPRESSED(KeyState))
-                {
+                } else if (KEY_STATE_BECAME_RELEASED(KeyState) && KEY_STATE_IS_SUPPRESSED(KeyState)) {
+                    // Unsuppress suppressed keys upon release.
                     KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState & ~KEY_STATE_MASK_SUPPRESSED);
                 }
             }
