@@ -55,7 +55,7 @@
         #define GENERIC_IN_EPADDR         (ENDPOINT_DIR_IN | 1)
 
         /** Size in bytes of the Generic HID reporting endpoint. */
-        #define GENERIC_EPSIZE            8
+        #define GENERIC_EPSIZE            64
 
     /* Function Prototypes: */
         uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
