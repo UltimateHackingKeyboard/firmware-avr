@@ -18,8 +18,8 @@ reenumerateAs = {
 
 vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
 agentInterface = {
-    KEYBOARD_6KRO : { productId: 0x05EA, interfaceNumber:  2 },
-    KEYBOARD_NKRO : { productId: 0x05EB, interfaceNumber:  2 },
+    KEYBOARD_6KRO : { productId: 0x05EA, interfaceNumber:  0 },
+    KEYBOARD_NKRO : { productId: 0x05EB, interfaceNumber:  0 },
     BOOTLOADER    : { productId: 0x05EC, interfaceNumber: -1 },
     USB_TO_SERIAL : { productId: 0x05ED, interfaceNumber:  0 }
 };

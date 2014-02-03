@@ -78,81 +78,7 @@ const Keyboard_USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
             .MaxPowerConsumption    = USB_CONFIG_POWER_MA(100)
         },
 
-    .HID1_KeyboardInterface =
-        {
-            .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
-
-            .InterfaceNumber        = INTERFACE_ID_Keyboard,
-            .AlternateSetting       = 0x00,
-
-            .TotalEndpoints         = 1,
-
-            .Class                  = HID_CSCP_HIDClass,
-            .SubClass               = HID_CSCP_BootSubclass,
-            .Protocol               = HID_CSCP_KeyboardBootProtocol,
-
-            .InterfaceStrIndex      = NO_DESCRIPTOR
-        },
-
-    .HID1_KeyboardHID =
-        {
-            .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
-
-            .HIDSpec                = VERSION_BCD(01.11),
-            .CountryCode            = 0x00,
-            .TotalReportDescriptors = 1,
-            .HIDReportType          = HID_DTYPE_Report,
-            .HIDReportLength        = sizeof(KeyboardReport)
-        },
-
-    .HID1_ReportINEndpoint =
-        {
-            .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
-
-            .EndpointAddress        = KEYBOARD_IN_EPADDR,
-            .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
-            .EndpointSize           = HID_EPSIZE,
-            .PollingIntervalMS      = 0x05
-        },
-
-    .HID2_MouseInterface =
-        {
-            .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
-
-            .InterfaceNumber        = INTERFACE_ID_Mouse,
-            .AlternateSetting       = 0x00,
-
-            .TotalEndpoints         = 1,
-
-            .Class                  = HID_CSCP_HIDClass,
-            .SubClass               = HID_CSCP_BootSubclass,
-            .Protocol               = HID_CSCP_MouseBootProtocol,
-
-            .InterfaceStrIndex      = NO_DESCRIPTOR
-        },
-
-    .HID2_MouseHID =
-        {
-            .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
-
-            .HIDSpec                = VERSION_BCD(01.11),
-            .CountryCode            = 0x00,
-            .TotalReportDescriptors = 1,
-            .HIDReportType          = HID_DTYPE_Report,
-            .HIDReportLength        = sizeof(MouseReport)
-        },
-
-    .HID2_ReportINEndpoint =
-        {
-            .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
-
-            .EndpointAddress        = MOUSE_IN_EPADDR,
-            .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
-            .EndpointSize           = HID_EPSIZE,
-            .PollingIntervalMS      = 0x05
-        },
-
-    .HID3_GenericHIDInterface =
+    .HID1_GenericHIDInterface =
         {
             .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
 
@@ -168,7 +94,7 @@ const Keyboard_USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
             .InterfaceStrIndex      = NO_DESCRIPTOR
         },
 
-    .HID3_GenericHID =
+    .HID1_GenericHID =
         {
             .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
 
@@ -179,13 +105,87 @@ const Keyboard_USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
             .HIDReportLength        = sizeof(GenericReport)
         },
 
-    .HID3_ReportINEndpoint =
+    .HID1_ReportINEndpoint =
         {
             .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
 
             .EndpointAddress        = GENERIC_IN_EPADDR,
             .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
             .EndpointSize           = GENERIC_EPSIZE,
+            .PollingIntervalMS      = 0x05
+        },
+
+    .HID2_KeyboardInterface =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
+
+            .InterfaceNumber        = INTERFACE_ID_Keyboard,
+            .AlternateSetting       = 0x00,
+
+            .TotalEndpoints         = 1,
+
+            .Class                  = HID_CSCP_HIDClass,
+            .SubClass               = HID_CSCP_BootSubclass,
+            .Protocol               = HID_CSCP_KeyboardBootProtocol,
+
+            .InterfaceStrIndex      = NO_DESCRIPTOR
+        },
+
+    .HID2_KeyboardHID =
+        {
+            .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
+
+            .HIDSpec                = VERSION_BCD(01.11),
+            .CountryCode            = 0x00,
+            .TotalReportDescriptors = 1,
+            .HIDReportType          = HID_DTYPE_Report,
+            .HIDReportLength        = sizeof(KeyboardReport)
+        },
+
+    .HID2_ReportINEndpoint =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
+
+            .EndpointAddress        = KEYBOARD_IN_EPADDR,
+            .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
+            .EndpointSize           = HID_EPSIZE,
+            .PollingIntervalMS      = 0x05
+        },
+
+    .HID3_MouseInterface =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
+
+            .InterfaceNumber        = INTERFACE_ID_Mouse,
+            .AlternateSetting       = 0x00,
+
+            .TotalEndpoints         = 1,
+
+            .Class                  = HID_CSCP_HIDClass,
+            .SubClass               = HID_CSCP_BootSubclass,
+            .Protocol               = HID_CSCP_MouseBootProtocol,
+
+            .InterfaceStrIndex      = NO_DESCRIPTOR
+        },
+
+    .HID3_MouseHID =
+        {
+            .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
+
+            .HIDSpec                = VERSION_BCD(01.11),
+            .CountryCode            = 0x00,
+            .TotalReportDescriptors = 1,
+            .HIDReportType          = HID_DTYPE_Report,
+            .HIDReportLength        = sizeof(MouseReport)
+        },
+
+    .HID3_ReportINEndpoint =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
+
+            .EndpointAddress        = MOUSE_IN_EPADDR,
+            .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
+            .EndpointSize           = HID_EPSIZE,
             .PollingIntervalMS      = 0x05
         }
 };
@@ -252,16 +252,16 @@ uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
         case HID_DTYPE_HID:
             switch (wIndex)
             {
+                case INTERFACE_ID_GenericHID:
+                    Address = &ConfigurationDescriptor.HID1_GenericHID;
+                    Size    = sizeof(USB_HID_Descriptor_HID_t);
+                    break;
                 case INTERFACE_ID_Keyboard:
-                    Address = &ConfigurationDescriptor.HID1_KeyboardHID;
+                    Address = &ConfigurationDescriptor.HID2_KeyboardHID;
                     Size    = sizeof(USB_HID_Descriptor_HID_t);
                     break;
                 case INTERFACE_ID_Mouse:
-                    Address = &ConfigurationDescriptor.HID2_MouseHID;
-                    Size    = sizeof(USB_HID_Descriptor_HID_t);
-                    break;
-                case INTERFACE_ID_GenericHID:
-                    Address = &ConfigurationDescriptor.HID3_GenericHID;
+                    Address = &ConfigurationDescriptor.HID3_MouseHID;
                     Size    = sizeof(USB_HID_Descriptor_HID_t);
                     break;
             }
@@ -270,6 +270,10 @@ uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
         case HID_DTYPE_Report:
             switch (wIndex)
             {
+                case INTERFACE_ID_GenericHID:
+                    Address = &GenericReport;
+                    Size    = sizeof(GenericReport);
+                    break;
                 case INTERFACE_ID_Keyboard:
                     Address = &KeyboardReport;
                     Size    = sizeof(KeyboardReport);
@@ -277,10 +281,6 @@ uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
                 case INTERFACE_ID_Mouse:
                     Address = &MouseReport;
                     Size    = sizeof(MouseReport);
-                    break;
-                case INTERFACE_ID_GenericHID:
-                    Address = &GenericReport;
-                    Size    = sizeof(GenericReport);
                     break;
             }
 

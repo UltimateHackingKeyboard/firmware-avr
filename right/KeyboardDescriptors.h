@@ -9,27 +9,27 @@
         {
             USB_Descriptor_Configuration_Header_t Config;
 
-            // Keyboard HID Interface
-            USB_Descriptor_Interface_t            HID1_KeyboardInterface;
-            USB_HID_Descriptor_HID_t              HID1_KeyboardHID;
+            // Generic HID Interface
+            USB_Descriptor_Interface_t            HID1_GenericHIDInterface;
+            USB_HID_Descriptor_HID_t              HID1_GenericHID;
             USB_Descriptor_Endpoint_t             HID1_ReportINEndpoint;
 
-            // Mouse HID Interface
-            USB_Descriptor_Interface_t            HID2_MouseInterface;
-            USB_HID_Descriptor_HID_t              HID2_MouseHID;
+            // Keyboard HID Interface
+            USB_Descriptor_Interface_t            HID2_KeyboardInterface;
+            USB_HID_Descriptor_HID_t              HID2_KeyboardHID;
             USB_Descriptor_Endpoint_t             HID2_ReportINEndpoint;
 
-            // Generic HID Interface
-            USB_Descriptor_Interface_t            HID3_GenericHIDInterface;
-            USB_HID_Descriptor_HID_t              HID3_GenericHID;
+            // Mouse HID Interface
+            USB_Descriptor_Interface_t            HID3_MouseInterface;
+            USB_HID_Descriptor_HID_t              HID3_MouseHID;
             USB_Descriptor_Endpoint_t             HID3_ReportINEndpoint;
         } Keyboard_USB_Descriptor_Configuration_t;
 
         enum KeyboardInterfaceDescriptors_t
         {
-            INTERFACE_ID_Keyboard   = 0, /**< Keyboard interface descriptor ID */
-            INTERFACE_ID_Mouse      = 1, /**< Mouse interface descriptor ID */
-            INTERFACE_ID_GenericHID = 2, /**< Generic HID interface descriptor ID */
+            INTERFACE_ID_GenericHID = 0, /**< Generic HID interface descriptor ID */
+            INTERFACE_ID_Keyboard   = 1, /**< Keyboard interface descriptor ID */
+            INTERFACE_ID_Mouse      = 2, /**< Mouse interface descriptor ID */
         };
 
         enum KeyboardStringDescriptors_t
