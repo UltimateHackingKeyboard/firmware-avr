@@ -12,10 +12,6 @@ int main(void)
     SetupHardware();
     GlobalInterruptEnable();
 
-    EnumerationMode = Boot_Key == MAGIC_USB_TO_SERIAL_KEY
-                        ? ENUMERATION_MODE_USBtoSerial
-                        : ENUMERATION_MODE_Keyboard;
-
     if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
         KeyboardMainLoop();
     } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {

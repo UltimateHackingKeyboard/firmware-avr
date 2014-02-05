@@ -14,12 +14,13 @@
         /** Enum for the USB enumeration mode. */
         enum EnumerationMode_t
         {
-            ENUMERATION_MODE_Keyboard     = 0, /**< Normal enumeration mode featuring a keyboard, a mouse and a generic HID interface */
-            ENUMERATION_MODE_USBtoSerial  = 1, /**< USBtoSerial enumeration mode for upgrading the firmware of the left half */
+            ENUMERATION_MODE_Keyboard    = 0, /**< Normal enumeration mode featuring a keyboard, a mouse and a generic HID interface */
+            ENUMERATION_MODE_Bootloader  = 1, /**< Bootloader enumeration mode for upgrading the firmware of the right half */
+            ENUMERATION_MODE_USBtoSerial = 2, /**< USBtoSerial enumeration mode for upgrading the firmware of the left half */
         };
 
     /* Global Variables: */
-        extern uint8_t EnumerationMode;  /** The current enumeration mode according to \ref EnumerationMode_t */
+        extern uint8_t EnumerationMode ATTR_NO_INIT;  /** The current enumeration mode according to \ref EnumerationMode_t */
 
     /* Function Prototypes: */
         int KeyboardMainLoop(void);

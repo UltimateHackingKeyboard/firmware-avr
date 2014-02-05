@@ -9,9 +9,39 @@ uint32_t Boot_Key ATTR_NO_INIT;
 
 void Bootloader_Jump_Check(void)
 {
-    // If the reset source was the bootloader and the key is correct, clear it and jump to the bootloader
-    if ((MCUSR & (1 << WDRF)) && (Boot_Key == MAGIC_BOOT_KEY)) {
-        Boot_Key = 0;
+    volatile uint8_t a, b, c, d, BootloaderEnumerationMode;
+    __asm__ __volatile__ (
+        "mov %0,r16\n"
+        "mov %1,r17\n"
+        "mov %2,r18\n"
+        "mov %3,r19\n"
+        "mov %4,r20\n"
+        "clr r16\n"
+        "clr r17\n"
+        "clr r18\n"
+        "clr r19\n"
+        "clr r20\n"
+        :"=r"(a), "=r"(b), "=r"(c), "=r"(d), "=r"(BootloaderEnumerationMode)
+        :
+        :"r16", "r17", "r18", "r19", "r20"
+    );
+
+    bool EnumerationModeSetByBootloader = a==1 && b==2 && c==3 && d==4;
+    bool EnumerationModeSetByApplication = Boot_Key == MAGIC_BOOT_KEY;
+
+    if (MCUSR & (1 << WDRF)) {
+        if (EnumerationModeSetByBootloader) {
+            EnumerationMode = BootloaderEnumerationMode;
+        } else if (EnumerationModeSetByApplication) {
+            Boot_Key = 0;
+        } else {
+            EnumerationMode = ENUMERATION_MODE_Keyboard;
+        }
+    } else {
+        EnumerationMode = ENUMERATION_MODE_Keyboard;
+    }
+
+    if (EnumerationMode == ENUMERATION_MODE_Bootloader) {
         ((void (*)(void))BOOTLOADER_START_ADDRESS)();
     }
 }
@@ -35,11 +65,6 @@ void Jump_To_Bootloader(uint32_t BootKey)
 
 void Reenumerate(uint8_t ReenumerateAs)
 {
-    if (ReenumerateAs == REENUMERATE_AS_KEYBOARD) {
-        Jump_To_Bootloader(0);
-    } else if (ReenumerateAs == REENUMERATE_AS_BOOTLOADER) {
-        Jump_To_Bootloader(MAGIC_BOOT_KEY);
-    } else if (ReenumerateAs == REENUMERATE_AS_USB_TO_SERIAL) {
-        Jump_To_Bootloader(MAGIC_USB_TO_SERIAL_KEY);
-    }
+    EnumerationMode = ReenumerateAs;
+    Jump_To_Bootloader(MAGIC_BOOT_KEY);
 }
