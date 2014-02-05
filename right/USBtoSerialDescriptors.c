@@ -141,16 +141,16 @@ const USB_Descriptor_String_t PROGMEM USBtoSerial_LanguageString =
 
 const USB_Descriptor_String_t PROGMEM USBtoSerial_ManufacturerString =
 {
-    .Header                 = {.Size = USB_STRING_LEN(11), .Type = DTYPE_String},
+    .Header                 = {.Size = USB_STRING_LEN(28), .Type = DTYPE_String},
 
-    .UnicodeString          = L"Dean Camera"
+    .UnicodeString          = L"Ultimate Gadget Laboratories"
 };
 
 const USB_Descriptor_String_t PROGMEM USBtoSerial_ProductString =
 {
-    .Header                 = {.Size = USB_STRING_LEN(22), .Type = DTYPE_String},
+    .Header                 = {.Size = USB_STRING_LEN(63), .Type = DTYPE_String},
 
-    .UnicodeString          = L"LUFA USB-RS232 Adapter"
+    .UnicodeString          = L"Ultimate Hacking Keyboard - Left Bootloader (STK500v1 protocol)"
 };
 
 uint16_t CALLBACK_USB_GetUSBtoSerialDescriptor(const uint16_t wValue,
