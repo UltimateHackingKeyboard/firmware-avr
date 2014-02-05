@@ -206,9 +206,9 @@ const USB_Descriptor_String_t PROGMEM ManufacturerString =
 
 const USB_Descriptor_String_t PROGMEM ProductString =
 {
-    .Header                 = {.Size = USB_STRING_LEN(25), .Type = DTYPE_String},
+    .Header                 = {.Size = USB_STRING_LEN(37), .Type = DTYPE_String},
 
-    .UnicodeString          = L"Ultimate Hacking Keyboard"
+    .UnicodeString          = L"Ultimate Hacking Keyboard (6KRO mode)"
 };
 
 uint16_t CALLBACK_USB_GetKeyboardDescriptor(const uint16_t wValue,
