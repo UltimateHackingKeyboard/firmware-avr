@@ -159,14 +159,14 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
     USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
 
     if (MouseMovement & MOUSE_STATE_UP)
-      MouseReport->Y = -1;
+      MouseReport->Y = -MOUSE_SPEED;
     else if (MouseMovement & MOUSE_STATE_DOWN)
-      MouseReport->Y =  1;
+      MouseReport->Y = MOUSE_SPEED;
 
     if (MouseMovement & MOUSE_STATE_LEFT)
-      MouseReport->X = -1;
+      MouseReport->X = -MOUSE_SPEED;
     else if (MouseMovement & MOUSE_STATE_RIGHT)
-      MouseReport->X =  1;
+      MouseReport->X = MOUSE_SPEED;
 
     if (MouseButtons & MOUSE_STATE_LEFT_CLICK)
       MouseReport->Button |= (1 << 0);
