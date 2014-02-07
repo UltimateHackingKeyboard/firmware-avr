@@ -27,7 +27,8 @@
         #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || \
                                                       Action == LAYER_SWITCHER_KEY_FN || \
                                                       Action == LAYER_SWITCHER_KEY_MOD)
-        #define IS_KEY_ACTION_REGULAR(KeyAction) (KeyAction != NO_ACTION && !IS_KEY_ACTION_LAYER_SWITCHER(KeyAction))
+        #define IS_KEY_ACTION_REGULAR(KeyAction) (HID_KEYBOARD_SC_ERROR_ROLLOVER <= KeyAction && \
+                                                  KeyAction <= HID_KEYBOARD_SC_RIGHT_GUI)
 
         #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
         #define LAYERS_NUM (LAYER_SWITCHER_KEY_TYPES_NUM + 1)
@@ -39,6 +40,13 @@
         #define LAYER_SWITCHER_KEY_MOD   0xE8
         #define LAYER_SWITCHER_KEY_FN    0xE9
         #define LAYER_SWITCHER_KEY_MOUSE 0xEA
+        #define MOUSE_MOVE_UP            0xEB
+        #define MOUSE_MOVE_LEFT          0xEC
+        #define MOUSE_MOVE_DOWN          0xED
+        #define MOUSE_MOVE_RIGHT         0xEE
+        #define MOUSE_CLICK_LEFT         0xEF
+        #define MOUSE_CLICK_MIDDLE       0xF0
+        #define MOUSE_CLICK_RIGHT        0xF1
 
         #define LAYER_SWITCHER_KEY_TO_LAYER(LayerSwitcherKey) \
             (LayerSwitcherKey == NO_ACTION ? LAYER_BASE : LayerSwitcherKey-LAYER_SWITCHER_KEY_MOD+1)
