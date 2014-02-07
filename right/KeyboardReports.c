@@ -10,6 +10,7 @@ uint8_t PreviousModifiers = NO_ARGUMENT;
 
 static uint8_t MouseMovement;
 static uint8_t MouseButtons;
+static uint8_t MouseMomentum = 0;
 
 static void ProcessMouseAction(uint8_t KeyAction);
 
@@ -158,22 +159,42 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
     USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
 
-    if (MouseMovement & MOUSE_STATE_UP)
-      MouseReport->Y = -MOUSE_SPEED;
-    else if (MouseMovement & MOUSE_STATE_DOWN)
-      MouseReport->Y = MOUSE_SPEED;
+    if (MouseMovement == 0) {
+        MouseMomentum = 0;
+    } else {
+        if (MouseMomentum <= UINT8_MAX - MOUSE_ACCELERATION) {
+            MouseMomentum += MOUSE_ACCELERATION;
+        }
 
-    if (MouseMovement & MOUSE_STATE_LEFT)
-      MouseReport->X = -MOUSE_SPEED;
-    else if (MouseMovement & MOUSE_STATE_RIGHT)
-      MouseReport->X = MOUSE_SPEED;
+        uint8_t MouseSpeed = MouseMomentum/MOUSE_SPEED_DIVISOR + 1;
 
-    if (MouseButtons & MOUSE_STATE_LEFT_CLICK)
-      MouseReport->Button |= (1 << 0);
-    if (MouseButtons & MOUSE_STATE_MIDDLE_CLICK)
-      MouseReport->Button |= (1 << 2);
-    if (MouseButtons & MOUSE_STATE_RIGHT_CLICK)
-      MouseReport->Button |= (1 << 1);
+        if (MouseSpeed > MOUSE_MAX_SPEED) {
+            MouseSpeed = MOUSE_MAX_SPEED;
+        }
+
+        if (MouseMovement & MOUSE_STATE_UP) {
+            MouseReport->Y = -MouseSpeed;
+        } else if (MouseMovement & MOUSE_STATE_DOWN) {
+            MouseReport->Y = MouseSpeed;
+        }
+
+        if (MouseMovement & MOUSE_STATE_LEFT) {
+            MouseReport->X = -MouseSpeed;
+        } else if (MouseMovement & MOUSE_STATE_RIGHT) {
+            MouseReport->X = MouseSpeed + 1;
+        }
+    }
+
+
+    if (MouseButtons & MOUSE_STATE_LEFT_CLICK) {
+        MouseReport->Button |= (1 << 0);
+    }
+    if (MouseButtons & MOUSE_STATE_MIDDLE_CLICK) {
+        MouseReport->Button |= (1 << 2);
+    }
+    if (MouseButtons & MOUSE_STATE_RIGHT_CLICK) {
+        MouseReport->Button |= (1 << 1);
+    }
 
     *ReportSize = sizeof(USB_MouseReport_Data_t);
     return true;

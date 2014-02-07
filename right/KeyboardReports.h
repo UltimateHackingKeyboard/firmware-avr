@@ -17,7 +17,9 @@
         #define MOUSE_STATE_MIDDLE_CLICK (1<<1)
         #define MOUSE_STATE_RIGHT_CLICK  (1<<2)
 
-        #define MOUSE_SPEED 2  // multiplied by 100 pixels per second
+        #define MOUSE_MAX_SPEED    10 // multiplied by 100 pixels per second
+        #define MOUSE_ACCELERATION 2  // multiplied by 100 pixels per second
+        #define MOUSE_SPEED_DIVISOR 10
 
         #define AGENT_COMMAND_REENUMERATE 0
 
