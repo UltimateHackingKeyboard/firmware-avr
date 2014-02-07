@@ -8,6 +8,11 @@
 uint8_t PreviousLayer = LAYER_BASE;
 uint8_t PreviousModifiers = NO_ARGUMENT;
 
+static uint8_t MouseMovement;
+static uint8_t MouseButtons;
+
+static void ProcessMouseAction(uint8_t KeyAction);
+
 bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
     // TODO: Implement proper debouncing algorithm that does not block.
@@ -72,6 +77,9 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
     uint8_t UsedKeyCodes = 0;
     uint8_t ColIndex = 0;
 
+    MouseMovement = 0;
+    MouseButtons = 0;
+
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
         uint8_t RowNum = KeyMatrix->Info->RowNum;
@@ -90,18 +98,21 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
 
                     if (IS_KEY_MODIFIER(BaseKey)) {
                         KeyboardReport->Modifier |= BaseKey[KEY_ARGUMENT];
-                    } else if (IS_KEY_ACTION_REGULAR(KeyAction)) {
-
+                    } else {
                         // Suppress keys upon layer switcher key release.
                         if (PreviousLayer != LAYER_BASE && ActiveLayer == LAYER_BASE) {
                             KeyState |= KEY_STATE_MASK_SUPPRESSED;
                             KeyMatrix_SetElement(KeyMatrix, Row, Col, KeyState);
                         }
 
-                        // Add scancode to the array to be sent to the host.
-                        if (!KEY_STATE_IS_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
-                            KeyboardReport->KeyCode[UsedKeyCodes++] = KeyAction;
-                            KeyboardReport->Modifier |= KeyArgument;
+                        if (IS_KEY_ACTION_REGULAR(KeyAction)) {
+                            // Add scancode to the array to be sent to the host.
+                            if (!KEY_STATE_IS_SUPPRESSED(KeyState) && UsedKeyCodes < KEYBOARD_ROLLOVER) {
+                                KeyboardReport->KeyCode[UsedKeyCodes++] = KeyAction;
+                                KeyboardReport->Modifier |= KeyArgument;
+                            }
+                        } else if (IS_KEY_ACTION_MOUSE(KeyAction)) {
+                            ProcessMouseAction(KeyAction);
                         }
                     }
                 } else if (KEY_STATE_BECAME_RELEASED(KeyState) && KEY_STATE_IS_SUPPRESSED(KeyState)) {
@@ -116,9 +127,54 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
     return UsedKeyCodes;
 }
 
+static void ProcessMouseAction(uint8_t KeyAction)
+{
+    switch (KeyAction) {
+        case MOUSE_MOVE_UP:
+            MouseMovement |= MOUSE_STATE_UP;
+            break;
+        case MOUSE_MOVE_LEFT:
+            MouseMovement |= MOUSE_STATE_LEFT;
+            break;
+        case MOUSE_MOVE_DOWN:
+            MouseMovement |= MOUSE_STATE_DOWN;
+            break;
+        case MOUSE_MOVE_RIGHT:
+            MouseMovement |= MOUSE_STATE_RIGHT;
+            break;
+        case MOUSE_CLICK_LEFT:
+            MouseButtons |= MOUSE_STATE_LEFT_CLICK;
+            break;
+        case MOUSE_CLICK_MIDDLE:
+            MouseButtons |= MOUSE_STATE_MIDDLE_CLICK;
+            break;
+        case MOUSE_CLICK_RIGHT:
+            MouseButtons |= MOUSE_STATE_RIGHT_CLICK;
+            break;
+    }
+}
+
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
-//    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+
+    if (MouseMovement & MOUSE_STATE_UP)
+      MouseReport->Y = -1;
+    else if (MouseMovement & MOUSE_STATE_DOWN)
+      MouseReport->Y =  1;
+
+    if (MouseMovement & MOUSE_STATE_LEFT)
+      MouseReport->X = -1;
+    else if (MouseMovement & MOUSE_STATE_RIGHT)
+      MouseReport->X =  1;
+
+    if (MouseButtons & MOUSE_STATE_LEFT_CLICK)
+      MouseReport->Button |= (1 << 0);
+    if (MouseButtons & MOUSE_STATE_MIDDLE_CLICK)
+      MouseReport->Button |= (1 << 2);
+    if (MouseButtons & MOUSE_STATE_RIGHT_CLICK)
+      MouseReport->Button |= (1 << 1);
+
     *ReportSize = sizeof(USB_MouseReport_Data_t);
     return true;
 }

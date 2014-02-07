@@ -23,18 +23,6 @@
         #define NO_ACTION   0
         #define NO_ARGUMENT 0
 
-        #define IS_KEY_MODIFIER(Key) (Key[KEY_ACTION] == NO_ACTION && Key[KEY_ARGUMENT] != NO_ARGUMENT)
-        #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || \
-                                                      Action == LAYER_SWITCHER_KEY_FN || \
-                                                      Action == LAYER_SWITCHER_KEY_MOD)
-        #define IS_KEY_ACTION_REGULAR(KeyAction) (HID_KEYBOARD_SC_ERROR_ROLLOVER <= KeyAction && \
-                                                  KeyAction <= HID_KEYBOARD_SC_RIGHT_GUI)
-
-        #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
-        #define LAYERS_NUM (LAYER_SWITCHER_KEY_TYPES_NUM + 1)
-
-        #define ITEM_NUM_PER_KEY 2  // bytes
-
         /* The following values must not conflict with any of the HID_KEYBOARD_SC_* constants of LUFA! */
         #define LAYER_SWITCHER_KEY_NONE  0x00
         #define LAYER_SWITCHER_KEY_MOD   0xE8
@@ -47,6 +35,19 @@
         #define MOUSE_CLICK_LEFT         0xEF
         #define MOUSE_CLICK_MIDDLE       0xF0
         #define MOUSE_CLICK_RIGHT        0xF1
+
+        #define IS_KEY_MODIFIER(Key) (Key[KEY_ACTION] == NO_ACTION && Key[KEY_ARGUMENT] != NO_ARGUMENT)
+        #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || \
+                                                      Action == LAYER_SWITCHER_KEY_FN || \
+                                                      Action == LAYER_SWITCHER_KEY_MOD)
+        #define IS_KEY_ACTION_REGULAR(KeyAction) (HID_KEYBOARD_SC_ERROR_ROLLOVER <= KeyAction && \
+                                                  KeyAction <= HID_KEYBOARD_SC_RIGHT_GUI)
+        #define IS_KEY_ACTION_MOUSE(KeyAction) (MOUSE_MOVE_UP <= KeyAction && KeyAction <= MOUSE_CLICK_RIGHT)
+
+        #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
+        #define LAYERS_NUM (LAYER_SWITCHER_KEY_TYPES_NUM + 1)
+
+        #define ITEM_NUM_PER_KEY 2  // bytes
 
         #define LAYER_SWITCHER_KEY_TO_LAYER(LayerSwitcherKey) \
             (LayerSwitcherKey == NO_ACTION ? LAYER_BASE : LayerSwitcherKey-LAYER_SWITCHER_KEY_MOD+1)
