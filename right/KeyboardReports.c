@@ -136,7 +136,7 @@ void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
     uint8_t  Command = Data[0];
 
     if (Command == AGENT_COMMAND_REENUMERATE) {
-        uint8_t ReenumerateAs = Data[1];
-        Reenumerate(ReenumerateAs);
+        uint8_t NewEnumerationMode = Data[1];
+        Reenumerate(NewEnumerationMode);
     }
 }
