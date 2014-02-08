@@ -19,9 +19,6 @@
             ENUMERATION_MODE_USBtoSerial = 2, /**< USBtoSerial enumeration mode for upgrading the firmware of the left half */
         };
 
-    /* Global Variables: */
-        extern uint8_t EnumerationMode ATTR_NO_INIT;  /** The current enumeration mode according to \ref EnumerationMode_t */
-
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
         void SetupHardware(void);

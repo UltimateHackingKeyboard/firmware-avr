@@ -13,8 +13,14 @@
         #define BOOTLOADER_SEC_SIZE_BYTES 4096
         #define BOOTLOADER_START_ADDRESS  (FLASH_SIZE_BYTES - BOOTLOADER_SEC_SIZE_BYTES)
 
+    /* Type Defines: */
+        typedef struct {
+          uint32_t MagicBootKey;
+          uint8_t EnumerationMode;
+        } wormhole_t;
+
     /* Global Variables: */
-        extern uint32_t Boot_Key ATTR_NO_INIT;
+        extern wormhole_t *Wormhole ATTR_NO_INIT;
 
     /* Function Prototypes: */
         void Bootloader_Jump_Check(void) ATTR_INIT_SECTION(3);

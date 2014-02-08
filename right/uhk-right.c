@@ -12,9 +12,9 @@ int main(void)
     SetupHardware();
     GlobalInterruptEnable();
 
-    if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
+    if (Wormhole->EnumerationMode == ENUMERATION_MODE_Keyboard) {
         KeyboardMainLoop();
-    } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
+    } else if (Wormhole->EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
         USBtoSerialMainLoop();
     }
 }

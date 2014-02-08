@@ -5,17 +5,21 @@
 
 #include "BootloaderJump.h"
 
-uint32_t Boot_Key ATTR_NO_INIT;
+wormhole_t *Wormhole ATTR_NO_INIT;
 
 void Bootloader_Jump_Check(void)
 {
-    if ((MCUSR & (1 << WDRF)) && (Boot_Key == MAGIC_BOOT_KEY)) {
-        Boot_Key = 0;
-    } else {
-        EnumerationMode = ENUMERATION_MODE_Keyboard;
-    }
+    SP -= sizeof(wormhole_t);
+    Wormhole = (wormhole_t*)(SP + 1);
 
-    if (EnumerationMode == ENUMERATION_MODE_Bootloader) {
+    if ((MCUSR & (1 << WDRF)) && (Wormhole->MagicBootKey == MAGIC_BOOT_KEY)) {
+        // Leave EnumerationMode as it is so that it will be processed in the application.
+    } else {
+        Wormhole->EnumerationMode = ENUMERATION_MODE_Keyboard;
+    }
+    Wormhole->MagicBootKey = 0;
+
+    if (Wormhole->EnumerationMode == ENUMERATION_MODE_Bootloader) {
         ((void (*)(void))BOOTLOADER_START_ADDRESS)();
     }
 }
@@ -31,10 +35,10 @@ void Reenumerate(uint8_t NewEnumerationMode)
     // Wait two seconds for the USB detachment to register on the host
     Delay_MS(2000);
 
-    EnumerationMode = NewEnumerationMode;
-
     // Set the bootloader key to the magic value and force a reset
-    Boot_Key = MAGIC_BOOT_KEY;
+    Wormhole->MagicBootKey = MAGIC_BOOT_KEY;
+    Wormhole->EnumerationMode = NewEnumerationMode;
+
     wdt_enable(WDTO_250MS);
     for (;;);
 }
