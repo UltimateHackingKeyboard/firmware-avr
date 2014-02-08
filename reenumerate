@@ -3,6 +3,7 @@
 // Includes
 
 var usb = require('usb');
+var argv = require('minimist')(process.argv.slice(2));
 
 // Constants
 
@@ -21,15 +22,13 @@ productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
 
 // Check arguments.
 
-var args = process.argv.splice(2);
-
-if (args.length != 1) {
+if (argv._.length != 1) {
     printUsageAndExit();
 }
 
-var newEnumerationMode = args[0];
+var enumerationMode = enumerationModes[argv._[0]];
+var wait = argv.w || argv.wait
 
-var enumerationMode = enumerationModes[newEnumerationMode];
 if (enumerationMode === undefined)
 {
     printUsageAndExit();
@@ -37,15 +36,23 @@ if (enumerationMode === undefined)
 
 function printUsageAndExit()
 {
-    console.log('Usage: jump-to-bootloader [keyboard | bootloader-left | bootloader-right]');
+    console.log('Usage: reenumerate [ -w | --wait ]  { keyboard | bootloader-left | bootloader-right }');
     process.exit(1);
 }
 
 // Set up USB connection.
 
-var device = null;
-for (var i=0; i<productIds.length && !device; i++) {
-    device = usb.findByIds(vendorId, productIds[i]);
+device = findDevice();
+
+console.log('Keyboard found');
+
+function findDevice()
+{
+    var device = null;
+    for (var i=0; i<productIds.length && !device; i++) {
+        device = usb.findByIds(vendorId, productIds[i]);
+    }
+    return device;
 }
 
 if (!device) {
@@ -53,7 +60,7 @@ if (!device) {
     process.exit(2);
 }
 
-device.open();  // TODO: What if multiple keyboards are plugged in?
+device.open();
 
 interfaceNumber = 0;
 interface = device.interface(interfaceNumber);
@@ -66,8 +73,15 @@ sendAgentCommand(agentCommand.REENUMERATE, enumerationMode);
 
 function sendAgentCommand(command, arg)
 {
+    console.log('Reenumerating...');
     setReport(new Buffer([command, arg]));
 }
+
+var INITIAL_WAIT_INTERVAL = 500    // ms
+var WAIT_INTERVAL         = 100;   // ms
+var MAX_WAIT_DELAY        = 5000;  // ms
+
+var totalWaitDelay = 0;
 
 function setReport(message)
 {
@@ -82,8 +96,25 @@ function setReport(message)
             if (error.errno != 1) {
                 console.log('%s - error %j', status, error);
             } else {
-                console.log('%s - success', status);
+                //console.log('%s - success', status);
+                if (wait) {
+                    setTimeout(function() {
+                        setInterval(waitUntilReenumerate, WAIT_INTERVAL);
+                    }, INITIAL_WAIT_INTERVAL);
+                }
             }
         }
     );
+}
+
+function waitUntilReenumerate()
+{
+    if (findDevice()) {
+        console.log('Reenumeration succeeded');
+        process.exit(0);
+    } else if (totalWaitDelay > MAX_WAIT_DELAY) {
+        console.log('Reenumeration failed');
+        process.exit(1);
+    }
+    totalWaitDelay += WAIT_INTERVAL;
 }
