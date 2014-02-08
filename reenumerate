@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var usb = require('usb');
-var argv = require('minimist')(process.argv.slice(2));
-console.log(argv);
+var argv = require('minimist')(process.argv.slice(2), {boolean:['w', 'wait']});
+
 // Global constants and variables
 
 var INITIAL_WAIT_INTERVAL = 500    // ms
@@ -20,7 +20,7 @@ enumerationModes = {
 vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
 productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
 
-// Program starts here
+// Program starts
 
 if (argv._.length != 1) {
     printUsageAndExit();
