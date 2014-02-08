@@ -5,20 +5,20 @@ var argv = require('minimist')(process.argv.slice(2), {boolean:['w', 'wait']});
 
 // Global constants and variables
 
-var INITIAL_WAIT_INTERVAL = 500    // ms
-var WAIT_INTERVAL         = 100;   // ms
-var MAX_WAIT_DELAY        = 5000;  // ms
+var vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
+var productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
 
-var totalWaitDelay = 0;
-
-enumerationModes = {
+var enumerationModes = {
     'keyboard'         : 0,
     'bootloader-right' : 1,
     'bootloader-left'  : 2
 };
 
-vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
-productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
+var INITIAL_POLLING_INTERVAL = 500    // ms
+var POLLING_INTERVAL         = 100;   // ms
+var MAX_POLLING_DELAY        = 5000;  // ms
+
+var totalWaitDelay = 0;
 
 // Program starts
 
@@ -97,8 +97,8 @@ function setReport(message)
                 //console.log('%s - success', status);
                 if (wait) {
                     setTimeout(function() {
-                        setInterval(waitUntilReenumerate, WAIT_INTERVAL);
-                    }, INITIAL_WAIT_INTERVAL);
+                        setInterval(waitUntilReenumerate, POLLING_INTERVAL);
+                    }, INITIAL_POLLING_INTERVAL);
                 }
             }
         }
@@ -110,9 +110,9 @@ function waitUntilReenumerate()
     if (findDevice()) {
         console.log('Reenumeration succeeded');
         process.exit(0);
-    } else if (totalWaitDelay > MAX_WAIT_DELAY) {
+    } else if (totalWaitDelay > MAX_POLLING_DELAY) {
         console.log('Reenumeration failed');
         process.exit(1);
     }
-    totalWaitDelay += WAIT_INTERVAL;
+    totalWaitDelay += POLLING_INTERVAL;
 }
