@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-// Includes
-
 var usb = require('usb');
 var argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+// Global constants and variables
 
-// Constants
+var INITIAL_WAIT_INTERVAL = 500    // ms
+var WAIT_INTERVAL         = 100;   // ms
+var MAX_WAIT_DELAY        = 5000;  // ms
 
-agentCommand = {
-    REENUMERATE: 0
-};
+var totalWaitDelay = 0;
 
 enumerationModes = {
     'keyboard'         : 0,
@@ -20,7 +20,7 @@ enumerationModes = {
 vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
 productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
 
-// Check arguments.
+// Program starts here
 
 if (argv._.length != 1) {
     printUsageAndExit();
@@ -29,34 +29,15 @@ if (argv._.length != 1) {
 var enumerationMode = enumerationModes[argv._[0]];
 var wait = argv.w || argv.wait
 
-if (enumerationMode === undefined)
-{
+if (enumerationMode === undefined) {
     printUsageAndExit();
 }
 
-function printUsageAndExit()
-{
-    console.log('Usage: reenumerate [ -w | --wait ]  { keyboard | bootloader-left | bootloader-right }');
-    process.exit(1);
-}
-
-// Set up USB connection.
-
 device = findDevice();
-
-console.log('Keyboard found');
-
-function findDevice()
-{
-    var device = null;
-    for (var i=0; i<productIds.length && !device; i++) {
-        device = usb.findByIds(vendorId, productIds[i]);
-    }
-    return device;
-}
-
-if (!device) {
-    console.log('No keyboard found');
+if (device) {
+    console.log('Keyboard found');
+} else {
+    console.log('Keyboard not found');
     process.exit(2);
 }
 
@@ -69,19 +50,36 @@ if (interface.isKernelDriverActive()) {
 }
 interface.claim();
 
-sendAgentCommand(agentCommand.REENUMERATE, enumerationMode);
+sendReenumerateCommand(enumerationMode);
+
+// Function definitions
+
+function printUsageAndExit()
+{
+    console.log('Usage: reenumerate [ -w | --wait ]  { keyboard | bootloader-left | bootloader-right }');
+    process.exit(1);
+}
+
+function findDevice()
+{
+    var device = null;
+    for (var i=0; i<productIds.length && !device; i++) {
+        device = usb.findByIds(vendorId, productIds[i]);
+    }
+    return device;
+}
+
+function sendReenumerateCommand(enumerationMode)
+{
+    var AGENT_COMMAND_REENUMERATE = 0;
+    sendAgentCommand(AGENT_COMMAND_REENUMERATE, enumerationMode);
+}
 
 function sendAgentCommand(command, arg)
 {
     console.log('Reenumerating...');
     setReport(new Buffer([command, arg]));
 }
-
-var INITIAL_WAIT_INTERVAL = 500    // ms
-var WAIT_INTERVAL         = 100;   // ms
-var MAX_WAIT_DELAY        = 5000;  // ms
-
-var totalWaitDelay = 0;
 
 function setReport(message)
 {
