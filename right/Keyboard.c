@@ -12,6 +12,8 @@ uint8_t LayerPriorities[LAYER_SWITCHER_KEY_TYPES_NUM] = {0, 1, 2};
 MessageBuffer_t KeyStateBuffer;
 uint8_t         KeyStateBufferData[KEY_STATE_BUFFER_SIZE];
 
+uint8_t ShouldReenumerate = false;
+
 /** Buffer to hold the previously generated Keyboard HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
 
@@ -116,6 +118,10 @@ int KeyboardMainLoop(void)
         HID_Device_USBTask(&Generic_HID_Interface);
 
         USB_USBTask();
+
+        if (ShouldReenumerate) {
+            Reenumerate(Wormhole->EnumerationMode);
+        }
     }
 }
 

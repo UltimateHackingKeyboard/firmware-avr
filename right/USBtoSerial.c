@@ -103,6 +103,10 @@ int USBtoSerialMainLoop(void)
 
         CDC_Device_USBTask(&VirtualSerial_CDC_Interface);
         USB_USBTask();
+
+        if (ShouldReenumerate) {
+            Reenumerate(Wormhole->EnumerationMode);
+        }
     }
 }
 
@@ -201,6 +205,7 @@ void CatchReenumerateRequest()
         return;
     }
 
-    uint8_t ReenumerateAs = ReportData[1];
-    Reenumerate(ReenumerateAs);
+    uint8_t NewEnumerationMode = ReportData[1];
+    Wormhole->EnumerationMode = NewEnumerationMode;
+    ShouldReenumerate = true;
 }

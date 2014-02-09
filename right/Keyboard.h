@@ -63,6 +63,8 @@
         extern KeyMatrix_t KeyMatrices[KEYMATRICES_NUM];
         extern uint8_t LayerPriorities[LAYER_SWITCHER_KEY_TYPES_NUM];
 
+        extern uint8_t ShouldReenumerate;
+
     /* Function Prototypes: */
         int KeyboardMainLoop(void);
         void KeyboardRxCallback(void);
