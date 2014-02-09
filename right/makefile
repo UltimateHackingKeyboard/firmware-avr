@@ -45,11 +45,8 @@ sync-shared-files:
 	rsync --update ../*.[ch] .
 
 upload: build
-	../jump-to-bootloader right enter
-	@echo 'Reenumerating as the right bootloader...'
-	@sleep 4
+	../reenumerate --wait bootloader-right
 	make avrdude
-	@echo 'Reenumerating as the keyboard...'
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xde:m  # Unset CKDIV8.

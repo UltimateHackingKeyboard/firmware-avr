@@ -34,14 +34,11 @@ sync-shared-files:
 	rsync --update ../*.[ch] .
 
 upload: build
-	../jump-to-bootloader left enter
-	@echo 'Reenumerating as the left bootloader...'
-	@sleep 3
+	../reenumerate --wait bootloader-left
 	@echo 'Reset the left half and quickly after press enter!'
 	@read enter
 	make avrdude
 	../jump-to-bootloader left leave
-	@echo 'Reenumerating as the keyboard...'
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
