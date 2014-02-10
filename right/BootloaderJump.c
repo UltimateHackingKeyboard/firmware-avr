@@ -27,7 +27,6 @@ void Bootloader_Jump_Check(void)
 void Reenumerate(uint8_t NewEnumerationMode)
 {
     // If USB is used, detach from the bus and reset it
-//    Delay_MS(1000);
     USB_Disable();
 
     // Disable all interrupts
