@@ -12,14 +12,15 @@ void Bootloader_Jump_Check(void)
     SP -= sizeof(wormhole_t);
     Wormhole = (wormhole_t*)(SP + 1);
 
-    if ((MCUSR & (1 << WDRF)) && (Wormhole->MagicBootKey == MAGIC_BOOT_KEY)) {
-        // Leave EnumerationMode as it is so that it will be processed in the application.
-    } else {
+    if (Wormhole->MagicBootKey != MAGIC_BOOT_KEY) {
         Wormhole->EnumerationMode = ENUMERATION_MODE_Keyboard;
     }
+
     Wormhole->MagicBootKey = 0;
+    MCUSR = 0;
 
     if (Wormhole->EnumerationMode == ENUMERATION_MODE_Bootloader) {
+        Wormhole->MagicBootKey = MAGIC_BOOT_KEY;
         ((void (*)(void))BOOTLOADER_START_ADDRESS)();
     }
 }
