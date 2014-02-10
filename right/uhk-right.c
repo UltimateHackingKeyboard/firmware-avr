@@ -5,8 +5,6 @@
 
 #include "uhk-right.h"
 
-uint8_t EnumerationMode;
-
 int main(void)
 {
     SetupHardware();
@@ -44,27 +42,27 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 {
     bool ConfigSuccess = true;
 
-    if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
+    if (Wormhole->EnumerationMode == ENUMERATION_MODE_Keyboard) {
         ConfigSuccess &= EVENT_USB_Keyboard_Device_ConfigurationChanged();
-    } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
+    } else if (Wormhole->EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
         ConfigSuccess &= EVENT_USB_USBtoSerial_Device_ConfigurationChanged();
     }
 }
 
 void EVENT_USB_Device_ControlRequest(void)
 {
-    if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
+    if (Wormhole->EnumerationMode == ENUMERATION_MODE_Keyboard) {
         EVENT_USB_Keyboard_Device_ControlRequest();
-    } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
+    } else if (Wormhole->EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
         EVENT_USB_USBtoSerial_Device_ControlRequest();
     }
 }
 
 ISR(USART1_RX_vect, ISR_BLOCK)
 {
-    if (EnumerationMode == ENUMERATION_MODE_Keyboard) {
+    if (Wormhole->EnumerationMode == ENUMERATION_MODE_Keyboard) {
         KeyboardRxCallback();
-    } else if (EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
+    } else if (Wormhole->EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
         USBtoSerialRxCallback();
     }
 }
