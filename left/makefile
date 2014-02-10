@@ -38,7 +38,7 @@ upload: build
 	@echo 'Reset the left half and quickly after press enter!'
 	@read enter
 	make avrdude
-	../jump-to-bootloader left leave
+	../reenumerate --wait keyboard
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
