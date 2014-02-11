@@ -35,12 +35,13 @@ if (enumerationMode === undefined) {
 }
 
 device = findDevice();
-device.open();
 
 if (!device) {
     console.log('Keyboard not found');
     process.exit(2);
 }
+
+device.open();
 
 var pollingIntervalId;
 async.waterfall([
