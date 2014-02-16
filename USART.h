@@ -22,8 +22,8 @@
             #define UDRE UDRE0
             #define UCSZ0 UCSZ00
             #define UCSZ1 UCSZ01
-            #define UDDR DDRB
-            #define UDDX DDB3
+            #define UDDR DDRD
+            #define UDDX DDD1
         #elif defined(__AVR_ATmega32U2__)
             #define UCSRA UCSR1A
             #define UCSRB UCSR1B
@@ -38,8 +38,8 @@
             #define UDRE UDRE1
             #define UCSZ0 UCSZ10
             #define UCSZ1 UCSZ11
-            #define UDDR DDRB
-            #define UDDX DDB2
+            #define UDDR DDRD
+            #define UDDX DDD3
         #endif
 
     /* Function Prototypes: */
