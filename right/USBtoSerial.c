@@ -56,8 +56,6 @@ int USBtoSerialMainLoop(void)
     RingBuffer_InitBuffer(&USBtoUSART_Buffer, USBtoUSART_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
     RingBuffer_InitBuffer(&USARTtoUSB_Buffer, USARTtoUSB_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
 
-    RingBuffer_Insert(&USBtoUSART_Buffer, 'r');
-
     for (;;)
     {
         /* Only try to read in bytes from the CDC interface if the transmit buffer is not full */
