@@ -35,9 +35,12 @@ sync-shared-files:
 
 upload: build
 	../reenumerate --wait bootloader-left
-	@echo 'Reset the left half and quickly after press enter!'
-	@read enter
-	make avrdude
+	if ! make avrdude; then \
+	    echo "avrdude failed.  Sending reenumerate command to the left half..."; \
+	    echo r > /dev/ttyACM0; \
+	    sleep 7; \
+	    make avrdude; \
+	fi
 	../reenumerate --wait keyboard
 
 fuses:
