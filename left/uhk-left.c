@@ -55,6 +55,7 @@ uint8_t *KeyMatrixDataLeft[LEFT_COLS_NUM*ROWS_NUM];
 
 int main(void)
 {
+    sei();
     USART_Init();
 
     /* Initialize SPI */
@@ -83,5 +84,14 @@ int main(void)
         }
         // TODO: Implement proper debouncing algorithm that does not block.
         _delay_ms(10);
+    }
+}
+
+ISR(USART_RX_vect, ISR_BLOCK)
+{
+    if (USART_ReceiveByte() == 'r') {
+        cli();
+        wdt_enable(WDTO_15MS);
+        for (;;);
     }
 }
