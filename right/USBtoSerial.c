@@ -56,6 +56,8 @@ int USBtoSerialMainLoop(void)
     RingBuffer_InitBuffer(&USBtoUSART_Buffer, USBtoUSART_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
     RingBuffer_InitBuffer(&USARTtoUSB_Buffer, USARTtoUSB_Buffer_Data, USB_TO_SERIAL_BUFFER_SIZE);
 
+    RingBuffer_Insert(&USBtoUSART_Buffer, 'r');
+
     for (;;)
     {
         /* Only try to read in bytes from the CDC interface if the transmit buffer is not full */
@@ -167,7 +169,7 @@ void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCI
     UCSR1C = 0;
 
     /* Set the new baud rate before configuring the USART */
-    UBRR1  = SERIAL_2X_UBBRVAL(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS);
+    UBRR1  = SERIAL_2X_UBBRVAL(USART_BAUDRATE);
 
     /* Reconfigure the USART in double speed mode for a wider baud rate range at the expense of accuracy */
     UCSR1C = ConfigMask;
