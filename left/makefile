@@ -34,14 +34,14 @@ sync-shared-files:
 	rsync --update ../*.[ch] .
 
 upload: build
-	../reenumerate --wait bootloader-left
-	if ! make avrdude; then \
+	@../reenumerate --wait bootloader-left
+	@if ! make avrdude; then \
 	    echo "avrdude failed.  Sending reenumerate command to the left half..."; \
 	    echo r > /dev/ttyACM0; \
-	    sleep 7; \
+	    sleep 1; \
 	    make avrdude; \
 	fi
-	../reenumerate --wait keyboard
+	@../reenumerate --wait keyboard
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
