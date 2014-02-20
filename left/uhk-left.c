@@ -20,7 +20,7 @@ void SpiTransmit(char data)
 uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
-        SpiTransmit(0xff);
+        SpiTransmit(1<<7);
         return true;
     } else {
         SpiTransmit(0x00);
