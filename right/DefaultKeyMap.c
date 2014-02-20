@@ -88,17 +88,17 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* B2 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_Q,                                 NO_ARGUMENT },
-            /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* mod layer   */ { HID_KEYBOARD_SC_W,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* B3 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_W,                                 NO_ARGUMENT },
-            /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* mod layer   */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTSHIFT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* B4 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_E,                                 NO_ARGUMENT },
-            /* mod layer   */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_MODIFIER_LEFTCTRL | HID_KEYBOARD_MODIFIER_LEFTSHIFT },
+            /* mod layer   */ { HID_KEYBOARD_SC_T,                                 HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* B5 key */ {
