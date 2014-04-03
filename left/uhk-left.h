@@ -10,6 +10,7 @@
         #include <stdbool.h>
         #include "KeyMatrix.h"
         #include "USART.h"
+        #include "PCA9634.h"
 
     /* Macros: */
         #define DDR_MOSI DDRB
