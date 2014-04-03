@@ -31,16 +31,6 @@ void LedMatrix_Init()
   sei();                    // Enable all interrupts.
 }
 
-void SpiTransmit(char data)
-{
-    SPDR = data;
-    while (!(SPSR & (1<<SPIF)));
-
-    // Copy data to the storage register by toggling the latch.
-    PORT_RCK |= (1<<PD_RCK);
-    PORT_RCK &= ~(1<<PD_RCK);
-}
-
 void LedMatrix_EnableRows(uint8_t EnabledRowsBitmask)
 {
   TWI_Start();
@@ -59,7 +49,7 @@ void LedMatrix_EnableRows(uint8_t EnabledRowsBitmask)
 ISR(TIMER1_COMPA_vect)
 {
     // TODO: This interrupt routine is way too heavy.  Gotta make it much lighter weight.
-    SpiTransmit(LedStates[ActiveLedMatrixRow] | IsKeyboardColEnabled<<7);
+    ShiftRegister_Transmit(LedStates[ActiveLedMatrixRow] | IsKeyboardColEnabled<<7);
     LedMatrix_EnableRows(1<<ActiveLedMatrixRow);
 
     if (++ActiveLedMatrixRow == LED_MATRIX_ROWS_NUM) {
@@ -71,11 +61,11 @@ uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
         IsKeyboardColEnabled = 1;
-        SpiTransmit(1<<7/* | 1<<0*/);
+        ShiftRegister_Transmit(1<<7/* | 1<<0*/);
         return true;
     } else {
         IsKeyboardColEnabled = 0;
-        SpiTransmit(0x00);
+        ShiftRegister_Transmit(0x00);
         return false;
     }
 }
@@ -111,19 +101,9 @@ int main(void)
     USART_Init();
     TWI_Init();
     PCA9634_Init();
-
     LedMatrix_EnableRows(0xf0);
     LedMatrix_Init();
-
-    /* Initialize SPI */
-    DDR_MOSI |= 1<<DDB_MOSI; // MOSI is output.
-    DDR_OE   |= 1<<DDB_OE;   // OE is output.
-    DDR_SCK  |= 1<<DDB_SCK;  // SCK is output.
-    DDR_RCK  |= 1<<DDB_RCK;  // RCK is output.
-    SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0) | (1<<SPR1);  // SPI enable, Master, f/16
-    SpiTransmit(0);
-    PORT_OE &= ~(1<<PD_OE);  // Enable OE by pulling it low.
-
+    ShiftRegister_Init();
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
     while (true) {

@@ -28,6 +28,7 @@ SRC = $(TARGET).c                                                   \
 	KeyMatrix.c                                                 \
 	USART.c                                                     \
 	TWI.c                                                       \
+	ShiftRegister.c                                             \
 	PCA9634.c                                                   \
 
 build: sync-shared-files all
