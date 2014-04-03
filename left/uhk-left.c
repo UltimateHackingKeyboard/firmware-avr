@@ -3,9 +3,33 @@
  *  Main file for the left keyboard half.
  */
 
+#include <avr/io.h>
+#include <avr/interrupt.h>
 #include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
+
+#define LED_MATRIX_ROWS_NUM 8
+//uint8_t LedStates[LED_MATRIX_ROWS_NUM] = {0b10011111, 0b11000110, 0b00110101, 0b11110000, 0b01111100, 0b11001100};
+//uint8_t LedStates[LED_MATRIX_ROWS_NUM] = {0, 0, 0, 0, 0, 0};
+uint8_t LedStates[LED_MATRIX_ROWS_NUM] = {0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f};
+uint8_t ActiveLedMatrixRow = 0;
+uint8_t IsKeyboardColEnabled = 0;
+
+// Initialize timer1 to PWM the LEDs.
+void LedMatrix_Init()
+{
+  cli();                    // Disable all interrupts.
+  TCCR1A = 0;
+  TCCR1B = 0;
+  TCNT1  = 0;
+
+  OCR1A = 50;               // compare match register 16MHz/256/2Hz
+  TCCR1B |= (1 << WGM12);   // CTC mode
+  TCCR1B |= (1 << CS12);    // 256 prescaler
+  TIMSK1 |= (1 << OCIE1A);  // Enable timer compare interrupt.
+  sei();                    // Enable all interrupts.
+}
 
 void SpiTransmit(char data)
 {
@@ -17,12 +41,40 @@ void SpiTransmit(char data)
     PORT_RCK &= ~(1<<PD_RCK);
 }
 
+void LedMatrix_EnableRows(uint8_t EnabledRowsBitmask)
+{
+  TWI_Start();
+  TWI_Write(PCA9634_ADDRESS);
+  TWI_Write(PCA9634_AI_PWM | PCA9634_REG_PWM0);
+
+  for (uint8_t Row=0; Row<LED_MATRIX_ROWS_NUM; Row++) {
+    uint8_t IsRowEnabled = EnabledRowsBitmask & (1<<Row);
+    TWI_Write(IsRowEnabled ? 0 : 0xff);
+  }
+
+  TWI_Stop();
+}
+
+// LED matrix interrupt to PWM the LEDs.
+ISR(TIMER1_COMPA_vect)
+{
+    // TODO: This interrupt routine is way too heavy.  Gotta make it much lighter weight.
+    SpiTransmit(LedStates[ActiveLedMatrixRow] | IsKeyboardColEnabled<<7);
+    LedMatrix_EnableRows(1<<ActiveLedMatrixRow);
+
+    if (++ActiveLedMatrixRow == LED_MATRIX_ROWS_NUM) {
+          ActiveLedMatrixRow = 0;
+    }
+}
+
 uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
-        SpiTransmit(1<<7);
+        IsKeyboardColEnabled = 1;
+        SpiTransmit(1<<7/* | 1<<0*/);
         return true;
     } else {
+        IsKeyboardColEnabled = 0;
         SpiTransmit(0x00);
         return false;
     }
@@ -57,6 +109,11 @@ int main(void)
 {
     sei();
     USART_Init();
+    TWI_Init();
+    PCA9634_Init();
+
+    LedMatrix_EnableRows(0xf0);
+    LedMatrix_Init();
 
     /* Initialize SPI */
     DDR_MOSI |= 1<<DDB_MOSI; // MOSI is output.
@@ -69,7 +126,7 @@ int main(void)
 
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
-    while (1) {
+    while (true) {
         KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
         for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
             for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
