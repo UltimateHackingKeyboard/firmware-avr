@@ -27,6 +27,8 @@ AVRDUDE_FLAGS = -b 38400 -F
 SRC = $(TARGET).c                                                   \
 	KeyMatrix.c                                                 \
 	USART.c                                                     \
+	TWI.c                                                       \
+	PCA9634.c                                                   \
 
 build: sync-shared-files all
 
