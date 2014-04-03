@@ -1,5 +1,5 @@
-#ifndef KEY_STATE_H
-#define KEY_STATE_H
+#ifndef __KEY_STATE_H__
+#define __KEY_STATE_H__
 
     /* Macros: */
         #define KEY_STATE_MASK_CURRENT    (1 << 0)

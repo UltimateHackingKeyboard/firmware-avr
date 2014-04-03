@@ -1,5 +1,5 @@
-#ifndef KEYCODE_H
-#define KEYCODE_H
+#ifndef __KEYCODE_H__
+#define __KEYCODE_H__
 
     /* Macros: */
         #define CONSTRUCT_KEYCODE(Row, Col, ColNum) (Row*ColNum + Col)

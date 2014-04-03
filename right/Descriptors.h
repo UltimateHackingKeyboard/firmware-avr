@@ -1,5 +1,5 @@
-#ifndef _DESCRIPTORS_H_
-#define _DESCRIPTORS_H_
+#ifndef __DESCRIPTORS_H__
+#define __DESCRIPTORS_H__
 
     /* Includes: */
         #include <LUFA/Drivers/USB/USB.h>

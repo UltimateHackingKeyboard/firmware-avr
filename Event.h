@@ -1,5 +1,5 @@
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef __EVENT_H__
+#define __EVENT_H__
 
     /* Macros: */
         #define EVENT_MASK_STATE   0b01000000

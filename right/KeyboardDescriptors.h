@@ -1,5 +1,5 @@
-#ifndef _KEYBOARD_DESCRIPTORS_H_
-#define _KEYBOARD_DESCRIPTORS_H_
+#ifndef __KEYBOARD_DESCRIPTORS_H__
+#define __KEYBOARD_DESCRIPTORS_H__
 
     /* Includes: */
         #include <LUFA/Drivers/USB/USB.h>

@@ -1,5 +1,5 @@
-#ifndef _KEYBOARD_REPORTS_H_
-#define _KEYBOARD_REPORTS_H_
+#ifndef __KEYBOARD_REPORTS_H__
+#define __KEYBOARD_REPORTS_H__
 
     /* Includes: */
         #include <avr/io.h>

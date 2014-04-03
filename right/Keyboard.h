@@ -1,5 +1,5 @@
-#ifndef _KEYBOARD_H_
-#define _KEYBOARD_H_
+#ifndef __KEYBOARD_H__
+#define __KEYBOARD_H__
 
     /* Includes: */
         #include <avr/io.h>

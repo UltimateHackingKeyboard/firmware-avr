@@ -1,5 +1,5 @@
-#ifndef USART_H
-#define USART_H
+#ifndef __USART_H__
+#define __USART_H__
 
     /* Includes: */
         #include <avr/io.h>

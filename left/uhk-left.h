@@ -1,5 +1,5 @@
-#ifndef _UHK_LEFT_H_
-#define _UHK_LEFT_H_
+#ifndef __UHK_LEFT_H__
+#define __UHK_LEFT_H__
 
     /* Includes: */
         #include <avr/io.h>

@@ -1,5 +1,5 @@
-#ifndef _DEFAULT_KEY_MAP_H_
-#define _DEFAULT_KEY_MAP_H_
+#ifndef __DEFAULT_KEY_MAP_H__
+#define __DEFAULT_KEY_MAP_H__
 
     /* Includes: */
         #include "Keyboard.h"
