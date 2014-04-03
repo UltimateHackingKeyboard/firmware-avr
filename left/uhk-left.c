@@ -45,18 +45,6 @@ void LedMatrix_EnableRows(uint8_t EnabledRowsBitmask)
   TWI_Stop();
 }
 
-// LED matrix interrupt to PWM the LEDs.
-ISR(TIMER1_COMPA_vect)
-{
-    // TODO: This interrupt routine is way too heavy.  Gotta make it much lighter weight.
-    ShiftRegister_Transmit(LedStates[ActiveLedMatrixRow] | IsKeyboardColEnabled<<7);
-    LedMatrix_EnableRows(1<<ActiveLedMatrixRow);
-
-    if (++ActiveLedMatrixRow == LED_MATRIX_ROWS_NUM) {
-          ActiveLedMatrixRow = 0;
-    }
-}
-
 uint8_t SetColCallback(uint8_t col)
 {
     if (col == 2) {
@@ -124,11 +112,24 @@ int main(void)
     }
 }
 
+// USART RX interrupt to receive bytes from the right half.
 ISR(USART_RX_vect, ISR_BLOCK)
 {
     if (USART_ReceiveByte() == 'r') {
         cli();
         wdt_enable(WDTO_15MS);
         for (;;);
+    }
+}
+
+// LED matrix interrupt to PWM the LEDs.
+ISR(TIMER1_COMPA_vect)
+{
+    // TODO: This interrupt routine is way too heavy.  Gotta make it much lighter weight.
+    ShiftRegister_Transmit(LedStates[ActiveLedMatrixRow] | IsKeyboardColEnabled<<7);
+    LedMatrix_EnableRows(1<<ActiveLedMatrixRow);
+
+    if (++ActiveLedMatrixRow == LED_MATRIX_ROWS_NUM) {
+          ActiveLedMatrixRow = 0;
     }
 }
