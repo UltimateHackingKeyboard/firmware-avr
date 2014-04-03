@@ -33,4 +33,7 @@
         #define PCA9634_AI_GRP     (0b110 << 4)
         #define PCA9634_AI_PWM_GRP (0b111 << 4)
 
+    /* Function prototypes: */
+        void PCA9634_Init(void);
+
 #endif
