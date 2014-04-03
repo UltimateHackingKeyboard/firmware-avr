@@ -3,8 +3,6 @@
  *  Main file for the left keyboard half.
  */
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
 #include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
