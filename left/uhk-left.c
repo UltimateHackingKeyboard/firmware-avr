@@ -6,17 +6,17 @@
 #include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
-uint8_t IsKeyboardColEnabled = false;
+bool IsKeyboardColEnabled = false;
 
 uint8_t SetColCallback(uint8_t col)
 {
-    if (col == 2) {
+    if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID) {
         IsKeyboardColEnabled = true;
-        ShiftRegister_Transmit(1<<7/* | 1<<0*/);
+        ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID);
         return true;
     } else {
         IsKeyboardColEnabled = false;
-        ShiftRegister_Transmit(0x00);
+        ShiftRegister_Transmit(0);
         return false;
     }
 }

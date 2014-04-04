@@ -2,10 +2,10 @@
 
 void ShiftRegister_Init()
 {
-    DDR_MOSI |= 1<<DDB_MOSI; // MOSI is output.
-    DDR_OE   |= 1<<DDB_OE;   // OE is output.
-    DDR_SCK  |= 1<<DDB_SCK;  // SCK is output.
-    DDR_RCK  |= 1<<DDB_RCK;  // RCK is output.
+    DDR_MOSI |= 1<<DDB_MOSI;  // MOSI is output.
+    DDR_OE   |= 1<<DDB_OE;    // OE is output.
+    DDR_SCK  |= 1<<DDB_SCK;   // SCK is output.
+    DDR_RCK  |= 1<<DDB_RCK;   // RCK is output.
     SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0) | (1<<SPR1);  // SPI enable, Master, f/16
     ShiftRegister_Transmit(0);
     PORT_OE &= ~(1<<PD_OE);  // Enable OE by pulling it low.
