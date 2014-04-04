@@ -20,7 +20,7 @@
         #define PD_RCK   PC3
 
     /* Function prototypes: */
-        void ShiftRegister_Init();
+        void ShiftRegister_Init(void);
         void ShiftRegister_Transmit(uint8_t data);
 
 #endif

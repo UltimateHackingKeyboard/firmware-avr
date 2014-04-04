@@ -11,5 +11,6 @@
         #include "USART.h"
         #include "ShiftRegister.h"
         #include "PCA9634.h"
+        #include "LedMatrix.h"
 
 #endif

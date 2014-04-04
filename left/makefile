@@ -30,6 +30,7 @@ SRC = $(TARGET).c                                                   \
 	TWI.c                                                       \
 	ShiftRegister.c                                             \
 	PCA9634.c                                                   \
+	LedMatrix.c                                                 \
 
 build: sync-shared-files all
 
