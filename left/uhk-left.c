@@ -6,16 +6,16 @@
 #include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
-bool IsKeyboardColEnabled = false;
+bool IsKeyMatrixShiftRegisterColEnabled = false;
 
 uint8_t SetColCallback(uint8_t col)
 {
     if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID) {
-        IsKeyboardColEnabled = true;
+        IsKeyMatrixShiftRegisterColEnabled = true;
         ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID);
         return true;
     } else {
-        IsKeyboardColEnabled = false;
+        IsKeyMatrixShiftRegisterColEnabled = false;
         ShiftRegister_Transmit(0);
         return false;
     }
@@ -89,5 +89,5 @@ ISR(USART_RX_vect, ISR_BLOCK)
 ISR(TIMER1_COMPA_vect)
 {
     // TODO: This ISR is way too heavy.  Gotta make it much lighter weight.
-    LedMatrix_UpdateNextRow(IsKeyboardColEnabled);
+    LedMatrix_UpdateNextRow(IsKeyMatrixShiftRegisterColEnabled);
 }
