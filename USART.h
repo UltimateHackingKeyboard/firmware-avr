@@ -24,7 +24,7 @@
             #define UCSZ1 UCSZ01
             #define UDDR DDRD
             #define UDDX DDD1
-        #elif defined(__AVR_ATmega32U2__)
+        #elif defined(__AVR_ATmega32U4__)
             #define UCSRA UCSR1A
             #define UCSRB UCSR1B
             #define UCSRC UCSR1C
