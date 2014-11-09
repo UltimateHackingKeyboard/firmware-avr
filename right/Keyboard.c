@@ -81,20 +81,20 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
     .ColNum = RIGHT_COLS_NUM,
     .RowNum = ROWS_NUM,
     .RowPins = (Pin_t[]) {
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB7 },
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB6 },
+        { .Direction=&DDRF, .Name=&PINF, .Number=PINF6 },
+        { .Direction=&DDRF, .Name=&PINF, .Number=PINF5 },
+        { .Direction=&DDRC, .Name=&PINC, .Number=PINC6 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND5 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 }
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND4 }
     },
     .ColPorts = (Pin_t[]) {
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC6 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC7 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD1 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD0 },
-        { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC2 }
+        { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF0 },
+        { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF1 },
+        { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF4 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB6 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB0 }
     },
     .ShouldSetDDR = true
 };
