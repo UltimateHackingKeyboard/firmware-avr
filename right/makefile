@@ -49,7 +49,7 @@ upload: build
 	make avrdude
 
 fuses:
-	avrdude -p $(MCU) -U lfuse:w:0xde:m  # Unset CKDIV8.
+	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m # Unset CKDIV8.
 
 # Default target
 all:

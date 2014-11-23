@@ -25,21 +25,21 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoLeft = {
     .ColNum = LEFT_COLS_NUM,
     .RowNum = ROWS_NUM,
     .RowPins = (Pin_t[]) {
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB0 },
-        { .Direction=&DDRB, .Name=&PINB, .Number=PINB1 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND2 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC1 },
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND2 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC2 },
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND4 },
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND5 },
     },
     .ColPorts = (Pin_t[]) {
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD4 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
-        // Column 3 is controlled by DRAIN7 of the TPIC6C595 power shift register.
-        { .Direction=0,     .Name=0,      .Number=0      },
         { .Direction=&DDRC, .Name=&PORTC, .Number=PORTC0 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD5 },
+        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB0 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB1 },
+        // Column 7 is controlled by DRAIN7 of the TPIC6C595 power shift register.
+        { .Direction=0,     .Name=0,      .Number=0      },
     },
     .ShouldSetDDR = true
 };

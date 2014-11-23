@@ -6,7 +6,7 @@ var async = require('async');
 
 // Global constants and variables
 
-var vendorId = 0x16D1;  // TODO: Restore to 0x16D0 for the final prototype.
+var vendorId = 0x16D2;  // TODO: Restore to 0x16D0 for the final prototype.
 var productIds = [0x05EA, 0x05EB, 0x05EC, 0x05ED];
 
 var enumerationModes = {

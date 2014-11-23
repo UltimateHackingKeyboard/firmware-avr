@@ -7,7 +7,7 @@
 
     /* Macros: */
         // TODO: Restore the VID to 0x16D0 for the final prototype.
-        #define VID 0x16D1
+        #define VID 0x16D2
 
         #define PID_KEYBOARD_6KRO 0x05EA
         #define PID_KEYBOARD_NKRO 0x05EB

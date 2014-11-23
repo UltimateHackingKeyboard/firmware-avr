@@ -81,7 +81,7 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
     .ColNum = RIGHT_COLS_NUM,
     .RowNum = ROWS_NUM,
     .RowPins = (Pin_t[]) {
-        { .Direction=&DDRF, .Name=&PINF, .Number=PINF6 },
+        { .Direction=&DDRF, .Name=&PINF, .Number=PINF7 },
         { .Direction=&DDRF, .Name=&PINF, .Number=PINF5 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC6 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
