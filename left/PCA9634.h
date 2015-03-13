@@ -28,10 +28,10 @@
         #define PCA9634_REG_ALLCALLADR 0x11
 
         // Auto-increment options
-        #define PCA9634_AI_ALL     (0b100 << 4)
-        #define PCA9634_AI_PWM     (0b101 << 4)
-        #define PCA9634_AI_GRP     (0b110 << 4)
-        #define PCA9634_AI_PWM_GRP (0b111 << 4)
+        #define PCA9634_AI_ALL     (0b100 << 5)
+        #define PCA9634_AI_PWM     (0b101 << 5)
+        #define PCA9634_AI_GRP     (0b110 << 5)
+        #define PCA9634_AI_PWM_GRP (0b111 << 5)
 
     /* Function prototypes: */
         void PCA9634_Init(void);
