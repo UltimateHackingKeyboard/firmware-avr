@@ -9,11 +9,12 @@
         #include "PCA9634.h"
 
     /* Macros: */
-        #define LED_MATRIX_ROWS_NUM 8
+        #define LED_MATRIX_ROWS_NUM 6
+        #define LED_MATRIX_COLS_NUM 8
 
     /* Function prototypes: */
         void LedMatrix_Init(void);
         void LedMatrix_SetRows(uint8_t EnabledRowsBitmask);
-		void LedMatrix_UpdateNextRow(bool IsKeyboardColEnabled);
+        void LedMatrix_UpdateNextRow(bool IsKeyboardColEnabled);
 
 #endif
