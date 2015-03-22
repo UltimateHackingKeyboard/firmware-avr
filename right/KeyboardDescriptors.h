@@ -46,13 +46,13 @@
         #define KEYBOARD_ROLLOVER         6  // key
 
         /** Endpoint address of the Mouse HID reporting IN endpoint. */
-        #define MOUSE_IN_EPADDR           (ENDPOINT_DIR_IN | 3)
+        #define MOUSE_IN_EPADDR           (ENDPOINT_DIR_IN | 2)
 
         /** Size in bytes of each of the HID reporting IN endpoints. */
         #define HID_EPSIZE                8
 
         /** Endpoint address of the Generic HID reporting IN endpoint. */
-        #define GENERIC_IN_EPADDR         (ENDPOINT_DIR_IN | 1)
+        #define GENERIC_IN_EPADDR         (ENDPOINT_DIR_IN | 3)
 
         /** Size in bytes of the Generic HID reporting endpoint. */
         #define GENERIC_EPSIZE            64

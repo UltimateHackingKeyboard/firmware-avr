@@ -202,9 +202,11 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
 
 bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
-//    uint8_t* Data = (uint8_t*)ReportData;
+    uint8_t* Data = (uint8_t*)ReportData;
     *ReportSize = GENERIC_REPORT_SIZE;
-    return false;
+    Data[0] = 0x13;
+    Data[1] = 0x37;
+    return true;
 }
 
 void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
