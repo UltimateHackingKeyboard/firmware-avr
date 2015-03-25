@@ -200,12 +200,13 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
     return true;
 }
 
+uint8_t RamContent[RAM_CONTENT_SIZE];
+
 bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;
     *ReportSize = GENERIC_REPORT_SIZE;
-    Data[0] = 0x13;
-    Data[1] = 0x37;
+    memcpy(Data, RamContent, RAM_CONTENT_SIZE);
     return true;
 }
 
@@ -213,10 +214,17 @@ void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;
     uint8_t  Command = Data[0];
+    uint8_t NewEnumerationMode = Data[1];
 
-    if (Command == AGENT_COMMAND_REENUMERATE) {
-        uint8_t NewEnumerationMode = Data[1];
-        Wormhole->EnumerationMode = NewEnumerationMode;
-        ShouldReenumerate = true;
+    switch (Command) {
+        case AGENT_COMMAND_REENUMERATE:
+            Wormhole->EnumerationMode = NewEnumerationMode;
+            ShouldReenumerate = true;
+            break;
+        case AGENT_COMMAND_WRITE_TO_RAM:
+            memcpy(RamContent, ReportData, RAM_CONTENT_SIZE);
+            break;
+        case AGENT_COMMAND_READ_FROM_RAM:
+            break;
     }
 }

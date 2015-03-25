@@ -22,6 +22,10 @@
         #define MOUSE_SPEED_DIVISOR 10
 
         #define AGENT_COMMAND_REENUMERATE 0
+        #define AGENT_COMMAND_WRITE_TO_RAM 1
+        #define AGENT_COMMAND_READ_FROM_RAM 2
+
+        #define RAM_CONTENT_SIZE (GENERIC_REPORT_SIZE-1)
 
     /* Function Prototypes: */
         bool CreateKeyboardHIDReport(void* ReportData, uint16_t* const ReportSize);
