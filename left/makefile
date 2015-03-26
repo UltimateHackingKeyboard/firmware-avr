@@ -59,4 +59,3 @@ fuses:
 clean: mostlyclean
 	@echo $(MSG_REMOVE_CMD) Removing output files of \"$(TARGET)\"
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).bin $(TARGET).eep $(TARGET).map $(TARGET).lss $(TARGET).sym $(TARGET).a
-	rm `cat .gitignore`
