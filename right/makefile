@@ -19,15 +19,15 @@ F_USB        = $(F_CPU)
 OPTIMIZATION = s
 TARGET       = uhk-right
 LUFA_PATH    = lufa/LUFA
-CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/
+CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/ -I..
 LD_FLAGS     =
 AVRDUDE_PROGRAMMER = avr109
 AVRDUDE_PORT = /dev/ttyACM0
 
 SRC = $(TARGET).c                                                   \
-	KeyMatrix.c                                                 \
-	USART.c                                                     \
-	MessageBuffer.c                                             \
+	../KeyMatrix.c                                                 \
+	../USART.c                                                     \
+	../MessageBuffer.c                                             \
 	BootloaderJump.c                                            \
 	DefaultKeyMap.c                                             \
 	Descriptors.c                                               \
@@ -38,18 +38,6 @@ SRC = $(TARGET).c                                                   \
 	USBtoSerialDescriptors.c                                    \
 	$(LUFA_SRC_USB)                                             \
 	$(LUFA_SRC_USBCLASS)
-
-build: sync-shared-files all
-
-sync-shared-files:
-	rsync --update ../*.[ch] .
-
-upload: build
-	../reenumerate --wait bootloader-right
-	make avrdude
-
-fuses:
-	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m # Unset CKDIV8.
 
 # Default target
 all:
@@ -64,6 +52,13 @@ include $(LUFA_PATH)/Build/lufa_dfu.mk
 include $(LUFA_PATH)/Build/lufa_hid.mk
 include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
+
+upload: build
+	../reenumerate --wait bootloader-right
+	make avrdude
+
+fuses:
+	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m # Unset CKDIV8.
 
 clean: mostlyclean
 	@echo $(MSG_REMOVE_CMD) Removing output files of \"$(TARGET)\"

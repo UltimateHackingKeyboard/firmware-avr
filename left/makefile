@@ -18,34 +18,19 @@ F_USB        = 16000000
 OPTIMIZATION = s
 TARGET       = uhk-left
 LUFA_PATH    = ../right/lufa/LUFA
-CC_FLAGS     =
+CC_FLAGS     = -I..
 LD_FLAGS     =
 AVRDUDE_PROGRAMMER = avrisp2
 AVRDUDE_PORT = usb
 AVRDUDE_FLAGS = -b 38400 -F
 
 SRC = $(TARGET).c                                                   \
-	KeyMatrix.c                                                 \
-	USART.c                                                     \
-	TWI.c                                                       \
+	../KeyMatrix.c                                                 \
+	../USART.c                                                     \
+	../TWI.c                                                       \
 	ShiftRegister.c                                             \
 	PCA9634.c                                                   \
 	LedMatrix.c                                                 \
-
-build: sync-shared-files all
-
-sync-shared-files:
-	rsync --update ../*.[ch] .
-
-upload: build
-	@../reenumerate --wait bootloader-left
-	@echo r > /dev/ttyACM0
-	@sleep 1
-	@make avrdude
-	@../reenumerate --wait keyboard
-
-fuses:
-	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
 
 # Default target
 all:
@@ -60,6 +45,16 @@ include $(LUFA_PATH)/Build/lufa_dfu.mk
 include $(LUFA_PATH)/Build/lufa_hid.mk
 include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
+
+upload: build
+	@../reenumerate --wait bootloader-left
+	@echo r > /dev/ttyACM0
+	@sleep 1
+	@make avrdude
+	@../reenumerate --wait keyboard
+
+fuses:
+	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
 
 clean: mostlyclean
 	@echo $(MSG_REMOVE_CMD) Removing output files of \"$(TARGET)\"
