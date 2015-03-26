@@ -24,13 +24,13 @@ AVRDUDE_PROGRAMMER = avrisp2
 AVRDUDE_PORT = usb
 AVRDUDE_FLAGS = -b 38400 -F
 
-SRC = $(TARGET).c                                                   \
-	../KeyMatrix.c                                                 \
-	../USART.c                                                     \
-	../TWI.c                                                       \
-	ShiftRegister.c                                             \
-	PCA9634.c                                                   \
-	LedMatrix.c                                                 \
+SRC = $(TARGET).c        \
+	../KeyMatrix.c   \
+	../USART.c       \
+	../TWI.c         \
+	ShiftRegister.c  \
+	PCA9634.c        \
+	LedMatrix.c
 
 # Default target
 all:

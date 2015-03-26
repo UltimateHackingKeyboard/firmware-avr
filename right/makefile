@@ -24,19 +24,19 @@ LD_FLAGS     =
 AVRDUDE_PROGRAMMER = avr109
 AVRDUDE_PORT = /dev/ttyACM0
 
-SRC = $(TARGET).c                                                   \
-	../KeyMatrix.c                                                 \
-	../USART.c                                                     \
-	../MessageBuffer.c                                             \
-	BootloaderJump.c                                            \
-	DefaultKeyMap.c                                             \
-	Descriptors.c                                               \
-	Keyboard.c                                                  \
-	KeyboardReports.c                                           \
-	KeyboardDescriptors.c                                       \
-	USBtoSerial.c                                               \
-	USBtoSerialDescriptors.c                                    \
-	$(LUFA_SRC_USB)                                             \
+SRC = $(TARGET).c                 \
+	../KeyMatrix.c            \
+	../USART.c                \
+	../MessageBuffer.c        \
+	BootloaderJump.c          \
+	DefaultKeyMap.c           \
+	Descriptors.c             \
+	Keyboard.c                \
+	KeyboardReports.c         \
+	KeyboardDescriptors.c     \
+	USBtoSerial.c             \
+	USBtoSerialDescriptors.c  \
+	$(LUFA_SRC_USB)           \
 	$(LUFA_SRC_USBCLASS)
 
 # Default target
