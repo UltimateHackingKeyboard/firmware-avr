@@ -28,6 +28,7 @@ void SetupHardware()
 
     /* Hardware Initialization */
     USB_Init();
+    TWI_Init();
 }
 
 void EVENT_USB_Device_Connect(void)

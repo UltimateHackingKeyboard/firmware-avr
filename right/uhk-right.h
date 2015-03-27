@@ -9,6 +9,7 @@
         #include "Keyboard.h"
         #include "USBtoSerial.h"
         #include "BootloaderJump.h"
+        #include "TWI.h"
 
     /* Type Defines: */
         /** Enum for the USB enumeration mode. */

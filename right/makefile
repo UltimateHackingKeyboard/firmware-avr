@@ -28,6 +28,7 @@ SRC = $(TARGET).c                 \
 	../KeyMatrix.c            \
 	../USART.c                \
 	../MessageBuffer.c        \
+	../TWI.c                  \
 	BootloaderJump.c          \
 	DefaultKeyMap.c           \
 	Descriptors.c             \
@@ -53,12 +54,12 @@ include $(LUFA_PATH)/Build/lufa_hid.mk
 include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
 
-upload: build
+upload: all
 	../reenumerate --wait bootloader-right
 	make avrdude
 
 fuses:
-	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m # Unset CKDIV8.
+	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m  # Unset CKDIV8.
 
 clean: mostlyclean
 	@echo $(MSG_REMOVE_CMD) Removing output files of \"$(TARGET)\"
