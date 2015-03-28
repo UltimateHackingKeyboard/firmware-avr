@@ -210,6 +210,22 @@ bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
     return true;
 }
 
+#define EEPROM_WRITE_ADDRESS 0b10100000
+#define EEPROM_READ_ADDRESS 0b10100001
+
+void WriteToEeprom(uint8_t* Source, uint8_t Length) {
+    TWI_Start();
+    TWI_Write(EEPROM_READ_ADDRESS);
+    TWI_Write(0);
+    TWI_Write(0);
+
+    for (uint8_t i=0; i<Length; i++) {
+        TWI_Write(Source[i]);
+    }
+
+    TWI_Stop();
+}
+
 void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;
