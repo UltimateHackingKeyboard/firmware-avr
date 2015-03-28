@@ -206,7 +206,8 @@ bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
     uint8_t* Data = (uint8_t*)ReportData;
     *ReportSize = GENERIC_REPORT_SIZE;
-    memcpy(Data, RamContent, RAM_CONTENT_SIZE);
+    ReadFromEeprom(Data, RAM_CONTENT_SIZE);
+//    memcpy(Data, RamContent, RAM_CONTENT_SIZE);
     return true;
 }
 
