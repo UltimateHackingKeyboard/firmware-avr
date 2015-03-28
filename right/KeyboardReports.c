@@ -211,16 +211,32 @@ bool CreateGenericHIDReport(void* ReportData, uint16_t* const ReportSize)
 }
 
 #define EEPROM_WRITE_ADDRESS 0b10100000
-#define EEPROM_READ_ADDRESS 0b10100001
+#define EEPROM_READ_ADDRESS  0b10100001
 
 void WriteToEeprom(uint8_t* Source, uint8_t Length) {
     TWI_Start();
-    TWI_Write(EEPROM_READ_ADDRESS);
+    TWI_Write(EEPROM_WRITE_ADDRESS);
     TWI_Write(0);
     TWI_Write(0);
 
     for (uint8_t i=0; i<Length; i++) {
         TWI_Write(Source[i]);
+    }
+
+    TWI_Stop();
+}
+
+void ReadFromEeprom(uint8_t* Destination, uint8_t Length) {
+    TWI_Start();
+    TWI_Write(EEPROM_WRITE_ADDRESS);
+    TWI_Write(0);
+    TWI_Write(0);
+
+    TWI_Start();
+    TWI_Write(EEPROM_READ_ADDRESS);
+
+    for (uint8_t i=0; i<Length; i++) {
+        Destination[i] = i==Length-1 ? TWI_ReadNACK() : TWI_ReadACK();
     }
 
     TWI_Stop();
@@ -238,7 +254,8 @@ void ProcessGenericHIDReport(const void* ReportData, const uint16_t ReportSize)
             ShouldReenumerate = true;
             break;
         case AGENT_COMMAND_WRITE_TO_RAM:
-            memcpy(RamContent, ReportData, RAM_CONTENT_SIZE);
+            WriteToEeprom(Data+1, RAM_CONTENT_SIZE);
+//            memcpy(RamContent, ReportData, RAM_CONTENT_SIZE);
             break;
         case AGENT_COMMAND_READ_FROM_RAM:
             break;
