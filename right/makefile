@@ -32,7 +32,7 @@ SRC = $(TARGET).c                 \
 	BootloaderJump.c          \
 	DefaultKeyMap.c           \
 	Descriptors.c             \
-	EEPROM.c             \
+	EEPROM.c                  \
 	Keyboard.c                \
 	KeyboardReports.c         \
 	KeyboardDescriptors.c     \
