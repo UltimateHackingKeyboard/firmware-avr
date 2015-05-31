@@ -10,9 +10,13 @@ bool IsKeyMatrixShiftRegisterColEnabled = false;
 
 uint8_t SetColCallback(uint8_t col)
 {
-    if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID) {
+    if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID1) {
         IsKeyMatrixShiftRegisterColEnabled = true;
-        ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID);
+        ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID1);
+        return true;
+    } else if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID2) {
+        IsKeyMatrixShiftRegisterColEnabled = true;
+        ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID2);
         return true;
     } else {
         IsKeyMatrixShiftRegisterColEnabled = false;
@@ -36,9 +40,10 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoLeft = {
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD3 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
-        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB0 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB1 },
-        // Column 7 is controlled by DRAIN7 of the TPIC6C595 power shift register.
+        // Column 6 is controlled by DRAIN7 of the TPIC6C595 power shift register.
+        { .Direction=0,     .Name=0,      .Number=0      },
+        // Column 7 is controlled by DRAIN6 of the TPIC6C595 power shift register.
         { .Direction=0,     .Name=0,      .Number=0      },
     },
     .ShouldSetDDR = true
