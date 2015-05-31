@@ -85,14 +85,14 @@ const __flash KeyMatrixInfo_t KeyMatrixInfoRight = {
         { .Direction=&DDRF, .Name=&PINF, .Number=PINF5 },
         { .Direction=&DDRC, .Name=&PINC, .Number=PINC6 },
         { .Direction=&DDRB, .Name=&PINB, .Number=PINB5 },
-        { .Direction=&DDRD, .Name=&PIND, .Number=PIND4 }
+        { .Direction=&DDRD, .Name=&PIND, .Number=PIND6 }
     },
     .ColPorts = (Pin_t[]) {
         { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF0 },
         { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF1 },
         { .Direction=&DDRF, .Name=&PORTF, .Number=PORTF4 },
-        { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD6 },
         { .Direction=&DDRD, .Name=&PORTD, .Number=PORTD7 },
+        { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB4 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB6 },
         { .Direction=&DDRB, .Name=&PORTB, .Number=PORTB0 }
     },

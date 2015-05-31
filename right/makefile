@@ -56,7 +56,7 @@ include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
 
 upload: all
-	../reenumerate --wait bootloader-right
+	uhkcmd reenumerate bootloader-right
 	make avrdude
 
 fuses:

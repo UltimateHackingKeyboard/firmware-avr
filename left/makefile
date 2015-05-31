@@ -20,8 +20,8 @@ TARGET       = uhk-left
 LUFA_PATH    = ../right/lufa/LUFA
 CC_FLAGS     = -I..
 LD_FLAGS     =
-AVRDUDE_PROGRAMMER = avrisp2
-AVRDUDE_PORT = usb
+AVRDUDE_PROGRAMMER = stk500v1
+AVRDUDE_PORT = /dev/ttyACM0
 AVRDUDE_FLAGS = -b 38400 -F
 
 SRC = $(TARGET).c        \
@@ -47,11 +47,11 @@ include $(LUFA_PATH)/Build/lufa_avrdude.mk
 include $(LUFA_PATH)/Build/lufa_atprogram.mk
 
 upload: all
-	@../reenumerate --wait bootloader-left
-	@echo r > /dev/ttyACM0
-	@sleep 1
-	@make avrdude
-	@../reenumerate --wait keyboard
+	uhkcmd reenumerate bootloader-left
+	echo r > /dev/ttyACM0
+	sleep 1
+	make avrdude
+	uhkcmd reenumerate keyboard-6kro
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xce:m -U efuse:w:0xce:m
