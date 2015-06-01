@@ -58,7 +58,7 @@ int main(void)
     TWI_Init();
     PCA9634_Init();
     LedMatrix_SetRows(0xf0);
-    LedMatrix_Init();
+//    LedMatrix_Init();
     ShiftRegister_Init();
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
