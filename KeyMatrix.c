@@ -3,7 +3,6 @@
  *  Keyboard matrix functions.
  */
 
-
 #include "KeyMatrix.h"
 
 void KeyMatrix_Init(KeyMatrix_t *KeyMatrix, const __flash KeyMatrixInfo_t *KeyMatrixInfo, uint8_t *KeyMatrixData)
