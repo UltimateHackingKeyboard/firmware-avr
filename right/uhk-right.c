@@ -29,6 +29,10 @@ void SetupHardware()
     /* Hardware Initialization */
     USB_Init();
     TWI_Init();
+
+    /* Initialize the factory keymap reset button. */
+    PCMSK0 = 0b10000000;
+    PCICR = 1;
 }
 
 void EVENT_USB_Device_Connect(void)
@@ -66,4 +70,9 @@ ISR(USART1_RX_vect, ISR_BLOCK)
     } else if (Wormhole->EnumerationMode == ENUMERATION_MODE_USBtoSerial) {
         USBtoSerialRxCallback();
     }
+}
+
+ISR(PCINT0_vect, ISR_BLOCK)
+{
+    Reenumerate(ENUMERATION_MODE_USBtoSerial);
 }
