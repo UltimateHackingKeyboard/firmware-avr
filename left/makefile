@@ -48,8 +48,9 @@ include $(LUFA_PATH)/Build/lufa_atprogram.mk
 
 upload: all
 	rm ../*.o  # Rebuild shared object files.
-	make avrdude
+	make
 	uhkcmd reenumerate bootloader-left
+	make avrdude
 	echo r > /dev/ttyACM0
 	sleep 1
 	uhkcmd reenumerate keyboard-6kro
