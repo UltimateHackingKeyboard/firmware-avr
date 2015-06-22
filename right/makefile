@@ -57,8 +57,9 @@ include $(LUFA_PATH)/Build/lufa_atprogram.mk
 
 upload: all
 	rm ../*.o  # Rebuild shared object files.
-	make avrdude
+	make
 	uhkcmd reenumerate bootloader-right
+	make avrdude
 
 fuses:
 	avrdude -p $(MCU) -U lfuse:w:0xde:m -U hfuse:w:0xd9:m  # Unset CKDIV8.
