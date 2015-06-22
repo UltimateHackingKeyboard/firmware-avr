@@ -15,6 +15,6 @@
     /* Function prototypes: */
         void LedMatrix_Init(void);
         void LedMatrix_SetRows(uint8_t EnabledRowsBitmask);
-        void LedMatrix_UpdateNextRow(bool IsKeyboardColEnabled);
+        void LedMatrix_UpdateNextRow();
 
 #endif

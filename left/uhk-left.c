@@ -6,20 +6,16 @@
 #include "uhk-left.h"
 
 KeyMatrix_t KeyMatrixLeft;
-bool IsKeyMatrixShiftRegisterColEnabled = false;
 
 uint8_t SetColCallback(uint8_t col)
 {
     if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID1) {
-        IsKeyMatrixShiftRegisterColEnabled = true;
         ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID1);
         return true;
     } else if (col == KEY_MATRIX_SHIFT_REGISTER_COL_ID2) {
-        IsKeyMatrixShiftRegisterColEnabled = true;
         ShiftRegister_Transmit(1 << SHIFT_REGISTER_KEY_MATRIX_DRAIN_ID2);
         return true;
     } else {
-        IsKeyMatrixShiftRegisterColEnabled = false;
         ShiftRegister_Transmit(0);
         return false;
     }
@@ -53,30 +49,33 @@ uint8_t *KeyMatrixDataLeft[LEFT_COLS_NUM*ROWS_NUM];
 
 int main(void)
 {
+    uint8_t counter = 0;
     sei();
     USART_Init();
     TWI_Init();
     PCA9634_Init();
     LedMatrix_SetRows(0xf0);
-//    LedMatrix_Init();
     ShiftRegister_Init();
     KeyMatrix_Init(&KeyMatrixLeft, &KeyMatrixInfoLeft, (uint8_t*)&KeyMatrixDataLeft);
 
     while (true) {
-        KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
-        for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
-            for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
-                uint8_t KeyState = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
-                if (KEY_STATE_CHANGED(KeyState)) {
-                    uint8_t IsKeyPressed = KEY_STATE_IS_PRESSED(KeyState);
-                    uint8_t Event = CONSTRUCT_EVENT_STATE(IsKeyPressed) |
-                                    CONSTRUCT_KEYCODE(Row, Col, LEFT_COLS_NUM);
-                    USART_SendByte(Event);
+        if (counter++ == 50) {
+            KeyMatrix_Scan(&KeyMatrixLeft, SetColCallback);
+            for (uint8_t Row=0; Row<ROWS_NUM; Row++) {
+                for (uint8_t Col=0; Col<LEFT_COLS_NUM; Col++) {
+                    uint8_t KeyState = KeyMatrix_GetElement(&KeyMatrixLeft, Row, Col);
+                    if (KEY_STATE_CHANGED(KeyState)) {
+                        uint8_t IsKeyPressed = KEY_STATE_IS_PRESSED(KeyState);
+                        uint8_t Event = CONSTRUCT_EVENT_STATE(IsKeyPressed) |
+                                        CONSTRUCT_KEYCODE(Row, Col, LEFT_COLS_NUM);
+                        USART_SendByte(Event);
+                    }
                 }
             }
+            counter = 0;
+            // TODO: Implement proper debouncing algorithm.
         }
-        // TODO: Implement proper debouncing algorithm that does not block.
-        _delay_ms(10);
+        LedMatrix_UpdateNextRow();
     }
 }
 
@@ -88,11 +87,4 @@ ISR(USART_RX_vect, ISR_BLOCK)
         wdt_enable(WDTO_15MS);
         for (;;);
     }
-}
-
-// LED matrix interrupt PWMing the LEDs.
-ISR(TIMER1_COMPA_vect)
-{
-    // TODO: This ISR is way too heavy.  Gotta make it much lighter weight.
-    LedMatrix_UpdateNextRow(IsKeyMatrixShiftRegisterColEnabled);
 }

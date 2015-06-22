@@ -36,18 +36,18 @@ void LedMatrix_SetRows(uint8_t ColsBitmask)
     TWI_Stop();
 }
 
-void LedMatrix_UpdateNextRow(bool IsKeyboardColEnabled)
+void LedMatrix_UpdateNextRow()
 {
     // TODO: Figure out whether the rows or the columns should be iterated to achieve
     // maximum brightness.
 
-//    ShiftRegister_Transmit(LedStates[ActiveLedMatrixCol] | IsKeyboardColEnabled<<7);
+//    ShiftRegister_Transmit(LedStates[ActiveLedMatrixCol]);
 //    LedMatrix_SetRows(1<<ActiveLedMatrixCol);
 
     // The switch register seems to switch slowly so the LED matrix must be cleared
     // before the update or else a second set of dim segments will light up.
     LedMatrix_SetRows(0);
-    ShiftRegister_Transmit(1<<ActiveLedMatrixCol | (IsKeyboardColEnabled ? 1<<7 : 0));
+    ShiftRegister_Transmit(1<<ActiveLedMatrixCol);
     LedMatrix_SetRows(LedStates[ActiveLedMatrixCol]);
 
     if (++ActiveLedMatrixCol == LED_MATRIX_ROWS_NUM) {
