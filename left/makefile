@@ -50,9 +50,9 @@ upload: all
 	rm ../*.o  # Rebuild shared object files.
 	make
 	uhkcmd reenumerate bootloader-left
-	make avrdude
 	echo r > /dev/ttyACM0
 	sleep 1
+	make avrdude
 	uhkcmd reenumerate keyboard-6kro
 
 fuses:
