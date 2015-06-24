@@ -231,7 +231,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* D2 key */ {
-            /* base layer  */ { HID_KEYBOARD_SC_I,                                 HID_KEYBOARD_MODIFIER_LEFTSHIFT },  // TODO: Figure out the scancode of the ISO key.
+            /* base layer  */ { HID_KEYBOARD_SC_NON_US_BACKSLASH_AND_PIPE,         NO_ARGUMENT },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
