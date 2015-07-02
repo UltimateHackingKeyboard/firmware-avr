@@ -170,7 +170,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* mouse layer */ { MOUSE_CLICK_RIGHT,                                 NO_ARGUMENT }
         }, /* C4 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_D,                                 NO_ARGUMENT },
-            /* mod layer   */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_MODIFIER_LEFTALT },
+            /* mod layer   */ { HID_KEYBOARD_SC_TAB,                               HID_KEYBOARD_MODIFIER_LEFTGUI },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { MOUSE_CLICK_MIDDLE,                                NO_ARGUMENT }
         }, /* C5 key */ {
