@@ -124,7 +124,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
         }, /* B9 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_I,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_UP_ARROW,                          NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_UP_ARROW,                          HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mouse layer */ { MOUSE_MOVE_UP,                                     NO_ARGUMENT }
         }, /* B10 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_O,                                 NO_ARGUMENT },
@@ -196,17 +196,17 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
         }, /* C8 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_J,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_LEFT_ARROW,                        NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_LEFT_ARROW,                        HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mouse layer */ { MOUSE_MOVE_LEFT,                                   NO_ARGUMENT }
         }, /* C9 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_K,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_DOWN_ARROW,                        NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_DOWN_ARROW,                        HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mouse layer */ { MOUSE_MOVE_DOWN,                                   NO_ARGUMENT }
         }, /* C10 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_L,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_RIGHT_ARROW,                       NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_RIGHT_ARROW,                       HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mouse layer */ { MOUSE_MOVE_RIGHT,                                  NO_ARGUMENT }
         }, /* C11 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_SEMICOLON_AND_COLON,               NO_ARGUMENT },
