@@ -152,6 +152,12 @@ static void ProcessMouseAction(uint8_t KeyAction)
         case MOUSE_CLICK_RIGHT:
             MouseButtons |= MOUSE_STATE_RIGHT_CLICK;
             break;
+        case MOUSE_SCROLL_UP:
+            MouseButtons |= MOUSE_STATE_SCROLL_UP;
+            break;
+        case MOUSE_SCROLL_DOWN:
+            MouseButtons |= MOUSE_STATE_SCROLL_DOWN;
+            break;
     }
 }
 
@@ -186,16 +192,7 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
     }
 
 
-    if (MouseButtons & MOUSE_STATE_LEFT_CLICK) {
-        MouseReport->Button |= (1 << 0);
-    }
-    if (MouseButtons & MOUSE_STATE_MIDDLE_CLICK) {
-        MouseReport->Button |= (1 << 2);
-    }
-    if (MouseButtons & MOUSE_STATE_RIGHT_CLICK) {
-        MouseReport->Button |= (1 << 1);
-    }
-
+    MouseReport->Button = MouseButtons;
     *ReportSize = sizeof(USB_MouseReport_Data_t);
     return true;
 }
