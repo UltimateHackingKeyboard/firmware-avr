@@ -14,8 +14,8 @@
         #define MOUSE_STATE_RIGHT (1<<3)
 
         #define MOUSE_STATE_LEFT_CLICK   (1<<0)
-        #define MOUSE_STATE_MIDDLE_CLICK (1<<1)
-        #define MOUSE_STATE_RIGHT_CLICK  (1<<2)
+        #define MOUSE_STATE_MIDDLE_CLICK (1<<2)
+        #define MOUSE_STATE_RIGHT_CLICK  (1<<1)
         #define MOUSE_STATE_SCROLL_UP    (1<<3)
         #define MOUSE_STATE_SCROLL_DOWN  (1<<4)
 
