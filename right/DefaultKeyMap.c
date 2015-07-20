@@ -298,12 +298,12 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
         }
     }, /* key matrix row 5 */ {
         { /* E1 key */
-            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTCTRL },
+            /* base layer  */ { LAYER_SWITCHER_KEY_FN,                             NO_ARGUMENT },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E2 key */ {
-            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTGUI },
+            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTCTRL },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -313,7 +313,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E4 key */ {
-            /* base layer  */ { LAYER_SWITCHER_KEY_FN,                             NO_ARGUMENT },
+            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_LEFTGUI },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -348,7 +348,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E7 key */ {
-            /* base layer  */ { LAYER_SWITCHER_KEY_FN,                             NO_ARGUMENT },
+            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTGUI },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
@@ -358,12 +358,12 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E9 key */ {
-            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTGUI },
+            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTCTRL },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* E10 key */ {
-            /* base layer  */ { NO_ACTION,                                         HID_KEYBOARD_MODIFIER_RIGHTCTRL },
+            /* base layer  */ { LAYER_SWITCHER_KEY_FN,                             NO_ARGUMENT },
             /* mod layer   */ { NO_ACTION,                                         NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
