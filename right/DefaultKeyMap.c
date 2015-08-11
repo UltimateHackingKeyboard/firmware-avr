@@ -62,17 +62,17 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
         }, /* A11 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_0_AND_CLOSING_PARENTHESIS,         NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_F10,                               NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_MUTE,                              NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* A12 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_MINUS_AND_UNDERSCORE,              NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_F11,                               NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_VOLUME_DOWN,                       NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* A13 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_EQUAL_AND_PLUS,                    NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_F12,                               NO_ARGUMENT },
-            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* fn layer    */ { HID_KEYBOARD_SC_VOLUME_UP,                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* A14 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_BACKSPACE,                         NO_ARGUMENT },
