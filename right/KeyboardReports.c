@@ -11,6 +11,8 @@ uint8_t PreviousModifiers = NO_ARGUMENT;
 static uint8_t MouseMovement;
 static uint8_t MouseButtons;
 static uint8_t MouseMomentum = 0;
+static int8_t VerticalWheelMovement = 0;
+static int8_t HorizontalWheelMovement = 0;
 
 static void ProcessMouseAction(uint8_t KeyAction);
 
@@ -80,6 +82,8 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
 
     MouseMovement = 0;
     MouseButtons = 0;
+    VerticalWheelMovement = 0;
+    HorizontalWheelMovement = 0;
 
     for (uint8_t MatrixId=0; MatrixId<KEYMATRICES_NUM; MatrixId++) {
         KeyMatrix_t *KeyMatrix = KeyMatrices + MatrixId;
@@ -153,17 +157,17 @@ static void ProcessMouseAction(uint8_t KeyAction)
             MouseButtons |= MOUSE_STATE_RIGHT_CLICK;
             break;
         case MOUSE_SCROLL_UP:
-            MouseButtons |= MOUSE_STATE_SCROLL_UP;
+            VerticalWheelMovement = MOUSE_WHEEL_SPEED;
             break;
         case MOUSE_SCROLL_DOWN:
-            MouseButtons |= MOUSE_STATE_SCROLL_DOWN;
+            VerticalWheelMovement = -MOUSE_WHEEL_SPEED;
             break;
     }
 }
 
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
 {
-    USB_MouseReport_Data_t* MouseReport = (USB_MouseReport_Data_t*)ReportData;
+    USB_WheeledMouseReport_Data_t* MouseReport = (USB_WheeledMouseReport_Data_t*)ReportData;
 
     if (MouseMovement == 0) {
         MouseMomentum = 0;
@@ -191,9 +195,10 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
         }
     }
 
-
     MouseReport->Button = MouseButtons;
-    *ReportSize = sizeof(USB_MouseReport_Data_t);
+    MouseReport->VerticalWheelMovement = 0;//VerticalWheelMovement;
+    MouseReport->HorizontalWheelMovement = 0;//HorizontalWheelMovement;
+    *ReportSize = sizeof(USB_WheeledMouseReport_Data_t);
     return true;
 }
 

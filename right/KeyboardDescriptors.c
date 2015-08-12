@@ -24,7 +24,7 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM MouseReport[] =
      *   Buttons: 3
      *   Absolute screen coordinates: false
      */
-    HID_DESCRIPTOR_MOUSE(-127, 127, -127, 127, 7, false)
+    HID_DESCRIPTOR_WHEELED_MOUSE(-127, 127, -127, 127, 3, false)
 };
 
 const USB_Descriptor_HIDReport_Datatype_t PROGMEM GenericReport[] =

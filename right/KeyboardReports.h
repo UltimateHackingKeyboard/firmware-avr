@@ -22,6 +22,7 @@
         #define MOUSE_MAX_SPEED    10 // multiplied by 100 pixels per second
         #define MOUSE_ACCELERATION 2  // multiplied by 100 pixels per second
         #define MOUSE_SPEED_DIVISOR 10
+        #define MOUSE_WHEEL_SPEED 1
 
         #define AGENT_COMMAND_REENUMERATE 0
         #define AGENT_COMMAND_WRITE_TO_RAM 1
