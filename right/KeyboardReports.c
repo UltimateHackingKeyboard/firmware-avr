@@ -156,11 +156,17 @@ static void ProcessMouseAction(uint8_t KeyAction)
         case MOUSE_CLICK_RIGHT:
             MouseButtons |= MOUSE_STATE_RIGHT_CLICK;
             break;
-        case MOUSE_SCROLL_UP:
+        case MOUSE_WHEEL_UP:
             VerticalWheelMovement = MOUSE_WHEEL_SPEED;
             break;
-        case MOUSE_SCROLL_DOWN:
+        case MOUSE_WHEEL_DOWN:
             VerticalWheelMovement = -MOUSE_WHEEL_SPEED;
+            break;
+        case MOUSE_WHEEL_LEFT:
+            HorizontalWheelMovement = -MOUSE_WHEEL_SPEED;
+            break;
+        case MOUSE_WHEEL_RIGHT:
+            HorizontalWheelMovement = MOUSE_WHEEL_SPEED;
             break;
     }
 }
@@ -196,8 +202,8 @@ bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
     }
 
     MouseReport->Button = MouseButtons;
-    MouseReport->VerticalWheelMovement = 0;//VerticalWheelMovement;
-    MouseReport->HorizontalWheelMovement = 0;//HorizontalWheelMovement;
+    MouseReport->VerticalWheelMovement = VerticalWheelMovement;
+    MouseReport->HorizontalWheelMovement = HorizontalWheelMovement;
     *ReportSize = sizeof(USB_WheeledMouseReport_Data_t);
     return true;
 }
