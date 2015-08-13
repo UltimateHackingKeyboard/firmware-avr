@@ -9,7 +9,7 @@ const USB_Descriptor_Device_t PROGMEM USBtoSerial_DeviceDescriptor =
 {
     .Header                 = {.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
 
-    .USBSpecification       = VERSION_BCD(01.10),
+    .USBSpecification       = VERSION_BCD(1, 1, 0),
     .Class                  = CDC_CSCP_CDCClass,
     .SubClass               = CDC_CSCP_NoSpecificSubclass,
     .Protocol               = CDC_CSCP_NoSpecificProtocol,
@@ -18,7 +18,7 @@ const USB_Descriptor_Device_t PROGMEM USBtoSerial_DeviceDescriptor =
 
     .VendorID               = VID,
     .ProductID              = PID_USB_TO_SERIAL,
-    .ReleaseNumber          = VERSION_BCD(00.01),
+    .ReleaseNumber          = VERSION_BCD(0, 0, 1),
 
     .ManufacturerStrIndex   = STRING_ID_USBtoSerial_Manufacturer,
     .ProductStrIndex        = STRING_ID_USBtoSerial_Product,
@@ -65,7 +65,7 @@ const USBtoSerial_USB_Descriptor_Configuration_t PROGMEM USBtoSerial_Configurati
             .Header                 = {.Size = sizeof(USB_CDC_Descriptor_FunctionalHeader_t), .Type = DTYPE_CSInterface},
             .Subtype                = CDC_DSUBTYPE_CSInterface_Header,
 
-            .CDCSpecification       = VERSION_BCD(01.10),
+            .CDCSpecification       = VERSION_BCD(1, 1, 0),
         },
 
     .CDC_Functional_ACM =

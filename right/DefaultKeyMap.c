@@ -45,7 +45,7 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
         }, /* A8 key */ {
-            /* base layer  */ { HID_KEYBOARD_SC_7_AND_AND_AMPERSAND,               NO_ARGUMENT },
+            /* base layer  */ { HID_KEYBOARD_SC_7_AND_AMPERSAND,                   NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_F7,                                NO_ARGUMENT },
             /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
             /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
