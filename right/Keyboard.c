@@ -18,7 +18,7 @@ uint8_t ShouldReenumerate = false;
 static uint8_t PrevKeyboardHIDReportBuffer[sizeof(USB_KeyboardReport_Data_t)];
 
 /** Buffer to hold the previously generated Mouse HID report, for comparison purposes inside the HID class driver. */
-static uint8_t PrevMouseHIDReportBuffer[sizeof(USB_MouseReport_Data_t)];
+static uint8_t PrevMouseHIDReportBuffer[sizeof(USB_WheeledMouseReport_Data_t)];
 
 /** Buffer to hold the previously generated HID report, for comparison purposes inside the HID class driver. */
 static uint8_t PrevHIDReportBuffer[GENERIC_REPORT_SIZE];
