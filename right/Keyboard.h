@@ -35,8 +35,10 @@
         #define MOUSE_CLICK_LEFT         0xEF
         #define MOUSE_CLICK_MIDDLE       0xF0
         #define MOUSE_CLICK_RIGHT        0xF1
-        #define MOUSE_SCROLL_UP          0xF2
-        #define MOUSE_SCROLL_DOWN        0xF3
+        #define MOUSE_WHEEL_UP           0xF2
+        #define MOUSE_WHEEL_DOWN         0xF3
+        #define MOUSE_WHEEL_LEFT         0xF4
+        #define MOUSE_WHEEL_RIGHT        0xF5
 
         #define IS_KEY_MODIFIER(Key) (Key[KEY_ACTION] == NO_ACTION && Key[KEY_ARGUMENT] != NO_ARGUMENT)
         #define IS_KEY_ACTION_LAYER_SWITCHER(Action) (Action == LAYER_SWITCHER_KEY_MOUSE || \
@@ -44,7 +46,7 @@
                                                       Action == LAYER_SWITCHER_KEY_MOD)
         #define IS_KEY_ACTION_REGULAR(KeyAction) (HID_KEYBOARD_SC_ERROR_ROLLOVER <= KeyAction && \
                                                   KeyAction <= HID_KEYBOARD_SC_RIGHT_GUI)
-        #define IS_KEY_ACTION_MOUSE(KeyAction) (MOUSE_MOVE_UP <= KeyAction && KeyAction <= MOUSE_SCROLL_DOWN)
+        #define IS_KEY_ACTION_MOUSE(KeyAction) (MOUSE_MOVE_UP <= KeyAction && KeyAction <= MOUSE_WHEEL_RIGHT)
 
         #define LAYER_SWITCHER_KEY_TYPES_NUM 3  // Mod, Fn and Mouse
         #define LAYERS_NUM (LAYER_SWITCHER_KEY_TYPES_NUM + 1)

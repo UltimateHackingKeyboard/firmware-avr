@@ -16,12 +16,15 @@
         #define MOUSE_STATE_LEFT_CLICK   (1<<0)
         #define MOUSE_STATE_MIDDLE_CLICK (1<<2)
         #define MOUSE_STATE_RIGHT_CLICK  (1<<1)
-        #define MOUSE_STATE_SCROLL_UP    (1<<3)
-        #define MOUSE_STATE_SCROLL_DOWN  (1<<4)
+        #define MOUSE_STATE_WHEEL_UP    (1<<3)
+        #define MOUSE_STATE_WHEEL_DOWN  (1<<4)
+        #define MOUSE_STATE_WHEEL_LEFT    (1<<5)
+        #define MOUSE_STATE_WHEEL_RIGHT  (1<<6)
 
         #define MOUSE_MAX_SPEED    10 // multiplied by 100 pixels per second
         #define MOUSE_ACCELERATION 2  // multiplied by 100 pixels per second
         #define MOUSE_SPEED_DIVISOR 10
+        #define MOUSE_WHEEL_SPEED 1
 
         #define AGENT_COMMAND_REENUMERATE 0
         #define AGENT_COMMAND_WRITE_TO_RAM 1
