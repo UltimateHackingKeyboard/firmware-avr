@@ -129,8 +129,8 @@ const __flash uint8_t KeyMap[ROWS_NUM][TOTAL_COLS_NUM][LAYERS_NUM][ITEM_NUM_PER_
         }, /* B10 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_O,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_END,                               NO_ARGUMENT },
-            /* fn layer    */ { MOUSE_WHEEL_RIGHT,                                 NO_ARGUMENT },
-            /* mouse layer */ { NO_ACTION,                                         NO_ARGUMENT }
+            /* fn layer    */ { NO_ACTION,                                         NO_ARGUMENT },
+            /* mouse layer */ { MOUSE_WHEEL_RIGHT,                                 NO_ARGUMENT }
         }, /* B11 key */ {
             /* base layer  */ { HID_KEYBOARD_SC_P,                                 NO_ARGUMENT },
             /* mod layer   */ { HID_KEYBOARD_SC_DELETE,                            NO_ARGUMENT },
