@@ -132,8 +132,13 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
     return UsedKeyCodes;
 }
 
+uint8_t IsPreviousActionMouseWheelAction = false;
+uint8_t MouseWheelDivisorCounter = 0;
+
 static void ProcessMouseAction(uint8_t KeyAction)
 {
+    uint8_t IsMouseWheelAction = false;
+
     switch (KeyAction) {
         case MOUSE_MOVE_UP:
             MouseMovement |= MOUSE_STATE_UP;
@@ -157,18 +162,38 @@ static void ProcessMouseAction(uint8_t KeyAction)
             MouseButtons |= MOUSE_STATE_RIGHT_CLICK;
             break;
         case MOUSE_WHEEL_UP:
+            IsMouseWheelAction = true;
             VerticalWheelMovement = MOUSE_WHEEL_SPEED;
             break;
         case MOUSE_WHEEL_DOWN:
+            IsMouseWheelAction = true;
             VerticalWheelMovement = -MOUSE_WHEEL_SPEED;
             break;
         case MOUSE_WHEEL_LEFT:
+            IsMouseWheelAction = true;
             HorizontalWheelMovement = -MOUSE_WHEEL_SPEED;
             break;
         case MOUSE_WHEEL_RIGHT:
+            IsMouseWheelAction = true;
             HorizontalWheelMovement = MOUSE_WHEEL_SPEED;
             break;
     }
+
+    if (IsMouseWheelAction == IsPreviousActionMouseWheelAction) {
+        MouseWheelDivisorCounter++;
+        if (MouseWheelDivisorCounter == MOUSE_WHEEL_DIVISOR) {
+            MouseWheelDivisorCounter = 0;
+        }
+    } else {
+        MouseWheelDivisorCounter = 0;
+    }
+
+    if (!(IsMouseWheelAction && MouseWheelDivisorCounter == 0)) {
+        HorizontalWheelMovement = 0;
+        VerticalWheelMovement = 0;
+    }
+
+    IsPreviousActionMouseWheelAction = IsMouseWheelAction;
 }
 
 bool CreateMouseHIDReport(void* ReportData, uint16_t* const ReportSize)
