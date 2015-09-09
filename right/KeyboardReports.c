@@ -101,6 +101,10 @@ uint8_t ConstructKeyboardReport(uint8_t ActiveLayer, USB_KeyboardReport_Data_t* 
                     uint8_t KeyAction = ActiveKey[KEY_ACTION];
                     uint8_t KeyArgument = ActiveKey[KEY_ARGUMENT];
 
+                    if (IS_KEY_MODIFIER(ActiveKey)) {
+                        KeyboardReport->Modifier |= ActiveKey[KEY_ARGUMENT];
+                    }
+
                     if (IS_KEY_MODIFIER(BaseKey)) {
                         KeyboardReport->Modifier |= BaseKey[KEY_ARGUMENT];
                     } else {
