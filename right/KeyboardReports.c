@@ -141,6 +141,31 @@ uint8_t MouseWheelDivisorCounter = 0;
 
 static void ProcessMouseAction(uint8_t KeyAction)
 {
+/*    TWDR = 0b10101010; // i2c write address
+    TWCR = (1<<TWINT) | (1<<TWEN); // i2c write
+    _delay_us(10);*/
+
+    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN); // i2c start
+    _delay_us(20);
+    TWDR = 36; // i2c write address
+    TWCR = (1<<TWINT) | (1<<TWEN); // i2c write
+    _delay_us(20);
+    TWDR = 66; // i2c write data
+    TWCR = (1<<TWINT) | (1<<TWEN); // i2c write
+    _delay_us(20);
+//    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN); // i2c start
+//    _delay_us(10);
+//    TWDR = 37; // i2c read address
+//    TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA); // i2c read
+//    _delay_us(20);
+    uint8_t isOk = (TWCR & (1<<TWINT)) != 0; // read status
+    TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN); // i2c stop
+    _delay_us(20);
+
+//    if (!isOk) {
+//        return;
+//    }
+
     uint8_t IsMouseWheelAction = false;
 
     switch (KeyAction) {
