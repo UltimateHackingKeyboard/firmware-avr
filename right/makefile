@@ -22,7 +22,7 @@ LUFA_PATH    = lufa/LUFA
 CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/ -I..
 LD_FLAGS     =
 AVRDUDE_PROGRAMMER = avr109
-AVRDUDE_PORT = /dev/ttyACM0
+AVRDUDE_PORT = /dev/uhk-right-bootloader
 
 SRC = $(TARGET).c                 \
 	../KeyMatrix.c            \
