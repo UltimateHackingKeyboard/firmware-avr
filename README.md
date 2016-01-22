@@ -15,7 +15,7 @@ This way the LUFA submodule will be cloned too, which is a necessary dependecy.
 
 ## Customize the keymap
 
-Switch to the `mac` vs `pc` branch if you use a Mac vs a Linux/Windows PC/laptop. This will set up a reasonable default keymap.
+Switch to the `mac` vs `pc` branch if you use a Mac vs Linux/Windows. This will set up a reasonable default keymap.
 
 `git checkout mac` or `git checkout pc`
 
