@@ -3,6 +3,8 @@ Ultimate Hacking Keyboard firmware
 
 [![Changelog #186](https://img.shields.io/badge/changelog-%23186-lightgrey.svg)](https://changelog.com/186)
 
+This is the firmware of the [Ultimate Hacking Keyboard](https://ultimatehackingkeyboard.com/).
+
 ## Fetch the firmware
 
 Please make sure to clone this repo with:
