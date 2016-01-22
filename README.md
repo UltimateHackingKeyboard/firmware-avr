@@ -13,7 +13,11 @@ This way the LUFA submodule will be cloned too, which is a necessary dependecy.
 
 ## Customize the keymap
 
-Edit the array in [right/DefaultKeyMap.c](right/DefaultKeyMap.c) to customize your keymap.
+Switch to the `mac` vs `pc` branch if you use a Macintosh vs a Linux/Windows PC/laptop. This will set up a reasonable default keymap.
+
+`git checkout mac` or `git checkout pc`
+
+Now, edit the array in [right/DefaultKeyMap.c](right/DefaultKeyMap.c) to customize your keymap.
 
 ## Build the firmware
 
