@@ -21,3 +21,7 @@ Now, edit the array in [right/DefaultKeyMap.c](right/DefaultKeyMap.c) to customi
 
 ## Build the firmware
 
+Install the necessary buld tools on your system such as AVR GCC and AVR Libc. Then go into the `right` directory and type `make`. The resulting firmware image is `uhk-right.hex`.
+
+## Upload the firmware
+
